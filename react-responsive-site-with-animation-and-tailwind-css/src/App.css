@@ -1,0 +1,22 @@
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Jost', sans-serif;
+}
+
+nav {
+  z-index: 100001 !important;
+}
+
+.gradientBg {
+  background: linear-gradient(99deg, #EE9AE5 0%, #5961F9 100%);
+}
+
+.btnPrimary {
+  @apply py-2 px-8 bg-secondary font-semibold text-white  rounded 
+  hover:bg-primary transition-all duration-300
+}
