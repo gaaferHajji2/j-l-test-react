@@ -6,6 +6,7 @@ interface AlertData {
   msg: string;
   type: AlertType;
   closeable: boolean;
+  onClose?: () => void;
 }
 
 const Alert = ({
@@ -13,11 +14,19 @@ const Alert = ({
   msg,
   type = AlertType.information,
   closeable = true,
+  onClose,
 }: AlertData) => {
   const [visible, setVisible] = useState<boolean>(true);
 
   if (!visible) {
     return null;
+  }
+
+  function handleClose() {
+    setVisible(false)
+    if(onClose){
+      onClose()
+    }
   }
 
   return (
@@ -33,7 +42,10 @@ const Alert = ({
       </div>
 
       {closeable && (
-        <button aria-label="Close" onClick={() => setVisible((prev) => !prev)}>
+        <button
+          aria-label="Close"
+          onClick={() => handleClose() }
+        >
           <span role="image" aria-label="Close">
             ❌
           </span>

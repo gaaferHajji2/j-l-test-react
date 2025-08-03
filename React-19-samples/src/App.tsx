@@ -12,6 +12,7 @@ function App() {
         title="Oh no!!!"
         type={AlertType.warning}
         closeable={true}
+        onClose={() => alert("Alert Closed")}
       />
       <Alert
         msg="Msg Info Here"
