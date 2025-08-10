@@ -8,18 +8,18 @@ function App() {
   return (
     <>
       <Alert
-        msg="Something Happened"
         title="Oh no!!!"
         type={AlertType.warning}
         closeable={true}
         onClose={() => alert("Alert Closed")}
-      />
+      >
+        <h3>Something Happened</h3>
+      </Alert>
       <Alert
-        msg="Msg Info Here"
         title="Info"
         type={AlertType.information}
         closeable={false}
-      />
+      ><h3>Msg Info Here</h3></Alert>
     </>
   );
 }

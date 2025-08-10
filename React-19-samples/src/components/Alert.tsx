@@ -3,7 +3,7 @@ import { AlertType } from "../constant";
 
 type Props = {
   title: string;
-  msg: ReactNode;
+  children: ReactNode;
   type: AlertType;
   closeable?: boolean;
   onClose?: () => void;
@@ -11,7 +11,7 @@ type Props = {
 
 const Alert = ({
   title,
-  msg,
+  children,
   type = AlertType.information,
   closeable = true,
   onClose,
@@ -52,7 +52,7 @@ const Alert = ({
         </button>
       )}
 
-      <div>{msg}</div>
+      <div>{children}</div>
     </div>
   );
 };
