@@ -1,9 +1,9 @@
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
 import { AlertType } from "../constant";
 
 type Props = {
   title: string;
-  msg: string;
+  msg: ReactNode;
   type: AlertType;
   closeable?: boolean;
   onClose?: () => void;
