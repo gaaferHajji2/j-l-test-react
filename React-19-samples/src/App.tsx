@@ -1,6 +1,7 @@
 import "./App.css";
 
 import Alert from "./components/Alert";
+import { PersonScore } from "./components/PersonScore";
 
 import { AlertType } from "./constant";
 
@@ -20,6 +21,8 @@ function App() {
         type={AlertType.information}
         closeable={false}
       ><h3>Msg Info Here</h3></Alert>
+
+      <PersonScore />
     </>
   );
 }
