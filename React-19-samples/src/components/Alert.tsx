@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { AlertType } from "../constant";
 
-interface AlertData {
+type Props = {
   title: string;
   msg: string;
   type: AlertType;
-  closeable: boolean;
+  closeable?: boolean;
   onClose?: () => void;
 }
 
@@ -15,7 +15,7 @@ const Alert = ({
   type = AlertType.information,
   closeable = true,
   onClose,
-}: AlertData) => {
+}: Props) => {
   const [visible, setVisible] = useState<boolean>(true);
 
   if (!visible) {
