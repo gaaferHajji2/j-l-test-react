@@ -17,7 +17,7 @@ export function PersonScore () {
             console.log("My name 2 is: " + person.name)
         }
 
-        getPersonName()
+        // getPersonName()
         
         return () => SetName("")
     }, [])
