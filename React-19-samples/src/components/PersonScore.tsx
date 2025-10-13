@@ -1,42 +1,47 @@
-import { useEffect, useState } from "react";
+// import { useEffect, useState } from "react";
+import { useEffect, useReducer } from "react";
 import { getPerson } from "../utils/Person";
+import { reducer } from "../utils/ActionAndState";
 
 export function PersonScore () {
 
-    const [name, SetName] = useState<string>("");
-    const [score, setScore] = useState<number>(0)
+    // const [name, SetName] = useState<string>("");
+    // const [score, setScore] = useState<number>(0)
+
+    const [{ name, score, loading }, dispatch] = useReducer(reducer, { name: "", score: 0, loading: true})
 
     useEffect(() =>  {
         getPerson().then(person => {
-            console.log("My Name is: " + person.name)
-            SetName(person.name)
+            dispatch({ type: 'initialize', name: person.name })
         });
 
-        async function getPersonName() {
-            const person = await getPerson();
-            console.log("My name 2 is: " + person.name)
-        }
+        // async function getPersonName() {
+        //     const person = await getPerson();
+        //     console.log("My name 2 is: " + person.name)
+        // }
 
         // getPersonName()
         
-        return () => SetName("")
+        return () => dispatch({ type: 'load' })
     }, [])
 
     function addToScore() {
-        setScore((prev) => prev + 1);
+        dispatch({ type: 'increment' })
     }
 
     function subtractFromScore() {
         if(score!=0) {
-            setScore((prev) => prev-1);
+            dispatch({ type: 'decrement' })
         }
     }
 
     function resetScore() {
-        setScore(0);
+        dispatch({ type: 'reset' })
     }
 
-    if(name == "") {
+    console.log("The loading is: ", loading)
+
+    if(loading) {
         return <h1>Loading name...</h1>
     }
 
