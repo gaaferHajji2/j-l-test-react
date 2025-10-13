@@ -1,5 +1,5 @@
 // import { useEffect, useState } from "react";
-import { useEffect, useReducer, useRef, HTML } from "react";
+import { useEffect, useReducer, useRef } from "react";
 import { getPerson } from "../utils/Person";
 import { reducer } from "../utils/ActionAndState";
 
