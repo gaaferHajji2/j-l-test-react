@@ -1,5 +1,5 @@
 // import { useEffect, useState } from "react";
-import { useEffect, useReducer } from "react";
+import { useEffect, useReducer, useRef, HTML } from "react";
 import { getPerson } from "../utils/Person";
 import { reducer } from "../utils/ActionAndState";
 
@@ -10,9 +10,12 @@ export function PersonScore () {
 
     const [{ name, score, loading }, dispatch] = useReducer(reducer, { name: "", score: 0, loading: true})
 
+    const addBtnRef = useRef<HTMLButtonElement>(null)
+
     useEffect(() =>  {
         getPerson().then(person => {
             dispatch({ type: 'initialize', name: person.name })
+            addBtnRef.current?.focus()
         });
 
         // async function getPersonName() {
@@ -24,6 +27,12 @@ export function PersonScore () {
         
         return () => dispatch({ type: 'load' })
     }, [])
+
+    useEffect(()=> {
+        if(!loading) {
+            addBtnRef.current?.focus()
+        }
+    }, [loading])
 
     function addToScore() {
         dispatch({ type: 'increment' })
@@ -49,7 +58,7 @@ export function PersonScore () {
 
     return (<div>
         <h1>My name is: {name}, Score: {score}</h1>
-        <button onClick={() => addToScore()}>Add</button>
+        <button onClick={() => addToScore()} ref={addBtnRef}>Add</button>
         <button onClick={() => subtractFromScore() }>Subtract</button>
         <button onClick={() => resetScore() }>Reset</button>
     </div>);
