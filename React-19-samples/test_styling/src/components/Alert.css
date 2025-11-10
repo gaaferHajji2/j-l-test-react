@@ -1,0 +1,56 @@
+body {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.container {
+    display: inline-flex;
+    flex-direction: column;
+    text-align: left;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    border-radius: 8px;
+    border: 2px solid #3c4b1e;
+}
+
+.container.warning {
+    color: gold;
+    background-color: transparent;
+}
+
+.container.information {
+    color: blue;
+    background-color: transparent;
+}
+
+.header {
+    display: inline-block;
+    margin-bottom: 0.5em;
+}
+
+.header-icon {
+    width: 22px;
+}
+
+.header-text {
+    font-weight: bold;
+}
+
+.close-btn {
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    height: 25px;
+    width: 25px;
+    cursor: pointer;
+}
+
+.content {
+    margin: 1.3rem 1.5rem;
+    color: #5c5c5c;
+}
