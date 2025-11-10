@@ -1,21 +1,21 @@
 export type State = {
-    name: string | undefined;
-    score: number;
-    loading: boolean;
+    name: string | undefined
+    score: number
+    loading: boolean
 }
 
 export type Action = {
-    type: 'initialize';
-    name: string;
+    type: 'initialize'
+    name: string
 }
 | {
-    type: 'increment';
+    type: 'increment'
 }
 | {
-    type: 'decrement';
+    type: 'decrement'
 }
 | {
-    type: 'reset';
+    type: 'reset'
 }
 | {
     type: 'load'
