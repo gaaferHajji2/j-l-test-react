@@ -1,6 +1,6 @@
 import { useState, type ReactNode } from "react";
 import { AlertType } from "../constant";
-import './Alert.css';
+import './Alert.css'
 
 type Props = {
   title: string;
@@ -31,29 +31,34 @@ const Alert = ({
   }
 
   return (
-    <div className={`container ${type == AlertType.information ? 'information' : 'warning'}`}>
-      <div className="header">
+    <div className={
+      `border inline-flex flex-col rounded-md border-gray-400 p-3 text-center 
+      ${type === AlertType.warning ? 'text-amber-300' : 'text-blue-600'}
+      bg-transparent`
+    }>
+      <div className="mb-1 flex items-center">
         <span
           role="image"
           aria-label={type == AlertType.warning ? "Warning" : "Information"}
-          className="header-icon"
+          className={`w-7`}
         >
           {type == AlertType.warning ? "⚠️" : "ℹ️"}
         </span>
-        <span className="header-text">{title}</span>
+        <span className="font-bold">{title}</span>
+        {closeable && (
+          <button
+            aria-label="Close"
+            onClick={() => handleClose() }
+            className="close-btn"
+          >
+            <span role="image" aria-label="Close">
+              ❌
+            </span>
+          </button>
+        )}
       </div>
 
-      {closeable && (
-        <button
-          aria-label="Close"
-          onClick={() => handleClose() }
-          className="close-btn"
-        >
-          <span role="image" aria-label="Close">
-            ❌
-          </span>
-        </button>
-      )}
+      
 
       <div className="content">{children}</div>
     </div>
