@@ -10,6 +10,14 @@ function App() {
           <p>This message for creating apps</p>
         </Alert>
       </div>
+
+      <br />
+
+      <div className='card'>
+        <Alert title='Create JLoka Apps' type={AlertType.warning} closeable>
+          <p>This message for creating apps</p>
+        </Alert>
+      </div>
     </>
   )
 }

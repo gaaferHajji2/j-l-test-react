@@ -14,7 +14,7 @@ const Alert = ({
   title,
   children,
   type = AlertType.information,
-  closeable = true,
+  closeable = false,
   onClose,
 }: Props) => {
   const [visible, setVisible] = useState<boolean>(true);
