@@ -8,7 +8,7 @@ export function PersonScore () {
     // const [name, SetName] = useState<string>("");
     // const [score, setScore] = useState<number>(0)
 
-    const [{ name, score, loading }, dispatch] = useReducer(reducer, { name: "", score: 0, loading: true})
+    const [{ name, score, loading }, dispatch] = useReducer(reducer, { name: "", score: 0, loading: true })
 
     const addBtnRef = useRef<HTMLButtonElement>(null)
 
