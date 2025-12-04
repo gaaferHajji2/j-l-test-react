@@ -1,5 +1,8 @@
-import { useState, type ReactNode } from "react";
-import { AlertType } from "../constant";
+import { useState, type ReactNode } from "react"
+import { AlertType } from "../constant"
+import crossIcon from "../assets/cross.svg"
+import infoIcon from "../assets/info.svg"
+import warningIcon from "../assets/warning.svg"
 // import './Alert.css'
 
 type Props = {
@@ -40,9 +43,10 @@ const Alert = ({
         <span
           role="image"
           aria-label={type == AlertType.warning ? "Warning" : "Information"}
-          className={`w-7`}
+          className={`w-5`}
         >
-          {type == AlertType.warning ? "⚠️" : "ℹ️"}
+          <img src={type == AlertType.warning ? warningIcon : infoIcon} 
+          alt={type == AlertType.warning ? 'wraning' : 'information'} />
         </span>
         <span className="font-bold">{title}</span>
         {closeable && (
@@ -52,9 +56,9 @@ const Alert = ({
             className="ml-auto flex h-6 w-6 cursor-pointer items-center 
             justify-center border-none bg-transparent p-0"
           >
-            <span role="image" aria-label="Close">
-              ❌
-            </span>
+            <img src={crossIcon} aria-label="Close">
+              
+            </img>
           </button>
         )}
       </div>
