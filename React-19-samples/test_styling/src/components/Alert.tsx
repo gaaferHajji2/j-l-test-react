@@ -1,6 +1,6 @@
 import { useState, type ReactNode } from "react";
 import { AlertType } from "../constant";
-import './Alert.css'
+// import './Alert.css'
 
 type Props = {
   title: string;
@@ -49,7 +49,8 @@ const Alert = ({
           <button
             aria-label="Close"
             onClick={() => handleClose() }
-            className="close-btn"
+            className="ml-auto flex h-6 w-6 cursor-pointer items-center 
+            justify-center border-none bg-transparent p-0"
           >
             <span role="image" aria-label="Close">
               ❌
@@ -60,7 +61,7 @@ const Alert = ({
 
       
 
-      <div className="content">{children}</div>
+      <div className="ml-7 pr-5 text-black">{children}</div>
     </div>
   );
 };
