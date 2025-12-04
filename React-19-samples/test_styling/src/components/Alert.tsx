@@ -43,10 +43,11 @@ const Alert = ({
         <span
           role="image"
           aria-label={type == AlertType.warning ? "Warning" : "Information"}
-          className={`w-5`}
+          className={`w-7`}
         >
           <img src={type == AlertType.warning ? warningIcon : infoIcon} 
-          alt={type == AlertType.warning ? 'wraning' : 'information'} />
+          alt={type == AlertType.warning ? 'wraning' : 'information'}
+          className="mr-1 w-6 h-6" />
         </span>
         <span className="font-bold">{title}</span>
         {closeable && (
@@ -56,7 +57,7 @@ const Alert = ({
             className="ml-auto flex h-6 w-6 cursor-pointer items-center 
             justify-center border-none bg-transparent p-0"
           >
-            <img src={crossIcon} aria-label="Close">
+            <img src={crossIcon} alt="Close">
               
             </img>
           </button>
