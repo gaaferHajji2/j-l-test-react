@@ -57,9 +57,7 @@ const Alert = ({
             className="ml-auto flex h-6 w-6 cursor-pointer items-center 
             justify-center border-none bg-transparent p-0"
           >
-            <img src={crossIcon} alt="Close">
-              
-            </img>
+            <img src={crossIcon} alt="Close" />
           </button>
         )}
       </div>
