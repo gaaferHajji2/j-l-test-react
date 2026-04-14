@@ -1,5 +1,8 @@
+import SideNav from "../ui/dashboard/sidenav";
 
 
 export default function Page() {
-    return <p>This is Dashboard page.</p>
+    return (
+        <p>Dashboard Page</p>
+    )
 }
