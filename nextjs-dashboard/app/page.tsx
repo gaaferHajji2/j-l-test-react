@@ -48,7 +48,7 @@ export default function Page() {
           />
         </div>
 
-        <InvoiceStatus status='pending' />
+        {/* <InvoiceStatus status='pending' /> */}
       </div>
     </main>
   );
