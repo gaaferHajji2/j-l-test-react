@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
 export default function Header() {
   return (
-    <div className='mx-auto container'>
+    <div className='container mx-auto'>
         <header className='flex justify-between items-center sticky top-0 z-10 py-4 bg-blue-900'>
             <div className='shrink-0 ml-6 cursor-pointer'>
                 <FontAwesomeIcon icon={faWind} size="2x" className="text-yellow-200"/>
