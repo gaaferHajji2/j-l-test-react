@@ -3,11 +3,10 @@ import { faWind } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
 export default function Header() {
-  return (
-    <div className='w-full'>
-        <header className='flex justify-between items-center w-full z-50 py-4 bg-blue-900'>
+    return (
+        <header className='flex justify-between items-center w-full sticky top-0 z-50 py-4 bg-blue-900'>
             <div className='shrink-0 ml-6 cursor-pointer'>
-                <FontAwesomeIcon icon={faWind} size="2x" className="text-yellow-200"/>
+                <FontAwesomeIcon icon={faWind} size="2x" className="text-yellow-200" />
                 <span className="text-3xl font-semibold text-blue-200">Tailwind School</span>
             </div>
 
@@ -29,6 +28,5 @@ export default function Header() {
                 </li>
             </ul>
         </header>
-    </div>
-  )
+    )
 }
