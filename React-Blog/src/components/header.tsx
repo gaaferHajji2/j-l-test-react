@@ -16,15 +16,15 @@ export default function Header() {
                     <a href="#" className="cursor-default text-blue-200">Home</a>
                 </li>
 
-                <li className="mr-6 p-1 border-b-2">
+                <li className="mr-6 p-1 border-b-2 hover:border-yellow-100">
                     <a href="#" className="cursor-default hover:text-blue-300">News</a>
                 </li>
 
-                <li className="mr-6 p-1 border-b-2">
+                <li className="mr-6 p-1 border-b-2 hover:border-yellow-100">
                     <a href="#" className="cursor-default hover:text-blue-300">Tutorials</a>
                 </li>
 
-                <li className="mr-6 p-1 border-b-2">
+                <li className="mr-6 p-1 border-b-2 hover:border-yellow-100">
                     <a href="#" className="cursor-default hover:text-blue-300">Videos</a>
                 </li>
             </ul>
