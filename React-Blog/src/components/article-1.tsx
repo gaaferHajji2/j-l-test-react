@@ -1,7 +1,17 @@
-import React from 'react'
 
 export default function Article01() {
-  return (
-    <div>Article01</div>
-  )
+    return (
+        <article className="my-4 shadow">
+            <a href="#">
+                <img className="hover:opacity-75" src="https://plus.unsplash.com/premium_photo-1684952849219-5a0d76012ed2?q=80&w=1032&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" />
+            </a>
+
+            <div className="flex flex-col p-6 pt-2 bg-white">
+                <a href="#" className="my-2 text-sm font-bold uppercase border-b-2
+                 border-yellow-500 text-blue-600">Layout</a>
+                <a href="#" className="pb-4 text-3xl font-serif font-bold hover:text-gray-700">Lorem ipsum dolor sit amet consectetur adipisicing elit. Facilis quisquam illo eveniet nulla ratione, eius voluptas placeat quasi, enim deserunt suscipit iusto. Vitae rem in perspiciatis recusandae voluptates facere? Commodi.</a>
+                <p className="pb-3 text-sm">By <a href="#" className="font-semibold hover:text-gray-800">Jafar Loka</a> 04/19/2026</p>
+            </div>
+        </article>
+    )
 }
