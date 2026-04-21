@@ -10,6 +10,10 @@ function MainContent() {
             <Article02 />
             <Article03 />
         </main>
+
+        <aside className="w-1/3 pl-4 pr-4 pt-8">
+
+        </aside>
     </div>
   )
 }
