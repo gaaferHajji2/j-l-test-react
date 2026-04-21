@@ -52,8 +52,6 @@ export default function Page() {
             alt="Screenshots of the dashboard project showing mobile version"
           />
         </div>
-
-        {/* <InvoiceStatus status='pending' /> */}
       </div>
     </main>
   );
