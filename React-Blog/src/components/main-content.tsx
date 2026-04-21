@@ -1,5 +1,6 @@
-import Article02 from "./article-02"
+import Article02 from "./article-2"
 import Article01 from "./article-1"
+import Article03 from "./article-3"
 
 function MainContent() {
   return (
@@ -7,6 +8,7 @@ function MainContent() {
         <main className="flex flex-col w-2/3 pl-6 pr-4 pt-4">
             <Article01 />
             <Article02 />
+            <Article03 />
         </main>
     </div>
   )
