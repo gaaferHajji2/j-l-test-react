@@ -1,3 +1,5 @@
+import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export default function Article01() {
     return (
@@ -11,6 +13,11 @@ export default function Article01() {
                  border-yellow-500 text-blue-600">Layout</a>
                 <a href="#" className="pb-4 text-3xl font-serif font-bold hover:text-gray-700">Lorem ipsum dolor sit amet consectetur adipisicing elit. Facilis quisquam illo eveniet nulla ratione, eius voluptas placeat quasi, enim deserunt suscipit iusto. Vitae rem in perspiciatis recusandae voluptates facere? Commodi.</a>
                 <p className="pb-3 text-sm">By <a href="#" className="font-semibold hover:text-gray-800">Jafar Loka</a> 04/19/2026</p>
+                <p className="pb-6">Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum quaerat ea, iste inventore quasi minus incidunt maxime sequi voluptatibus. Facere architecto ullam optio dolor? Nesciunt impedit, ea quisquam cumque maiores cupiditate sit rem, minima quo eos repellendus reiciendis sint? Necessitatibus incidunt voluptas corrupti! Distinctio ducimus sapiente voluptatum cumque, neque nam?</p>
+                <a href="#" className="uppercase text-xs text-blue-600 hover:text-yellow-500 w-32">
+                    Continue Reading
+                    <FontAwesomeIcon icon={faArrowRight} />
+                </a>
             </div>
         </article>
     )
