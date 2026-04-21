@@ -5,9 +5,13 @@ import LatestInvoices from "@/app/ui/dashboard/latest-invoices"
 import { Card } from "@/app/ui/dashboard/cards"
 
 export default async function Page() {
-    const revenue = await fetchRevenue()
-    const latestInvoices = await fetchLatestInvoices()
-    const cardData = await fetchCardData()
+    // Fetch data in parallel
+    const data = await Promise.all([fetchRevenue(), fetchLatestInvoices(), fetchCardData()])
+    // get the data of the dashboard page
+    const revenue = data[0]
+    const latestInvoices = data[1]
+    const cardData = data[2]
+    //Use previous data to collect statistics
     const totalPaidInvoices = cardData.totalPaidInvoices
     const totalPendingInvoices = cardData.totalPendingInvoices
     const numberOfInvoices = cardData.numberOfInvoices
