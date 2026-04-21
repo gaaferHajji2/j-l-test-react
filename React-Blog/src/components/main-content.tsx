@@ -2,6 +2,7 @@ import Article02 from "./article-2"
 import Article01 from "./article-1"
 import Article03 from "./article-3"
 import SearchSection from "./search-section"
+import EmailSection from "./email-section"
 
 function MainContent() {
   return (
@@ -14,6 +15,7 @@ function MainContent() {
 
         <aside className="w-1/3 pl-4 pr-4 pt-8">
           <SearchSection />
+          <EmailSection />
         </aside>
     </div>
   )

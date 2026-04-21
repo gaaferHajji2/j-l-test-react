@@ -7,7 +7,7 @@ export default function SearchSection() {
         <form className='flex'>
             <input 
                 type='text' 
-                className='w-full, px-3 py-2 rounded-l-lg focus:outline-none text-gray-800 shadow-2xl'
+                className='w-full px-3 py-2 rounded-l-lg focus:outline-none text-gray-800 shadow-2xl'
                 placeholder='Search...'
             />
             <button 
