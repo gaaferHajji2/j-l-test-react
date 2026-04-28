@@ -17,7 +17,6 @@ export default function ContactUsSection() {
             <button className="w-10 h-10 rounded bg-blue-500"><FontAwesomeIcon icon={faFacebook} size="2xl" /></button>
             <button className="w-10 h-10 rounded bg-blue-400"><FontAwesomeIcon icon={faTwitter} size="2xl" /></button>
             <button className="w-10 h-10 rounded bg-gray-300"><FontAwesomeIcon icon={faGithub} size="2xl" /></button>
-
         </div>
     </div>
   )
