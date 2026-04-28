@@ -4,7 +4,6 @@ import Article03 from "./article-3"
 import SearchSection from "./search-section"
 import EmailSection from "./email-section"
 import InfoSection from "./info-section"
-import FormSection from "./form-section"
 
 function MainContent() {
   return (
@@ -19,8 +18,6 @@ function MainContent() {
           <SearchSection />
           <EmailSection />
           <InfoSection />
-
-          <FormSection />
         </aside>
 
         
