@@ -4,6 +4,7 @@ import Article03 from "./article-3"
 import SearchSection from "./search-section"
 import EmailSection from "./email-section"
 import InfoSection from "./info-section"
+import SimpleAlert from "./simpleAlert"
 
 function MainContent() {
   return (
@@ -18,6 +19,8 @@ function MainContent() {
           <SearchSection />
           <EmailSection />
           <InfoSection />
+
+          <SimpleAlert />
         </aside>
 
         
