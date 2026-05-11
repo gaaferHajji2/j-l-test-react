@@ -1,9 +1,17 @@
 
 export default function SimpleAlert() {
   return (
-    <div className="flex flex-col p-4 pt-2 w-full border-red-500 border bg-blue-100">
-        <div className="font-semibold italic text-lg text-blue-500">Info</div>
-        <div className="leading-tight text-sm text-blue-800">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Voluptatibus, est.</div>
-    </div>
+    <>
+      <div className="alert alert-info m-1 shadow-2xl">
+          <div className="alert-title alert-info-title">Info</div>
+          <div className="alert-content alert-info-content">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Voluptatibus, est.</div>
+      </div>
+
+      <div className="alert alert-warning m-1 ">
+        <div className="alert-title alert-warning-title">Warning</div>
+        <div className="alert-content alert-warning-content">Lorem ipsum dolor sit amet consectetur adipisicing elit.</div>
+      </div>
+    </>
+    
   )
 }
