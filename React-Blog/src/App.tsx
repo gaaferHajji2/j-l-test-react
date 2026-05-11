@@ -1,8 +1,8 @@
 import './App.css'
-import FooterContent from './components/footer-content'
-import FormSection from './components/form-section'
+import FooterContent from './components/FooterContent'
+import FormSection from './components/FormSection'
 import Header from './components/header'
-import MainContent from './components/main-content'
+import MainContent from './components/MainContent'
 
 function App() {
   return (

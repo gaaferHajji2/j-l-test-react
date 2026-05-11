@@ -1,5 +1,5 @@
-import AboutUsSection from "./about-us-section";
-import ContactUsSection from "./contact-us-section";
+import AboutUsSection from "./AboutUsSection";
+import ContactUsSection from "./ContactUsSection";
 import SayHello from "./sayHello";
 
 export default function FooterContent() {

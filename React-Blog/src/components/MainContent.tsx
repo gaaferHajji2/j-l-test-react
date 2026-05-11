@@ -1,9 +1,9 @@
-import Article02 from "./article-2"
-import Article01 from "./article-1"
-import Article03 from "./article-3"
-import SearchSection from "./search-section"
-import EmailSection from "./email-section"
-import InfoSection from "./info-section"
+import Article02 from "./Article02"
+import Article01 from "./Article01"
+import Article03 from "./Article03"
+import SearchSection from "./SearchSection"
+import EmailSection from "./EmailSection"
+import InfoSection from "./InfoSection"
 import SimpleAlert from "./simpleAlert"
 
 function MainContent() {
