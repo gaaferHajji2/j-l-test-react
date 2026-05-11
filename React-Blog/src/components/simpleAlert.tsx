@@ -2,7 +2,7 @@
 export default function SimpleAlert() {
   return (
     <>
-      <div className="alert alert-info m-1 shadow-2xl">
+      <div className="alert alert-info m-1 mt-3 shadow-2xl">
           <div className="alert-title alert-info-title">Info</div>
           <div className="alert-content alert-info-content">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Voluptatibus, est.</div>
       </div>
