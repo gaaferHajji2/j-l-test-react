@@ -16,7 +16,7 @@ interface RecipeCardProps {
 
 export default function RecipeCard(props: RecipeCardProps) {
   return (
-    <div className="m-5 shadow-md w-100 rounded-2xl overflow-hidden">
+    <div className="m-5 shadow-md w-75 rounded-2xl overflow-hidden md:max-lg:w-90">
         <img className="h-75 object-cover w-full" src={props.imageurl} alt={props.imgalt}/>
 
         <div className="p-2">
