@@ -1,1 +1,10 @@
 @import "tailwindcss";
+
+/* Enable class-based dark mode (replaces default prefers-color-scheme) */
+@variant dark (&:where(.dark, .dark *));
+
+/* Optional: Customize base colors for light/dark */
+@theme {
+  --color-background: #ffffff;
+  --color-text: #111827;
+}
