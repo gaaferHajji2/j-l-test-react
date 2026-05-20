@@ -1,8 +1,18 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import './App.css'
 import { faBars, faDraftingCompass } from '@fortawesome/free-solid-svg-icons'
+import { useState } from 'react'
 
 function App() {
+
+  // 1. Track toggle state
+  const [isNavOpen, setIsNavOpen] = useState(false);
+
+  // 2. Toggle function
+  const handleToggle = () => {
+    setIsNavOpen(prev => !prev);
+  };
+
   return (
     <header className='flex items-center justify-content flex-wrap bg-gray-800 py-4 w-full'>
       <div className='shrink-0 ml-6'>
@@ -13,11 +23,12 @@ function App() {
       </div>
 
       <button id='nav-toggle' className='md:hidden p-2 mr-4 ml-6 my-2 border rounded 
-                                        border-gray-200 text-blue-500 hover:border-blue-200'>
+                                        border-gray-200 text-blue-500 hover:border-blue-200'
+                                        onClick={handleToggle} aria-expanded={isNavOpen}>
         <FontAwesomeIcon icon={faBars} size='2xl' />
       </button>
 
-      <div className='pl-6 w-full md:w-auto hidden md:block'>
+      <div className={`pl-6 w-full md:w-auto ${!isNavOpen ? 'hidden' : ''} md:block`}>
         <ul className='md:flex'>
           <li className='mr-6 p-1 md:border-b-2 border-yellow-200'>
             <a className="text-blue-500 cursor-default" href='#'>Home</a>
