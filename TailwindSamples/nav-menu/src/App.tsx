@@ -31,6 +31,12 @@ function App() {
           <li className="mr-6 p-1 hover:border-b-2 hover:border-yello-200">
             <a className="text-white hover:text-blue-300" href="#">Team</a>
           </li>
+          <li className="mr-6 p-1 hover:border-b-2 hover:border-yello-200">
+            <a className="text-white hover:text-blue-300" href="#">About</a>
+          </li>
+          <li className="mr-6 p-1 hover:border-b-2 hover:border-yello-200">
+            <a className="text-white hover:text-blue-300" href="#">Contacts</a>
+          </li>
         </ul>
       </div>
     </header>
