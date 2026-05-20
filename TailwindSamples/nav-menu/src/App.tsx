@@ -14,10 +14,10 @@ function App() {
   };
 
   return (
-    <header className='flex items-center justify-content flex-wrap bg-gray-800 py-4 w-full'>
+    <header className='flex items-center justify-between flex-wrap bg-gray-800 py-4 w-full'>
       <div className='shrink-0 ml-6'>
         <a href="#">
-          <FontAwesomeIcon icon={faDraftingCompass} size='2xl' className='text-yello-200' />
+          <FontAwesomeIcon icon={faDraftingCompass} size='2xl' className='text-yellow-200' />
           <span className='ml-1 text-3xl text-blue-200 font-semibold'>WebCraft</span>
         </a>
       </div>
@@ -33,19 +33,19 @@ function App() {
           <li className='mr-6 p-1 md:border-b-2 border-yellow-200'>
             <a className="text-blue-500 cursor-default" href='#'>Home</a>
           </li>
-          <li className="mr-6 p-1 hover:border-b-2 hover:border-yello-200">
+          <li className="mr-6 p-1 hover:border-b-2 hover:border-yellow-400">
             <a className="text-white hover:text-blue-300" href="#">Services</a>
           </li>
-          <li className="mr-6 p-1 hover:border-b-2 hover:border-yello-200">
+          <li className="mr-6 p-1 hover:border-b-2 hover:border-yellow-400">
             <a className="text-white hover:text-blue-300" href="#">Projects</a>
           </li>
-          <li className="mr-6 p-1 hover:border-b-2 hover:border-yello-200">
+          <li className="mr-6 p-1 hover:border-b-2 hover:border-yellow-400">
             <a className="text-white hover:text-blue-300" href="#">Team</a>
           </li>
-          <li className="mr-6 p-1 hover:border-b-2 hover:border-yello-200">
+          <li className="mr-6 p-1 hover:border-b-2 hover:border-yellow-400">
             <a className="text-white hover:text-blue-300" href="#">About</a>
           </li>
-          <li className="mr-6 p-1 hover:border-b-2 hover:border-yello-200">
+          <li className="mr-6 p-1 hover:border-b-2 hover:border-yellow-400">
             <a className="text-white hover:text-blue-300" href="#">Contacts</a>
           </li>
         </ul>
