@@ -24,7 +24,8 @@
     "dashboard": "لوحة التحكم",
     "events": "الفعاليات",
     "vendors": "الوكلاء",
-    "settings": "الإعدادات"
+    "settings": "الإعدادات",
+    "eventTypes": "أنواع الفعاليات"
   },
   "dashboard": {
     "welcome": "مرحباً بك في لوحة التحكم",
@@ -47,7 +48,11 @@
     "eventName": "اسم الفعالية",
     "date": "التاريخ",
     "status": "الحالة",
-    "actions": "الإجراءات"
+    "actions": "الإجراءات",
+    "typeName": "اسم النوع",
+    "description": "الوصف",
+    "eventsCount": "عدد الفعاليات",
+    "createdAt": "تاريخ الإنشاء"
   },
   "actions": {
     "view": "عرض",
@@ -116,5 +121,29 @@
     "active": "نشط",
     "inactive": "غير نشط",
     "rejected": "مرفوض"
+  },
+  "eventTypes": {
+    "title": "إدارة أنواع الفعاليات",
+    "subtitle": "إنشاء وإدارة فئات الفعاليات",
+    "addNew": "إضافة نوع فعالية جديد",
+    "formTitle": "إنشاء نوع فعالية",
+    "nameLabel": "اسم النوع",
+    "namePlaceholder": "مثال: مؤتمر، ورشة عمل، مهرجان",
+    "descriptionLabel": "الوصف",
+    "descriptionPlaceholder": "وصف مختصر لهذا النوع من الفعاليات...",
+    "colorLabel": "لون العرض",
+    "submitBtn": "إنشاء النوع",
+    "updateBtn": "تحديث النوع",
+    "cancelBtn": "إلغاء",
+    "tableTitle": "جميع أنواع الفعاليات",
+    "noTypesFound": "لم يتم العثور على أنواع فعاليات",
+    "createFirst": "أنشئ أول نوع فعالية للبدء",
+    "deleteConfirm": "هل أنت متأكد من حذف هذا النوع؟",
+    "addSuccess": "تم إنشاء نوع الفعالية بنجاح",
+    "updateSuccess": "تم تحديث نوع الفعالية بنجاح",
+    "deleteSuccess": "تم حذف نوع الفعالية بنجاح",
+    "nameRequired": "اسم نوع الفعالية مطلوب",
+    "nameMinLength": "يجب أن يكون الاسم 3 أحرف على الأقل",
+    "duplicateName": "يوجد نوع فعالية بهذا الاسم بالفعل"
   }
 }
