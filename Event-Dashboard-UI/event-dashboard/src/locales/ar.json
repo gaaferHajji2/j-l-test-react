@@ -87,5 +87,34 @@
     "createdAt": "تاريخ الإنشاء",
     "actions": "الإجراءات",
     "noDescription": "لا يوجد وصف متاح"
+  },
+  "vendors": {
+    "title": "طلبات الموردين",
+    "subtitle": "إدارة تسجيلات واعتمادات الموردين",
+    "searchPlaceholder": "البحث عن موردين بالاسم أو البريد الإلكتروني أو النشاط...",
+    "filterByStatus": "تصفية حسب الحالة",
+    "allStatuses": "جميع الحالات",
+    "noVendorsFound": "لم يتم العثور على طلبات موردين تطابق معاييرك",
+    "confirmApprove": "هل أنت متأكد من اعتماد هذا المورد؟",
+    "confirmReject": "هل أنت متأكد من رفض هذا المورد؟",
+    "confirmActivate": "هل أنت متأكد من تفعيل هذا المورد؟",
+    "confirmDeactivate": "هل أنت متأكد من تعطيل هذا المورد؟",
+    "approveSuccess": "تم اعتماد المورد بنجاح",
+    "rejectSuccess": "تم رفض المورد بنجاح",
+    "activateSuccess": "تم تفعيل المورد بنجاح",
+    "deactivateSuccess": "تم تعطيل المورد بنجاح",
+    "businessName": "اسم النشاط التجاري",
+    "contactPerson": "الشخص المسؤول",
+    "email": "البريد الإلكتروني",
+    "phone": "رقم الهاتف",
+    "category": "الفئة",
+    "submittedAt": "تاريخ التقديم",
+    "viewDetails": "عرض التفاصيل"
+  },
+  "vendorStatus": {
+    "pending": "معلق",
+    "active": "نشط",
+    "inactive": "غير نشط",
+    "rejected": "مرفوض"
   }
 }
