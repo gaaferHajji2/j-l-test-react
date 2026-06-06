@@ -47,7 +47,11 @@
     "eventName": "Event Name",
     "date": "Date",
     "status": "Status",
-    "actions": "Actions"
+    "actions": "Actions",
+    "typeName": "Type Name",
+    "description": "Description",
+    "eventsCount": "Events Count",
+    "createdAt": "Created At"
   },
   "actions": {
     "view": "View",
@@ -116,5 +120,29 @@
     "active": "Active",
     "inactive": "Inactive",
     "rejected": "Rejected"
+  },
+  "eventTypes": {
+    "title": "Event Types Management",
+    "subtitle": "Create and manage event categories",
+    "addNew": "Add New Event Type",
+    "formTitle": "Create Event Type",
+    "nameLabel": "Type Name",
+    "namePlaceholder": "e.g., Conference, Workshop, Festival",
+    "descriptionLabel": "Description",
+    "descriptionPlaceholder": "Brief description of this event type...",
+    "colorLabel": "Display Color",
+    "submitBtn": "Create Type",
+    "updateBtn": "Update Type",
+    "cancelBtn": "Cancel",
+    "tableTitle": "All Event Types",
+    "noTypesFound": "No event types found",
+    "createFirst": "Create your first event type to get started",
+    "deleteConfirm": "Are you sure you want to delete this event type?",
+    "addSuccess": "Event type created successfully",
+    "updateSuccess": "Event type updated successfully",
+    "deleteSuccess": "Event type deleted successfully",
+    "nameRequired": "Event type name is required",
+    "nameMinLength": "Name must be at least 3 characters",
+    "duplicateName": "An event type with this name already exists"
   }
 }
