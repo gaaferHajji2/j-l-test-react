@@ -1,0 +1,21 @@
+{
+  "common": {
+    "appName": "Event Management",
+    "login": "Login",
+    "email": "Email",
+    "password": "Password",
+    "rememberMe": "Remember me",
+    "forgotPassword": "Forgot password?",
+    "signIn": "Sign In",
+    "emailPlaceholder": "Enter your email",
+    "passwordPlaceholder": "Enter your password",
+    "requiredField": "This field is required",
+    "invalidEmail": "Invalid email address",
+    "loginError": "Invalid email or password"
+  },
+  "login": {
+    "welcomeBack": "Welcome Back!",
+    "description": "Sign in to manage your events",
+    "imageAlt": "Event Management Dashboard"
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "common": {
+    "appName": "إدارة الفعاليات",
+    "login": "تسجيل الدخول",
+    "email": "البريد الإلكتروني",
+    "password": "كلمة المرور",
+    "rememberMe": "تذكرني",
+    "forgotPassword": "نسيت كلمة المرور؟",
+    "signIn": "دخول",
+    "emailPlaceholder": "أدخل بريدك الإلكتروني",
+    "passwordPlaceholder": "أدخل كلمة المرور",
+    "requiredField": "هذا الحقل مطلوب",
+    "invalidEmail": "عنوان بريد إلكتروني غير صالح",
+    "loginError": "البريد الإلكتروني أو كلمة المرور غير صحيحة"
+  },
+  "login": {
+    "welcomeBack": "مرحباً بعودتك!",
+    "description": "سجل الدخول لإدارة فعالياتك",
+    "imageAlt": "لوحة إدارة الفعاليات"
+  }
+}
