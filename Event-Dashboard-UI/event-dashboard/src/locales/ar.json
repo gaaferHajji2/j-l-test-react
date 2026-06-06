@@ -26,7 +26,8 @@
     "vendors": "الوكلاء",
     "settings": "الإعدادات",
     "eventTypes": "أنواع الفعاليات",
-    "agents": "الوكلاء"
+    "agents": "الوكلاء",
+    "notifications": "الإشعارات"
   },
   "dashboard": {
     "welcome": "مرحباً بك في لوحة التحكم",
@@ -191,5 +192,38 @@
     "active": "نشط",
     "inactive": "غير نشط",
     "onLeave": "في إجازة"
+  },
+  "notifications": {
+    "title": "مركز الإشعارات",
+    "subtitle": "إرسال وإدارة الإشعارات للوكلاء والموردين",
+    "composeTitle": "إنشاء إشعار",
+    "historyTitle": "سجل الإشعارات",
+    "recipientLabel": "المستلمون",
+    "recipientAgents": "الوكلاء",
+    "recipientVendors": "الموردون",
+    "recipientAll": "الجميع (وكلاء وموردين)",
+    "subjectLabel": "الموضوع",
+    "subjectPlaceholder": "أدخل موضوع الإشعار...",
+    "messageLabel": "الرسالة",
+    "messagePlaceholder": "اكتب رسالة الإشعار هنا...",
+    "priorityLabel": "الأولوية",
+    "priorityLow": "منخفضة",
+    "priorityNormal": "عادية",
+    "priorityHigh": "عالية",
+    "priorityUrgent": "عاجلة",
+    "sendBtn": "إرسال الإشعار",
+    "clearBtn": "مسح",
+    "noHistory": "لم يتم إرسال إشعارات بعد",
+    "sendFirst": "أرسل أول إشعار للبدء",
+    "sendSuccess": "تم إرسال الإشعار بنجاح",
+    "subjectRequired": "الموضوع مطلوب",
+    "messageRequired": "الرسالة مطلوبة",
+    "recipientRequired": "يرجى اختيار نوع مستلم واحد على الأقل",
+    "sentTo": "أُرسل إلى",
+    "sentAt": "تاريخ الإرسال",
+    "viewMessage": "عرض الرسالة",
+    "deleteConfirm": "هل أنت متأكد من حذف سجل هذا الإشعار؟",
+    "deleteSuccess": "تم حذف سجل الإشعار بنجاح",
+    "charCount": "حرف"
   }
 }
