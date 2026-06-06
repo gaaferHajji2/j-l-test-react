@@ -72,5 +72,20 @@
     "confirmReject": "Are you sure you want to reject this event?",
     "approveSuccess": "Event approved successfully",
     "rejectSuccess": "Event rejected successfully"
+  },
+  "eventDetails": {
+    "title": "Event Details",
+    "backToEvents": "Back to Events",
+    "overview": "Overview",
+    "description": "Description",
+    "organizer": "Organizer",
+    "location": "Location",
+    "date": "Date & Time",
+    "attendees": "Expected Attendees",
+    "category": "Category",
+    "status": "Status",
+    "createdAt": "Created At",
+    "actions": "Actions",
+    "noDescription": "No description available"
   }
 }
