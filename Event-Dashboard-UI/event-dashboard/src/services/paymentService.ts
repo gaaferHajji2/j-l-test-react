@@ -122,6 +122,7 @@ export const paymentService = {
     const taxable = subtotal - discount;
     const tax = Math.round(taxable * 0.15);
     const total = taxable + tax;
+    let nextId = mockPayments.length + 1;
 
     const newPayment = {
       id: nextId++,
