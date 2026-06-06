@@ -48,7 +48,7 @@ function App() {
             <Route path="/" element={<Navigate to="/login" replace />} />
             
             {/* Catch-all route for 404 */}
-            <Route path="*" element={<Navigate to="/login" replace />} />
+            <Route path="*" element={<Navigate to="/dashboard" replace />} />
           </Routes>
         </Router>
       </I18nProvider>
