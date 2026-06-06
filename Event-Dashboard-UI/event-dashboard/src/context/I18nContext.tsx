@@ -17,7 +17,7 @@ i18n.use(initReactI18next).init({
   }
 });
 
-const I18nContext = createContext({});
+const I18nContext = createContext(null);
 
 export const useI18n = () => {
   const context = useContext(I18nContext);
