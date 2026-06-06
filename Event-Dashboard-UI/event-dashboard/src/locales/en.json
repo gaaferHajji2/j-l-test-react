@@ -87,5 +87,34 @@
     "createdAt": "Created At",
     "actions": "Actions",
     "noDescription": "No description available"
+  },
+  "vendors": {
+    "title": "Vendor Requests",
+    "subtitle": "Manage vendor registrations and approvals",
+    "searchPlaceholder": "Search vendors by name, email, or business...",
+    "filterByStatus": "Filter by status",
+    "allStatuses": "All Statuses",
+    "noVendorsFound": "No vendor requests found matching your criteria",
+    "confirmApprove": "Are you sure you want to approve this vendor?",
+    "confirmReject": "Are you sure you want to reject this vendor?",
+    "confirmActivate": "Are you sure you want to activate this vendor?",
+    "confirmDeactivate": "Are you sure you want to deactivate this vendor?",
+    "approveSuccess": "Vendor approved successfully",
+    "rejectSuccess": "Vendor rejected successfully",
+    "activateSuccess": "Vendor activated successfully",
+    "deactivateSuccess": "Vendor deactivated successfully",
+    "businessName": "Business Name",
+    "contactPerson": "Contact Person",
+    "email": "Email",
+    "phone": "Phone",
+    "category": "Category",
+    "submittedAt": "Submitted At",
+    "viewDetails": "View Details"
+  },
+  "vendorStatus": {
+    "pending": "Pending",
+    "active": "Active",
+    "inactive": "Inactive",
+    "rejected": "Rejected"
   }
 }
