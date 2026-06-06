@@ -58,7 +58,7 @@ const generateMockVenues = () => {
       location: `${Math.floor(Math.random() * 200) + 1} ${['King Fahd Road', 'Olaya Street', 'Corniche Ave', 'Prince Sultan Rd', 'Tahlia St'][Math.floor(Math.random() * 5)]}, ${['Riyadh', 'Jeddah', 'Dammam', 'Makkah', 'Madinah'][Math.floor(Math.random() * 5)]}`,
       capacity: [200, 500, 800, 1200, 2000, 3500, 5000, 10000][Math.floor(Math.random() * 8)],
       pricePerDay: Math.floor(Math.random() * 45000) + 5000,
-      image: `https://images.unsplash.com/photo-${index}?w=800&q=80`,
+      image: `https://plus.unsplash.com/premium_photo-1664530452329-42682d3a73a7?q=80&w=872&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D`,
       amenities: shuffledAmenities.slice(0, amenitiesCount),
       availability,
       connectedVendors: generateConnectedVendors(index + 1),
