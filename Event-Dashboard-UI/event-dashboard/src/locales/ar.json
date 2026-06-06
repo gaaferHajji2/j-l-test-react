@@ -28,7 +28,8 @@
     "eventTypes": "أنواع الفعاليات",
     "agents": "الوكلاء",
     "notifications": "الإشعارات",
-    "venues": "المواقع"
+    "venues": "المواقع",
+    "ratings": "التقييمات والمراجعات"
   },
   "dashboard": {
     "welcome": "مرحباً بك في لوحة التحكم",
@@ -290,6 +291,39 @@
     "dressingRooms": "غرف تبديل",
     "security": "حراسة 24/7",
     "generator": "مولد احتياطي"
+  },
+  "ratings": {
+    "title": "تقييمات ومراجعات الفعاليات",
+    "subtitle": "عرض وإدارة ملاحظات العملاء لجميع الفعاليات",
+    "searchPlaceholder": "البحث باسم الفعالية أو العميل أو محتوى المراجعة...",
+    "filterByScore": "تصفية حسب التقييم",
+    "allScores": "جميع التقييمات",
+    "filterByEvent": "تصفية حسب الفعالية",
+    "allEvents": "جميع الفعاليات",
+    "noRatingsFound": "لم يتم العثور على تقييمات تطابق معاييرك",
+    "averageScore": "متوسط التقييم",
+    "totalReviews": "إجمالي المراجعات",
+    "scoreDistribution": "توزيع التقييمات",
+    "customerName": "العميل",
+    "eventName": "الفعالية",
+    "score": "التقييم",
+    "review": "المراجعة",
+    "submittedAt": "تاريخ التقديم",
+    "verifiedBadge": "حضور موثق",
+    "helpfulCount": "{{count}} شخص وجد هذا مفيداً",
+    "markHelpful": "تحديد كمفيد",
+    "flagReview": "الإبلاغ عن المراجعة",
+    "deleteConfirm": "هل أنت متأكد من حذف هذه المراجعة؟",
+    "deleteSuccess": "تم حذف المراجعة بنجاح",
+    "flagSuccess": "تم وضع علامة على المراجعة للمراجعة",
+    "respondBtn": "رد",
+    "responseLabel": "رد المسؤول",
+    "responsePlaceholder": "اكتب رداً على هذه المراجعة...",
+    "responseSent": "تم إرسال الرد بنجاح",
+    "stars_5": "ممتاز",
+    "stars_4": "جيد جداً",
+    "stars_3": "جيد",
+    "stars_2": "مقبول",
+    "stars_1": "ضعيف"
   }
-
 }
