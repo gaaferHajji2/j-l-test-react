@@ -19,7 +19,7 @@
     "welcomeBack": "Welcome Back!",
     "description": "Sign in to manage your events",
     "imageAlt": "Event Management Dashboard"
-  }
+  },
   "navigation": {
     "dashboard": "Dashboard",
     "events": "Events",
