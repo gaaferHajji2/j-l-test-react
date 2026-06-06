@@ -26,7 +26,8 @@
     "vendors": "Vendors",
     "settings": "Settings",
     "eventTypes": "Event Types",
-    "agents": "Agents"
+    "agents": "Agents",
+    "notifications": "Notifications"
   },
   "dashboard": {
     "welcome": "Welcome to Dashboard",
@@ -191,5 +192,38 @@
     "active": "Active",
     "inactive": "Inactive",
     "onLeave": "On Leave"
+  },
+  "notifications": {
+    "title": "Notification Center",
+    "subtitle": "Send and manage notifications to agents and vendors",
+    "composeTitle": "Compose Notification",
+    "historyTitle": "Notification History",
+    "recipientLabel": "Recipients",
+    "recipientAgents": "Agents",
+    "recipientVendors": "Vendors",
+    "recipientAll": "All (Agents & Vendors)",
+    "subjectLabel": "Subject",
+    "subjectPlaceholder": "Enter notification subject...",
+    "messageLabel": "Message",
+    "messagePlaceholder": "Write your notification message here...",
+    "priorityLabel": "Priority",
+    "priorityLow": "Low",
+    "priorityNormal": "Normal",
+    "priorityHigh": "High",
+    "priorityUrgent": "Urgent",
+    "sendBtn": "Send Notification",
+    "clearBtn": "Clear",
+    "noHistory": "No notifications sent yet",
+    "sendFirst": "Send your first notification to get started",
+    "sendSuccess": "Notification sent successfully",
+    "subjectRequired": "Subject is required",
+    "messageRequired": "Message is required",
+    "recipientRequired": "Please select at least one recipient type",
+    "sentTo": "Sent to",
+    "sentAt": "Sent at",
+    "viewMessage": "View Message",
+    "deleteConfirm": "Are you sure you want to delete this notification record?",
+    "deleteSuccess": "Notification record deleted successfully",
+    "charCount": "characters"
   }
 }
