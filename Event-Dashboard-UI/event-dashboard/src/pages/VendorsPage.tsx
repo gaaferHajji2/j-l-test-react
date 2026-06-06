@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
-import DashboardHeader from '../components/Layout/DashboardHeader';
-import DashboardSidebar from '../components/Layout/DashboardSidebar';
-import VendorsFilter from '../components/Vendors/VendorsFilter';
-import VendorCard from '../components/Vendors/VendorCard';
-import { vendorService } from '../services/vendorService';
+import React, { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
+import DashboardHeader from '../components/Layout/DashboardHeader'
+import DashboardSidebar from '../components/Layout/DashboardSidebar'
+import VendorsFilter from '../components/Vendors/VendorFilter'
+import VendorCard from '../components/Vendors/VendorCard'
+import { vendorService } from '../services/vendorService'
 
 const VendorsPage = () => {
   const navigate = useNavigate();
