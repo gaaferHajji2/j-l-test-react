@@ -25,7 +25,8 @@
     "events": "الفعاليات",
     "vendors": "الوكلاء",
     "settings": "الإعدادات",
-    "eventTypes": "أنواع الفعاليات"
+    "eventTypes": "أنواع الفعاليات",
+    "agents": "الوكلاء"
   },
   "dashboard": {
     "welcome": "مرحباً بك في لوحة التحكم",
@@ -145,5 +146,50 @@
     "nameRequired": "اسم نوع الفعالية مطلوب",
     "nameMinLength": "يجب أن يكون الاسم 3 أحرف على الأقل",
     "duplicateName": "يوجد نوع فعالية بهذا الاسم بالفعل"
+  },
+  "agents": {
+    "title": "إدارة وكلاء المواقع",
+    "subtitle": "إدارة الوكلاء الذين يزورون ويمثلون مواقع الفعاليات",
+    "addNew": "إضافة وكيل جديد",
+    "formTitle": "إنشاء وكيل جديد",
+    "editFormTitle": "تعديل الوكيل",
+    "fullNameLabel": "الاسم الكامل",
+    "fullNamePlaceholder": "أدخل الاسم الكامل للوكيل",
+    "emailLabel": "البريد الإلكتروني",
+    "emailPlaceholder": "agent@example.com",
+    "phoneLabel": "رقم الهاتف",
+    "phonePlaceholder": "+966 5X XXX XXXX",
+    "venueLabel": "الموقع المعين",
+    "venuePlaceholder": "اختر أو أدخل اسم الموقع",
+    "roleLabel": "الدور / المنصب",
+    "rolePlaceholder": "مثال: مدير موقع، مفتش، منسق",
+    "notesLabel": "ملاحظات",
+    "notesPlaceholder": "معلومات إضافية عن هذا الوكيل...",
+    "statusLabel": "الحالة",
+    "submitBtn": "إنشاء الوكيل",
+    "updateBtn": "تحديث الوكيل",
+    "cancelBtn": "إلغاء",
+    "tableTitle": "جميع الوكلاء",
+    "noAgentsFound": "لم يتم العثور على وكلاء",
+    "createFirst": "أضف أول وكيل للبدء",
+    "deleteConfirm": "هل أنت متأكد من حذف هذا الوكيل؟",
+    "addSuccess": "تم إنشاء الوكيل بنجاح",
+    "updateSuccess": "تم تحديث الوكيل بنجاح",
+    "deleteSuccess": "تم حذف الوكيل بنجاح",
+    "nameRequired": "الاسم الكامل مطلوب",
+    "nameMinLength": "يجب أن يكون الاسم 3 أحرف على الأقل",
+    "emailRequired": "البريد الإلكتروني مطلوب",
+    "emailInvalid": "يرجى إدخال بريد إلكتروني صالح",
+    "phoneRequired": "رقم الهاتف مطلوب",
+    "venueRequired": "تعيين الموقع مطلوب",
+    "searchPlaceholder": "البحث بالاسم أو البريد أو الموقع أو الدور...",
+    "filterByStatus": "تصفية حسب الحالة",
+    "allStatuses": "جميع الحالات",
+    "viewDetails": "عرض التفاصيل"
+  },
+  "agentStatus": {
+    "active": "نشط",
+    "inactive": "غير نشط",
+    "onLeave": "في إجازة"
   }
 }
