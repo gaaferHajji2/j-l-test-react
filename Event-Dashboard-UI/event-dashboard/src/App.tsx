@@ -3,6 +3,7 @@ import { ThemeProvider } from './context/ThemeContext';
 import { I18nProvider } from './context/I18nContext';
 import LoginPage from './pages/LoginPage';
 import DashboardPage from './pages/DashboardPage';
+import EventsPage from './pages/EventsPage';
 
 // Simple auth check (replace with proper auth logic)
 const isAuthenticated = () => {
@@ -25,10 +26,18 @@ function App() {
           <Routes>
             <Route path="/login" element={<LoginPage />} />
             <Route
-              path="/dashboard/*"
+              path="/dashboard"
               element={
                 <ProtectedRoute>
                   <DashboardPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/dashboard/events"
+              element={
+                <ProtectedRoute>
+                  <EventsPage />
                 </ProtectedRoute>
               }
             />
