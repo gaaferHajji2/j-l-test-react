@@ -11,11 +11,50 @@
     "passwordPlaceholder": "أدخل كلمة المرور",
     "requiredField": "هذا الحقل مطلوب",
     "invalidEmail": "عنوان بريد إلكتروني غير صالح",
-    "loginError": "البريد الإلكتروني أو كلمة المرور غير صحيحة"
+    "loginError": "البريد الإلكتروني أو كلمة المرور غير صحيحة",
+    "logout": "تسجيل الخروج",
+    "loading": "جاري التحميل..."
   },
   "login": {
     "welcomeBack": "مرحباً بعودتك!",
     "description": "سجل الدخول لإدارة فعالياتك",
     "imageAlt": "لوحة إدارة الفعاليات"
+  },
+  "navigation": {
+    "dashboard": "لوحة التحكم",
+    "events": "الفعاليات",
+    "users": "المستخدمون",
+    "settings": "الإعدادات"
+  },
+  "dashboard": {
+    "welcome": "مرحباً بك في لوحة التحكم",
+    "overview": "إليك ما يحدث مع فعالياتك اليوم",
+    "eventStatusDistribution": "توزيع حالة الفعاليات",
+    "currentEventStatus": "التوزيع الحالي لحالات الفعاليات",
+    "monthlyEventsOverview": "نظرة عامة على الفعاليات الشهرية",
+    "eventsByMonth": "الفعاليات المنشأة وحالتها حسب الشهر",
+    "recentEvents": "الفعاليات الأخيرة",
+    "noDataAvailable": "لا توجد بيانات متاحة",
+    "noEventsFound": "لم يتم العثور على فعاليات"
+  },
+  "stats": {
+    "totalEvents": "إجمالي الفعاليات",
+    "pendingEvents": "الفعاليات المعلقة",
+    "approvedEvents": "الفعاليات المعتمدة",
+    "rejectedEvents": "الفعاليات المرفوضة"
+  },
+  "table": {
+    "eventName": "اسم الفعالية",
+    "date": "التاريخ",
+    "status": "الحالة",
+    "actions": "الإجراءات"
+  },
+  "actions": {
+    "view": "عرض"
+  },
+  "status": {
+    "pending": "معلق",
+    "approved": "معتمد",
+    "rejected": "مرفوض"
   }
 }
