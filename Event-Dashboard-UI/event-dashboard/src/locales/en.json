@@ -50,11 +50,27 @@
     "actions": "Actions"
   },
   "actions": {
-    "view": "View"
+    "view": "View",
+    "edit": "Edit",
+    "delete": "Delete",
+    "approve": "Approve",
+    "reject": "Reject"
   },
   "status": {
     "pending": "Pending",
     "approved": "Approved",
     "rejected": "Rejected"
+  },
+  "events": {
+    "title": "Events Management",
+    "subtitle": "View and manage all events",
+    "searchPlaceholder": "Search events...",
+    "filterByStatus": "Filter by status",
+    "allStatuses": "All Statuses",
+    "noEventsFound": "No events found matching your criteria",
+    "confirmApprove": "Are you sure you want to approve this event?",
+    "confirmReject": "Are you sure you want to reject this event?",
+    "approveSuccess": "Event approved successfully",
+    "rejectSuccess": "Event rejected successfully"
   }
 }
