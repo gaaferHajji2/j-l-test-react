@@ -23,7 +23,7 @@
   "navigation": {
     "dashboard": "Dashboard",
     "events": "Events",
-    "users": "Users",
+    "vendors": "Vendors",
     "settings": "Settings"
   },
   "dashboard": {
