@@ -11,11 +11,50 @@
     "passwordPlaceholder": "Enter your password",
     "requiredField": "This field is required",
     "invalidEmail": "Invalid email address",
-    "loginError": "Invalid email or password"
+    "loginError": "Invalid email or password",
+    "logout": "Logout",
+    "loading": "Loading..."
   },
   "login": {
     "welcomeBack": "Welcome Back!",
     "description": "Sign in to manage your events",
     "imageAlt": "Event Management Dashboard"
+  }
+  "navigation": {
+    "dashboard": "Dashboard",
+    "events": "Events",
+    "users": "Users",
+    "settings": "Settings"
+  },
+  "dashboard": {
+    "welcome": "Welcome to Dashboard",
+    "overview": "Here's what's happening with your events today",
+    "eventStatusDistribution": "Event Status Distribution",
+    "currentEventStatus": "Current distribution of event statuses",
+    "monthlyEventsOverview": "Monthly Events Overview",
+    "eventsByMonth": "Events created and their status by month",
+    "recentEvents": "Recent Events",
+    "noDataAvailable": "No data available",
+    "noEventsFound": "No events found"
+  },
+  "stats": {
+    "totalEvents": "Total Events",
+    "pendingEvents": "Pending Events",
+    "approvedEvents": "Approved Events",
+    "rejectedEvents": "Rejected Events"
+  },
+  "table": {
+    "eventName": "Event Name",
+    "date": "Date",
+    "status": "Status",
+    "actions": "Actions"
+  },
+  "actions": {
+    "view": "View"
+  },
+  "status": {
+    "pending": "Pending",
+    "approved": "Approved",
+    "rejected": "Rejected"
   }
 }
