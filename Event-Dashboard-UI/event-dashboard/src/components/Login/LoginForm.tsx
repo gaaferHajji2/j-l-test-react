@@ -59,6 +59,8 @@ const LoginForm = () => {
       
       // TODO: Replace with actual authentication logic
       console.log('Login attempt:', formData);
+
+      localStorage.setItem('authToken', 'JLoka-01')
       
       // Navigate to dashboard on success
       navigate('/dashboard');
