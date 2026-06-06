@@ -5,7 +5,7 @@ import DashboardHeader from '../components/Layout/DashboardHeader';
 import DashboardSidebar from '../components/Layout/DashboardSidebar';
 import EventTypeForm from '../components/EventTypes/EventTypeForm';
 import EventTypesTable from '../components/EventTypes/EventTypesTable';
-import { eventService } from '../services/eventService';
+import { eventTypeService } from '../services/eventTypeService';
 
 const EventTypesPage = () => {
   const navigate = useNavigate();
@@ -17,7 +17,7 @@ const EventTypesPage = () => {
   const fetchTypes = useCallback(async () => {
     try {
       setLoading(true);
-      const data = await eventService.getAll();
+      const data = await eventTypeService.getAll();
       setTypes(data);
     } catch (error) {
       console.error('Error fetching event types:', error);
@@ -43,7 +43,7 @@ const EventTypesPage = () => {
 
   const handleDelete = async (id) => {
     try {
-      await eventService.delete(id);
+      await eventTypeService.delete(id);
       fetchTypes();
       alert(t('eventTypes.deleteSuccess'));
     } catch (error) {
