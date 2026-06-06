@@ -30,7 +30,8 @@
     "notifications": "Notifications",
     "venues": "Venues",
     "ratings": "Ratings & Reviews",
-    "products": "Products"
+    "products": "Products",
+    "payments": "Payments"
   },
   "dashboard": {
     "welcome": "Welcome to Dashboard",
@@ -361,5 +362,48 @@
     "active": "Active",
     "inactive": "Inactive",
     "rejected": "Rejected"
+  },
+  "payments": {
+    "title": "Payment Overview",
+    "subtitle": "Track event payments and billing summaries",
+    "searchPlaceholder": "Search by event name, customer, or invoice ID...",
+    "filterByStatus": "Filter by status",
+    "allStatuses": "All Statuses",
+    "noPaymentsFound": "No payment records found",
+    "invoiceId": "Invoice ID",
+    "eventName": "Event",
+    "customerName": "Customer",
+    "amount": "Amount",
+    "method": "Payment Method",
+    "status": "Status",
+    "paidAt": "Paid At",
+    "dueDate": "Due Date",
+    "viewReceipt": "View Receipt",
+    "markAsPaid": "Mark as Paid",
+    "sendReminder": "Send Reminder",
+    "confirmMarkPaid": "Are you sure you want to mark this invoice as paid?",
+    "reminderSent": "Payment reminder sent successfully",
+    "markPaidSuccess": "Invoice marked as paid successfully",
+    "subtotal": "Subtotal",
+    "tax": "Tax (15%)",
+    "discount": "Discount",
+    "total": "Total Amount",
+    "paymentDetails": "Payment Details",
+    "billingTo": "Billing To",
+    "invoiceDate": "Invoice Date",
+    "downloadPdf": "Download PDF",
+    "printReceipt": "Print Receipt"
+  },
+  "paymentStatus": {
+    "paid": "Paid",
+    "pending": "Pending",
+    "overdue": "Overdue",
+    "refunded": "Refunded"
+  },
+  "paymentMethod": {
+    "bankTransfer": "Bank Transfer",
+    "cash": "Cash",
+    "check": "Check",
+    "wallet": "Digital Wallet"
   }
 }
