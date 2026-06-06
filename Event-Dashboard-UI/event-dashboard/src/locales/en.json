@@ -28,7 +28,8 @@
     "eventTypes": "Event Types",
     "agents": "Agents",
     "notifications": "Notifications",
-    "venues": "Venues"
+    "venues": "Venues",
+    "ratings": "Ratings & Reviews"
   },
   "dashboard": {
     "welcome": "Welcome to Dashboard",
@@ -290,5 +291,39 @@
     "dressingRooms": "Dressing Rooms",
     "security": "24/7 Security",
     "generator": "Backup Generator"
+  },
+  "ratings": {
+    "title": "Event Ratings & Reviews",
+    "subtitle": "View and manage customer feedback for all events",
+    "searchPlaceholder": "Search by event name, customer, or review content...",
+    "filterByScore": "Filter by score",
+    "allScores": "All Scores",
+    "filterByEvent": "Filter by event",
+    "allEvents": "All Events",
+    "noRatingsFound": "No ratings found matching your criteria",
+    "averageScore": "Average Score",
+    "totalReviews": "Total Reviews",
+    "scoreDistribution": "Score Distribution",
+    "customerName": "Customer",
+    "eventName": "Event",
+    "score": "Score",
+    "review": "Review",
+    "submittedAt": "Submitted At",
+    "verifiedBadge": "Verified Attendee",
+    "helpfulCount": "{{count}} people found this helpful",
+    "markHelpful": "Mark as Helpful",
+    "flagReview": "Flag Review",
+    "deleteConfirm": "Are you sure you want to delete this review?",
+    "deleteSuccess": "Review deleted successfully",
+    "flagSuccess": "Review flagged for moderation",
+    "respondBtn": "Respond",
+    "responseLabel": "Admin Response",
+    "responsePlaceholder": "Write a response to this review...",
+    "responseSent": "Response sent successfully",
+    "stars_5": "Excellent",
+    "stars_4": "Very Good",
+    "stars_3": "Good",
+    "stars_2": "Fair",
+    "stars_1": "Poor"
   }
 }
