@@ -149,14 +149,14 @@ const ComposeNotification = ({ onSent }) => {
                 onClick={() => setFormData(prev => ({ ...prev, priority: opt.value }))}
                 className={`flex items-center gap-2 px-4 py-2 rounded-lg border transition-all text-sm font-medium ${
                   formData.priority === opt.value
-                    ? 'border-transparent text-white ring-2 ring-offset-1 ring-gray-400 dark:ring-offset-gray-800'
+                    ? 'border-transparent text-black ring-2 ring-offset-1 ring-gray-400 dark:ring-offset-gray-800'
                     : 'border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'
                 }`}
                 style={formData.priority === opt.value ? { backgroundColor: opt.color.replace('bg-', '') } : {}}
                 {...(formData.priority === opt.value ? {} : {})}
               >
                 <span className={`w-2.5 h-2.5 rounded-full ${opt.color}`} />
-                <span className={formData.priority === opt.value ? 'text-white' : ''}>{opt.label}</span>
+                <span>{opt.label}</span>
               </button>
             ))}
           </div>
