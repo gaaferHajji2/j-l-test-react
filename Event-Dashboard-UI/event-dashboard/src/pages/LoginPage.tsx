@@ -1,7 +1,8 @@
-import LoginForm from '../components/Login/LoginForm';
-import LoginImage from '../components/Login/LoginImage';
-import ThemeToggle from '../components/Layout/ThemeToggle';
-import LanguageSwitcher from '../components/UI/LanguageSwitcher';
+import LoginForm from '../components/Login/LoginForm'
+import ThemeToggle from '../components/Layout/ThemeToggle'
+import LanguageSwitcher from '../components/UI/LanguageSwitcher'
+import Logo from "../assets/Logo.jpg"
+import DarkLogo from "../assets/Logo_Dark.jpg"
 
 const LoginPage = () => {
   return (
@@ -18,7 +19,10 @@ const LoginPage = () => {
       </div>
 
       {/* Right Section - Image */}
-      <LoginImage />
+      <div className="w-full lg:w-1/2 flex items-center justify-center">
+        <img src={Logo} className='dark:hidden'/>
+        <img src={DarkLogo} className='hidden dark:block' />
+      </div>
     </div>
   );
 };
