@@ -72,5 +72,20 @@
     "confirmReject": "هل أنت متأكد من رفض هذه الفعالية؟",
     "approveSuccess": "تم اعتماد الفعالية بنجاح",
     "rejectSuccess": "تم رفض الفعالية بنجاح"
+  },
+  "eventDetails": {
+    "title": "تفاصيل الفعالية",
+    "backToEvents": "العودة إلى الفعاليات",
+    "overview": "نظرة عامة",
+    "description": "الوصف",
+    "organizer": "المنظم",
+    "location": "الموقع",
+    "date": "التاريخ والوقت",
+    "attendees": "عدد الحضور المتوقع",
+    "category": "الفئة",
+    "status": "الحالة",
+    "createdAt": "تاريخ الإنشاء",
+    "actions": "الإجراءات",
+    "noDescription": "لا يوجد وصف متاح"
   }
 }
