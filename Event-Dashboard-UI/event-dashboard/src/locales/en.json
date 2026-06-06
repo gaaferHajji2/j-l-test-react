@@ -24,7 +24,8 @@
     "dashboard": "Dashboard",
     "events": "Events",
     "vendors": "Vendors",
-    "settings": "Settings"
+    "settings": "Settings",
+    "eventTypes": "Event Types"
   },
   "dashboard": {
     "welcome": "Welcome to Dashboard",
