@@ -29,7 +29,8 @@
     "agents": "Agents",
     "notifications": "Notifications",
     "venues": "Venues",
-    "ratings": "Ratings & Reviews"
+    "ratings": "Ratings & Reviews",
+    "products": "Products"
   },
   "dashboard": {
     "welcome": "Welcome to Dashboard",
@@ -325,5 +326,40 @@
     "stars_3": "Good",
     "stars_2": "Fair",
     "stars_1": "Poor"
+  },
+  "products": {
+    "title": "Product Management",
+    "subtitle": "Manage vendor products and approval workflow",
+    "searchPlaceholder": "Search by product name, vendor, or category...",
+    "filterByStatus": "Filter by status",
+    "filterByVendor": "Filter by vendor",
+    "allStatuses": "All Statuses",
+    "allVendors": "All Vendors",
+    "noProductsFound": "No products found matching your criteria",
+    "productName": "Product Name",
+    "vendorName": "Vendor",
+    "category": "Category",
+    "price": "Price",
+    "stock": "Stock",
+    "status": "Status",
+    "submittedAt": "Submitted At",
+    "description": "Description",
+    "confirmActivate": "Are you sure you want to activate this product?",
+    "confirmReject": "Are you sure you want to reject this product?",
+    "confirmDeactivate": "Are you sure you want to deactivate this product?",
+    "activateSuccess": "Product activated successfully",
+    "rejectSuccess": "Product rejected successfully",
+    "deactivateSuccess": "Product deactivated successfully",
+    "activate": "Activate",
+    "reject": "Reject",
+    "deactivate": "Deactivate",
+    "viewDetails": "View Details",
+    "productImage": "Product Image"
+  },
+  "productStatus": {
+    "pending": "Pending Review",
+    "active": "Active",
+    "inactive": "Inactive",
+    "rejected": "Rejected"
   }
 }
