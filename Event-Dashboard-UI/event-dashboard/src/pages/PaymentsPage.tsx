@@ -7,6 +7,7 @@ import PaymentStatsBar from '../components/Payments/PaymentStatsBar';
 import PaymentRow from '../components/Payments/PaymentRow';
 import ReceiptModal from '../components/Payments/ReceiptModal';
 import { paymentService } from '../services/paymentService';
+import AddPaymentModal from '../components/Payments/AddPaymentModal';
 
 const PaymentsPage = () => {
   const navigate = useNavigate();
@@ -17,6 +18,7 @@ const PaymentsPage = () => {
   const [statsLoading, setStatsLoading] = useState(true);
   const [selectedReceipt, setSelectedReceipt] = useState(null);
   const [filters, setFilters] = useState({ search: '', status: 'all' });
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
 
   const fetchPayments = useCallback(async () => {
     setLoading(true);
@@ -63,6 +65,12 @@ const PaymentsPage = () => {
 
   const handleLogout = () => { localStorage.removeItem('authToken'); navigate('/login'); };
 
+  const handleAddSuccess = () => {
+    fetchPayments();
+    fetchStats();
+    alert(t('payments.createSuccess'));
+  };
+
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       <DashboardHeader onLogout={handleLogout} />
@@ -71,10 +79,22 @@ const PaymentsPage = () => {
         <main className="flex-1 p-6 lg:p-8">
           <div className="max-w-6xl mx-auto">
             {/* Header */}
-            <div className="mb-8">
-              <h1 className="text-3xl font-bold text-gray-900 dark:text-white">{t('payments.title')}</h1>
-              <p className="mt-2 text-gray-600 dark:text-gray-400">{t('payments.subtitle')}</p>
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8 gap-4">
+              <div>
+                <h1 className="text-3xl font-bold text-gray-900 dark:text-white">{t('payments.title')}</h1>
+                <p className="mt-2 text-gray-600 dark:text-gray-400">{t('payments.subtitle')}</p>
+              </div>
+              <button
+                onClick={() => setIsAddModalOpen(true)}
+                className="inline-flex items-center gap-2 px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-lg transition-colors shadow-lg shadow-indigo-500/30 text-sm"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+                </svg>
+                {t('payments.addPayment')}
+              </button>
             </div>
+
 
             {/* Stats */}
             <PaymentStatsBar stats={stats} loading={statsLoading} />
@@ -140,6 +160,11 @@ const PaymentsPage = () => {
               </div>
             )}
           </div>
+          <AddPaymentModal
+            isOpen={isAddModalOpen}
+            onClose={() => setIsAddModalOpen(false)}
+            onSuccess={handleAddSuccess}
+          />
         </main>
       </div>
 
