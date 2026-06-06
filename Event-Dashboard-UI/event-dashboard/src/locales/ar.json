@@ -30,7 +30,8 @@
     "notifications": "الإشعارات",
     "venues": "المواقع",
     "ratings": "التقييمات والمراجعات",
-    "products": "المنتجات"
+    "products": "المنتجات",
+    "payments": "المدفوعات"
   },
   "dashboard": {
     "welcome": "مرحباً بك في لوحة التحكم",
@@ -361,5 +362,48 @@
     "active": "نشط",
     "inactive": "غير نشط",
     "rejected": "مرفوض"
+  },
+  "payments": {
+    "title": "نظرة عامة على المدفوعات",
+    "subtitle": "تتبع مدفوعات الفعاليات وملخصات الفواتير",
+    "searchPlaceholder": "البحث باسم الفعالية أو العميل أو رقم الفاتورة...",
+    "filterByStatus": "تصفية حسب الحالة",
+    "allStatuses": "جميع الحالات",
+    "noPaymentsFound": "لم يتم العثور على سجلات دفع",
+    "invoiceId": "رقم الفاتورة",
+    "eventName": "الفعالية",
+    "customerName": "العميل",
+    "amount": "المبلغ",
+    "method": "طريقة الدفع",
+    "status": "الحالة",
+    "paidAt": "تاريخ الدفع",
+    "dueDate": "تاريخ الاستحقاق",
+    "viewReceipt": "عرض الإيصال",
+    "markAsPaid": "تحديد كمدفوع",
+    "sendReminder": "إرسال تذكير",
+    "confirmMarkPaid": "هل أنت متأكد من تحديد هذه الفاتورة كمدفوعة؟",
+    "reminderSent": "تم إرسال تذكير الدفع بنجاح",
+    "markPaidSuccess": "تم تحديد الفاتورة كمدفوعة بنجاح",
+    "subtotal": "المجموع الفرعي",
+    "tax": "الضريبة (15%)",
+    "discount": "الخصم",
+    "total": "المبلغ الإجمالي",
+    "paymentDetails": "تفاصيل الدفع",
+    "billingTo": "فاتورة إلى",
+    "invoiceDate": "تاريخ الفاتورة",
+    "downloadPdf": "تحميل PDF",
+    "printReceipt": "طباعة الإيصال"
+  },
+  "paymentStatus": {
+    "paid": "مدفوع",
+    "pending": "قيد الانتظار",
+    "overdue": "متأخر",
+    "refunded": "مسترد"
+  },
+  "paymentMethod": {
+    "bankTransfer": "تحويل بنكي",
+    "cash": "نقداً",
+    "check": "شيك",
+    "wallet": "محفظة رقمية"
   }
 }
