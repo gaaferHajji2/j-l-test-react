@@ -1,9 +1,10 @@
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate, Outlet } from 'react-router-dom';
 import { ThemeProvider } from './context/ThemeContext';
 import { I18nProvider } from './context/I18nContext';
 import LoginPage from './pages/LoginPage';
 import DashboardPage from './pages/DashboardPage';
 import EventsPage from './pages/EventsPage';
+import EventDetailsPage from './pages/EventDetailsPage';
 
 // Simple auth check (replace with proper auth logic)
 const isAuthenticated = () => {
@@ -17,6 +18,14 @@ const ProtectedRoute = ({ children }) => {
   }
   return children;
 };
+// Dashboard Layout Component (wraps all dashboard pages)
+const DashboardLayout = () => {
+  return (
+    <ProtectedRoute>
+      <Outlet />
+    </ProtectedRoute>
+  );
+};
 
 function App() {
   return (
@@ -24,24 +33,22 @@ function App() {
       <I18nProvider>
         <Router>
           <Routes>
+            {/* Public Routes */}
             <Route path="/login" element={<LoginPage />} />
-            <Route
-              path="/dashboard"
-              element={
-                <ProtectedRoute>
-                  <DashboardPage />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/dashboard/events"
-              element={
-                <ProtectedRoute>
-                  <EventsPage />
-                </ProtectedRoute>
-              }
-            />
+            
+            {/* Protected Dashboard Routes (Nested) */}
+            <Route element={<DashboardLayout />}>
+              <Route path="/dashboard" element={<DashboardPage />} />
+              <Route path="/dashboard/events" element={<EventsPage />} />
+              <Route path="/dashboard/events/:id" element={<EventDetailsPage />} />
+              {/* Add more dashboard routes here as needed */}
+            </Route>
+            
+            {/* Redirect root to login */}
             <Route path="/" element={<Navigate to="/login" replace />} />
+            
+            {/* Catch-all route for 404 */}
+            <Route path="*" element={<Navigate to="/login" replace />} />
           </Routes>
         </Router>
       </I18nProvider>
