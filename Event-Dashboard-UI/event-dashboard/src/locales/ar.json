@@ -50,11 +50,27 @@
     "actions": "الإجراءات"
   },
   "actions": {
-    "view": "عرض"
+    "view": "عرض",
+    "edit": "تعديل",
+    "delete": "حذف",
+    "approve": "اعتماد",
+    "reject": "رفض"
   },
   "status": {
     "pending": "معلق",
     "approved": "معتمد",
     "rejected": "مرفوض"
+  },
+  "events": {
+    "title": "إدارة الفعاليات",
+    "subtitle": "عرض وإدارة جميع الفعاليات",
+    "searchPlaceholder": "البحث في الفعاليات...",
+    "filterByStatus": "تصفية حسب الحالة",
+    "allStatuses": "جميع الحالات",
+    "noEventsFound": "لم يتم العثور على فعاليات تطابق معاييرك",
+    "confirmApprove": "هل أنت متأكد من اعتماد هذه الفعالية؟",
+    "confirmReject": "هل أنت متأكد من رفض هذه الفعالية؟",
+    "approveSuccess": "تم اعتماد الفعالية بنجاح",
+    "rejectSuccess": "تم رفض الفعالية بنجاح"
   }
 }
