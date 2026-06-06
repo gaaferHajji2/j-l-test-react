@@ -29,7 +29,8 @@
     "agents": "الوكلاء",
     "notifications": "الإشعارات",
     "venues": "المواقع",
-    "ratings": "التقييمات والمراجعات"
+    "ratings": "التقييمات والمراجعات",
+    "products": "المنتجات"
   },
   "dashboard": {
     "welcome": "مرحباً بك في لوحة التحكم",
@@ -325,5 +326,40 @@
     "stars_3": "جيد",
     "stars_2": "مقبول",
     "stars_1": "ضعيف"
+  },
+  "products": {
+    "title": "إدارة المنتجات",
+    "subtitle": "إدارة منتجات الموردين وسير عمل الاعتماد",
+    "searchPlaceholder": "البحث باسم المنتج أو المورد أو الفئة...",
+    "filterByStatus": "تصفية حسب الحالة",
+    "filterByVendor": "تصفية حسب المورد",
+    "allStatuses": "جميع الحالات",
+    "allVendors": "جميع الموردين",
+    "noProductsFound": "لم يتم العثور على منتجات تطابق معاييرك",
+    "productName": "اسم المنتج",
+    "vendorName": "المورد",
+    "category": "الفئة",
+    "price": "السعر",
+    "stock": "المخزون",
+    "status": "الحالة",
+    "submittedAt": "تاريخ التقديم",
+    "description": "الوصف",
+    "confirmActivate": "هل أنت متأكد من تفعيل هذا المنتج؟",
+    "confirmReject": "هل أنت متأكد من رفض هذا المنتج؟",
+    "confirmDeactivate": "هل أنت متأكد من تعطيل هذا المنتج؟",
+    "activateSuccess": "تم تفعيل المنتج بنجاح",
+    "rejectSuccess": "تم رفض المنتج بنجاح",
+    "deactivateSuccess": "تم تعطيل المنتج بنجاح",
+    "activate": "تفعيل",
+    "reject": "رفض",
+    "deactivate": "تعطيل",
+    "viewDetails": "عرض التفاصيل",
+    "productImage": "صورة المنتج"
+  },
+  "productStatus": {
+    "pending": "قيد المراجعة",
+    "active": "نشط",
+    "inactive": "غير نشط",
+    "rejected": "مرفوض"
   }
 }
