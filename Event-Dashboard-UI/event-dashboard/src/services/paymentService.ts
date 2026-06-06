@@ -95,4 +95,53 @@ export const paymentService = {
     };
     return mockPayments[idx];
   },
+
+  // Add these methods to the existing paymentService export object:
+
+  getEvents: async () => {
+    await new Promise(resolve => setTimeout(resolve, 200));
+    return [
+      { id: 1, name: 'Tech Conference 2026' },
+      { id: 2, name: 'Summer Music Festival' },
+      { id: 3, name: 'Art Exhibition Opening' },
+      { id: 4, name: 'Startup Summit Riyadh' },
+      { id: 5, name: 'Charity Gala Dinner' },
+      { id: 6, name: 'Fashion Week Showcase' },
+      { id: 7, name: 'Food & Culture Fair' },
+      { id: 8, name: 'Sports Tournament Finals' },
+      { id: 9, name: 'Book Launch Event' },
+      { id: 10, name: 'Health & Wellness Retreat' },
+    ];
+  },
+
+  create: async (data) => {
+    await new Promise(resolve => setTimeout(resolve, 600));
+
+    const subtotal = Number(data.subtotal);
+    const discount = Number(data.discount) || 0;
+    const taxable = subtotal - discount;
+    const tax = Math.round(taxable * 0.15);
+    const total = taxable + tax;
+
+    const newPayment = {
+      id: nextId++,
+      invoiceId: data.invoiceId?.trim() || `INV-${String(2026000 + mockPayments.length)}`,
+      eventName: data.eventName,
+      customerName: data.customerName.trim(),
+      customerEmail: data.customerEmail?.trim() || '',
+      subtotal,
+      discount,
+      tax,
+      total,
+      method: data.method,
+      status: 'pending',
+      invoiceDate: new Date().toISOString(),
+      dueDate: new Date(data.dueDate).toISOString(),
+      paidAt: null,
+      notes: data.notes?.trim() || '',
+    };
+
+    mockPayments.unshift(newPayment);
+    return newPayment;
+  },
 };
