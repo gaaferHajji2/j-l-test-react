@@ -40,9 +40,9 @@ const ProductsPage = () => {
     fetchProducts();
   }, [fetchProducts]);
 
-  const handleStatusChange = async (productId, newStatus) => {
+  const handleStatusChange = async (productId, newStatus, reason = null) => {
     try {
-      await productService.updateStatus(productId, newStatus);
+      await productService.updateStatus(productId, newStatus, reason);
       await fetchProducts();
 
       const successMap = {
@@ -56,7 +56,6 @@ const ProductsPage = () => {
       alert('Error updating product status');
     }
   };
-
   const handleLogout = () => {
     localStorage.removeItem('authToken');
     navigate('/login');
