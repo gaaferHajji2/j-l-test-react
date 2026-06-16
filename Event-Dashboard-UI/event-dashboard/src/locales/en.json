@@ -442,5 +442,12 @@
     "cash": "Cash",
     "check": "Check",
     "wallet": "Digital Wallet"
+  },
+  "headerNotifications": {
+    "title": "Notifications",
+    "markAllRead": "Mark all as read",
+    "noNotifications": "No new notifications",
+    "viewAll": "View All Notifications",
+    "newBadge": "{{count}} new"
   }
 }
