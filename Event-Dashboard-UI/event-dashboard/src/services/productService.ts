@@ -101,13 +101,14 @@ export const productService = {
     return filtered;
   },
 
-  updateStatus: async (id, newStatus) => {
+  updateStatus: async (id, newStatus, reason = null) => {
     await new Promise(resolve => setTimeout(resolve, 500));
     const idx = mockProducts.findIndex(p => p.id === id);
     if (idx === -1) throw new Error('notFound');
     mockProducts[idx] = {
       ...mockProducts[idx],
       status: newStatus,
+      rejectionReason: newStatus === 'rejected' ? reason : null,
       reviewedAt: new Date().toISOString(),
     };
     return mockProducts[idx];
