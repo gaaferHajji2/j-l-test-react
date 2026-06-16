@@ -355,7 +355,14 @@
     "reject": "Reject",
     "deactivate": "Deactivate",
     "viewDetails": "View Details",
-    "productImage": "Product Image"
+    "productImage": "Product Image",
+    "rejectReasonTitle": "Rejection Reason",
+    "rejectReasonLabel": "Why are you rejecting this product? *",
+    "rejectReasonPlaceholder": "Provide a clear reason so the vendor can address the issue...",
+    "rejectReasonRequired": "A rejection reason is required",
+    "rejectReasonMinLength": "Reason must be at least 10 characters",
+    "submitRejectBtn": "Confirm Rejection",
+    "cancelRejectBtn": "Cancel"
   },
   "productStatus": {
     "pending": "Pending Review",
