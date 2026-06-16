@@ -442,5 +442,12 @@
     "cash": "نقداً",
     "check": "شيك",
     "wallet": "محفظة رقمية"
+  },
+  "headerNotifications": {
+    "title": "الإشعارات",
+    "markAllRead": "تحديد الكل كمقروء",
+    "noNotifications": "لا توجد إشعارات جديدة",
+    "viewAll": "عرض جميع الإشعارات",
+    "newBadge": "{{count}} جديد"
   }
 }
