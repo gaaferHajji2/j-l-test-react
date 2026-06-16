@@ -355,7 +355,14 @@
     "reject": "رفض",
     "deactivate": "تعطيل",
     "viewDetails": "عرض التفاصيل",
-    "productImage": "صورة المنتج"
+    "productImage": "صورة المنتج",
+    "rejectReasonTitle": "سبب الرفض",
+    "rejectReasonLabel": "لماذا ترفض هذا المنتج؟ *",
+    "rejectReasonPlaceholder": "قدم سبباً واضحاً حتى يتمكن المورد من معالجة المشكلة...",
+    "rejectReasonRequired": "سبب الرفض مطلوب",
+    "rejectReasonMinLength": "يجب أن يكون السبب 10 أحرف على الأقل",
+    "submitRejectBtn": "تأكيد الرفض",
+    "cancelRejectBtn": "إلغاء"
   },
   "productStatus": {
     "pending": "قيد المراجعة",
