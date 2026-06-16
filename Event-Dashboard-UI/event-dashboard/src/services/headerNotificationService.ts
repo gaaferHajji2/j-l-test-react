@@ -14,7 +14,7 @@ const generateHeaderNotifications = () => {
     'New vendor request from "Al-Damashkey Catering" pending review',
     'Event "Tech Conference 2026" has been approved',
     'Product "LED Uplight Package" was rejected — missing certification',
-    'Agent "Ahmed Al-Farsi" submitted a new venue inspection report',
+    'Vendor "Ahmed Al-Farsi" submitted a new venue inspection report',
     'Payment of 12,500 SAR received for "Summer Music Festival"',
     'New rating (★5) received for "Art Exhibition Opening"',
     'Venue "Damascus Convention Center" availability updated',
