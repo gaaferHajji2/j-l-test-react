@@ -15,7 +15,7 @@ const generateHeaderNotifications = () => {
     'Event "Tech Conference 2026" has been approved',
     'Product "LED Uplight Package" was rejected — missing certification',
     'Vendor "Ahmed Al-Farsi" submitted a new venue inspection report',
-    'Payment of 12,500 SAR received for "Summer Music Festival"',
+    'Payment of 12,500 SYR received for "Summer Music Festival"',
     'New rating (★5) received for "Art Exhibition Opening"',
     'Venue "Damascus Convention Center" availability updated',
     '3 new product submissions awaiting approval',
