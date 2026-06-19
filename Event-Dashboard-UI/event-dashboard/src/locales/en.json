@@ -31,7 +31,8 @@
     "venues": "Venues",
     "ratings": "Ratings & Reviews",
     "products": "Products",
-    "payments": "Payments"
+    "payments": "Payments",
+    "vendorRequests": "Vendor Requests"
   },
   "dashboard": {
     "welcome": "Welcome to Dashboard",
@@ -449,5 +450,41 @@
     "noNotifications": "No new notifications",
     "viewAll": "View All Notifications",
     "newBadge": "{{count}} new"
+  },
+  "vendorRequests": {
+    "title": "Vendor Requests",
+    "subtitle": "Review and manage vendor registration requests",
+    "searchPlaceholder": "Search by business name, contact, email, or type...",
+    "filterByStatus": "Filter by status",
+    "allStatuses": "All Statuses",
+    "noRequestsFound": "No vendor requests found matching your criteria",
+    "businessName": "Business Name",
+    "contactPerson": "Contact Person",
+    "email": "Email",
+    "phone": "Phone",
+    "type": "Vendor Type",
+    "typePlaceholder": "e.g., Catering, Photography, Decoration",
+    "description": "Description",
+    "submittedAt": "Submitted At",
+    "confirmApprove": "Are you sure you want to approve this vendor request?",
+    "confirmReject": "Are you sure you want to reject this vendor request?",
+    "approveSuccess": "Vendor request approved successfully",
+    "rejectSuccess": "Vendor request rejected successfully",
+    "activateSuccess": "Vendor activated successfully",
+    "deactivateSuccess": "Vendor deactivated successfully",
+    "viewDetails": "View Details",
+    "rejectReasonTitle": "Rejection Reason",
+    "rejectReasonLabel": "Why are you rejecting this vendor request? *",
+    "rejectReasonPlaceholder": "Provide a clear reason so the vendor can address the issue and resubmit...",
+    "rejectReasonRequired": "A rejection reason is required",
+    "rejectReasonMinLength": "Reason must be at least 10 characters",
+    "submitRejectBtn": "Confirm Rejection",
+    "cancelRejectBtn": "Cancel",
+    "rejectionReasonDisplay": "Rejection Reason"
+  },
+  "vendorRequestStatus": {
+    "pending": "Pending",
+    "approved": "Approved",
+    "rejected": "Rejected"
   }
 }
