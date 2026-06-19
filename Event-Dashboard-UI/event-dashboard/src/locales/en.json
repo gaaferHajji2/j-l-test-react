@@ -32,7 +32,8 @@
     "ratings": "Ratings & Reviews",
     "products": "Products",
     "payments": "Payments",
-    "vendorRequests": "Vendor Requests"
+    "vendorRequests": "Vendor Requests",
+    "venueOwnerRequests": "Venue Owner Requests"
   },
   "dashboard": {
     "welcome": "Welcome to Dashboard",
@@ -483,6 +484,42 @@
     "rejectionReasonDisplay": "Rejection Reason"
   },
   "vendorRequestStatus": {
+    "pending": "Pending",
+    "approved": "Approved",
+    "rejected": "Rejected"
+  },
+  "venueOwnerRequests": {
+    "title": "Venue Owner Requests",
+    "subtitle": "Review and manage venue owner registration requests",
+    "searchPlaceholder": "Search by owner name, venue name, email, or city...",
+    "filterByStatus": "Filter by status",
+    "allStatuses": "All Statuses",
+    "noRequestsFound": "No venue owner requests found matching your criteria",
+    "ownerName": "Owner Name",
+    "venueName": "Venue Name",
+    "email": "Email",
+    "phone": "Phone",
+    "city": "City",
+    "venueType": "Venue Type",
+    "capacity": "Capacity",
+    "description": "Description",
+    "submittedAt": "Submitted At",
+    "confirmApprove": "Are you sure you want to approve this venue owner request?",
+    "confirmReject": "Are you sure you want to reject this venue owner request?",
+    "approveSuccess": "Venue owner request approved successfully",
+    "rejectSuccess": "Venue owner request rejected successfully",
+    "viewDetails": "View Details",
+    "rejectReasonTitle": "Rejection Reason",
+    "rejectReasonLabel": "Why are you rejecting this venue owner request? *",
+    "rejectReasonPlaceholder": "Provide a clear reason so the venue owner can address the issue and resubmit...",
+    "rejectReasonRequired": "A rejection reason is required",
+    "rejectReasonMinLength": "Reason must be at least 10 characters",
+    "submitRejectBtn": "Confirm Rejection",
+    "cancelRejectBtn": "Cancel",
+    "rejectionReasonDisplay": "Rejection Reason",
+    "documentsAttached": "{{count}} documents attached"
+  },
+  "venueOwnerStatus": {
     "pending": "Pending",
     "approved": "Approved",
     "rejected": "Rejected"
