@@ -23,7 +23,7 @@
   "navigation": {
     "dashboard": "Dashboard",
     "events": "Events",
-    "vendors": "Vendors",
+    "vendors": "Users Management",
     "settings": "Settings",
     "eventTypes": "Event Types",
     "agents": "Agents",
