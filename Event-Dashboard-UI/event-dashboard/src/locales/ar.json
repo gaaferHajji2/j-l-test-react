@@ -32,7 +32,8 @@
     "ratings": "التقييمات والمراجعات",
     "products": "المنتجات",
     "payments": "المدفوعات",
-    "vendorRequests": "طلبات الموردين"
+    "vendorRequests": "طلبات الموردين",
+    "venueOwnerRequests": "طلبات ملاك المواقع"
   },
   "dashboard": {
     "welcome": "مرحباً بك في لوحة التحكم",
@@ -483,6 +484,42 @@
     "rejectionReasonDisplay": "سبب الرفض"
   },
   "vendorRequestStatus": {
+    "pending": "قيد الانتظار",
+    "approved": "معتمد",
+    "rejected": "مرفوض"
+  },
+  "venueOwnerRequests": {
+    "title": "طلبات ملاك المواقع",
+    "subtitle": "مراجعة وإدارة طلبات تسجيل ملاك المواقع",
+    "searchPlaceholder": "البحث باسم المالك أو الموقع أو البريد أو المدينة...",
+    "filterByStatus": "تصفية حسب الحالة",
+    "allStatuses": "جميع الحالات",
+    "noRequestsFound": "لم يتم العثور على طلبات ملاك مواقع تطابق معاييرك",
+    "ownerName": "اسم المالك",
+    "venueName": "اسم الموقع",
+    "email": "البريد الإلكتروني",
+    "phone": "رقم الهاتف",
+    "city": "المدينة",
+    "venueType": "نوع الموقع",
+    "capacity": "السعة",
+    "description": "الوصف",
+    "submittedAt": "تاريخ التقديم",
+    "confirmApprove": "هل أنت متأكد من اعتماد طلب مالك الموقع هذا؟",
+    "confirmReject": "هل أنت متأكد من رفض طلب مالك الموقع هذا؟",
+    "approveSuccess": "تم اعتماد طلب مالك الموقع بنجاح",
+    "rejectSuccess": "تم رفض طلب مالك الموقع بنجاح",
+    "viewDetails": "عرض التفاصيل",
+    "rejectReasonTitle": "سبب الرفض",
+    "rejectReasonLabel": "لماذا ترفض طلب مالك الموقع هذا؟ *",
+    "rejectReasonPlaceholder": "قدم سبباً واضحاً حتى يتمكن مالك الموقع من معالجة المشكلة وإعادة التقديم...",
+    "rejectReasonRequired": "سبب الرفض مطلوب",
+    "rejectReasonMinLength": "يجب أن يكون السبب 10 أحرف على الأقل",
+    "submitRejectBtn": "تأكيد الرفض",
+    "cancelRejectBtn": "إلغاء",
+    "rejectionReasonDisplay": "سبب الرفض",
+    "documentsAttached": "{{count}} مستندات مرفقة"
+  },
+  "venueOwnerStatus": {
     "pending": "قيد الانتظار",
     "approved": "معتمد",
     "rejected": "مرفوض"
