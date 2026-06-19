@@ -31,7 +31,8 @@
     "venues": "المواقع",
     "ratings": "التقييمات والمراجعات",
     "products": "المنتجات",
-    "payments": "المدفوعات"
+    "payments": "المدفوعات",
+    "vendorRequests": "طلبات الموردين"
   },
   "dashboard": {
     "welcome": "مرحباً بك في لوحة التحكم",
@@ -449,5 +450,41 @@
     "noNotifications": "لا توجد إشعارات جديدة",
     "viewAll": "عرض جميع الإشعارات",
     "newBadge": "{{count}} جديد"
+  },
+  "vendorRequests": {
+    "title": "طلبات الموردين",
+    "subtitle": "مراجعة وإدارة طلبات تسجيل الموردين",
+    "searchPlaceholder": "البحث بالاسم التجاري أو المسؤول أو البريد أو النوع...",
+    "filterByStatus": "تصفية حسب الحالة",
+    "allStatuses": "جميع الحالات",
+    "noRequestsFound": "لم يتم العثور على طلبات موردين تطابق معاييرك",
+    "businessName": "اسم النشاط التجاري",
+    "contactPerson": "الشخص المسؤول",
+    "email": "البريد الإلكتروني",
+    "phone": "رقم الهاتف",
+    "type": "نوع المورد",
+    "typePlaceholder": "مثال: تموين، تصوير، ديكور",
+    "description": "الوصف",
+    "submittedAt": "تاريخ التقديم",
+    "confirmApprove": "هل أنت متأكد من اعتماد طلب المورد هذا؟",
+    "confirmReject": "هل أنت متأكد من رفض طلب المورد هذا؟",
+    "approveSuccess": "تم اعتماد طلب المورد بنجاح",
+    "rejectSuccess": "تم رفض طلب المورد بنجاح",
+    "activateSuccess": "تم تفعيل المورد بنجاح",
+    "deactivateSuccess": "تم تعطيل المورد بنجاح",
+    "viewDetails": "عرض التفاصيل",
+    "rejectReasonTitle": "سبب الرفض",
+    "rejectReasonLabel": "لماذا ترفض طلب المورد هذا؟ *",
+    "rejectReasonPlaceholder": "قدم سبباً واضحاً حتى يتمكن المورد من معالجة المشكلة وإعادة التقديم...",
+    "rejectReasonRequired": "سبب الرفض مطلوب",
+    "rejectReasonMinLength": "يجب أن يكون السبب 10 أحرف على الأقل",
+    "submitRejectBtn": "تأكيد الرفض",
+    "cancelRejectBtn": "إلغاء",
+    "rejectionReasonDisplay": "سبب الرفض"
+  },
+  "vendorRequestStatus": {
+    "pending": "قيد الانتظار",
+    "approved": "معتمد",
+    "rejected": "مرفوض"
   }
 }
