@@ -14,6 +14,8 @@ import RatingsPage from './pages/RatingsPage';
 import ProductsPage from './pages/ProductsPage';
 import PaymentsPage from './pages/PaymentsPage';
 import VendorRequestsPage from './pages/VendorRequestsPage';
+import VenueOwnerRequestsPage from './pages/VenueOwnerRequestsPage';
+
 
 // Simple auth check (replace with proper auth logic)
 const isAuthenticated = () => {
@@ -59,6 +61,7 @@ function App() {
               <Route path="/dashboard/products" element={<ProductsPage />} />
               <Route path="/dashboard/payments" element={<PaymentsPage />} />
               <Route path="/dashboard/vendor-requests" element={<VendorRequestsPage />} />
+              <Route path="/dashboard/venue-owner-requests" element={<VenueOwnerRequestsPage />} />
               
               {/* Add more dashboard routes here as needed */}
             </Route>
