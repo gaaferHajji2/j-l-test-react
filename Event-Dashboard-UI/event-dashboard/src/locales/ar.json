@@ -431,7 +431,17 @@
     "subtotalRequired": "يجب أن يكون المجموع الفرعي أكبر من 0",
     "methodRequired": "يرجى اختيار طريقة الدفع",
     "dueDateRequired": "تاريخ الاستحقاق مطلوب",
-    "autoCalculated": "محسوب تلقائياً"
+    "autoCalculated": "محسوب تلقائياً",
+    "cardNumberLabel": "رقم البطاقة",
+    "cardNumberRequired": "رقم بطاقة صالح مطلوب",
+    "cardHolderLabel": "اسم حامل البطاقة",
+    "cardHolderRequired": "اسم حامل البطاقة مطلوب",
+    "expiryMonthLabel": "الشهر",
+    "expiryYearLabel": "السنة",
+    "expiryRequired": "تاريخ الانتهاء مطلوب",
+    "cvvLabel": "CVV",
+    "cvvRequired": "رمز CVV صالح مطلوب",
+    "invoiceIdRequired": "رقم الفاتورة مطلوب"
   },
   "paymentStatus": {
     "paid": "مدفوع",
