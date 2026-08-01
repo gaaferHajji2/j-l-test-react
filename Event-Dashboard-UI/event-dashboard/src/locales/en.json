@@ -441,7 +441,9 @@
     "expiryRequired": "Expiry date is required",
     "cvvLabel": "CVV",
     "cvvRequired": "Valid CVV is required",
-    "invoiceIdRequired": "Invoice ID is required"
+    "invoiceIdRequired": "Invoice ID is required",
+    "venuePrice": "Venue Price",
+    "servicesTotal": "Services Total"
   },
   "paymentStatus": {
     "paid": "Paid",
