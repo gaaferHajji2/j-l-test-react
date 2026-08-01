@@ -102,27 +102,50 @@ export const vendorRequestService = {
   },
 
   /**
-   * Update request status via API.
-   * Falls back to updating dummy data if API call fails.
+   * Approve a vendor request.
+   * POST /venue-owner/events/{id}/accept
    */
-  updateStatus: async (id, newStatus, reason = null) => {
+  approve: async (id) => {
     try {
-      const response = await api.put(`/venue-owner/events/${id}/status`, {
-        status: newStatus,
-        rejection_reason: reason,
-      }, true);
-
+      const response = await api.post(`/venue-owner/events/${id}/accept`, {}, true);
       return VendorRequest.fromApi(response?.data ?? response);
     } catch (error) {
-      console.warn('API update failed, updating dummy data:', error.message);
+      console.warn('API approve failed, updating dummy data:', error.message);
 
       const idx = dummyRequests.findIndex(r => r.id === id);
       if (idx === -1) throw new Error('notFound');
 
       dummyRequests[idx] = new VendorRequest({
         ...dummyRequests[idx],
-        status: newStatus,
-        rejection_reason: newStatus === 'rejected' ? reason : null,
+        status: 'approved',
+        rejection_reason: null,
+        updated_at: new Date().toISOString(),
+      });
+
+      return dummyRequests[idx];
+    }
+  },
+
+  /**
+   * Reject a vendor request with reason.
+   * POST /venue-owner/venue/{id}
+   */
+  reject: async (id, reason) => {
+    try {
+      const response = await api.post(`/venue-owner/venue/${id}`, {
+        rejection_reason: reason,
+      }, true);
+      return VendorRequest.fromApi(response?.data ?? response);
+    } catch (error) {
+      console.warn('API reject failed, updating dummy data:', error.message);
+
+      const idx = dummyRequests.findIndex(r => r.id === id);
+      if (idx === -1) throw new Error('notFound');
+
+      dummyRequests[idx] = new VendorRequest({
+        ...dummyRequests[idx],
+        status: 'rejected',
+        rejection_reason: reason,
         updated_at: new Date().toISOString(),
       });
 
