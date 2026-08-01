@@ -15,7 +15,7 @@ const VendorRequestsPage = () => {
   const [filters, setFilters] = useState({
     search: '',
     status: 'all',
-    sortBy: { field: 'submittedAt', order: 'desc' },
+    sortBy: { field: 'created_at', order: 'desc' },
   });
 
   const fetchRequests = useCallback(async () => {
