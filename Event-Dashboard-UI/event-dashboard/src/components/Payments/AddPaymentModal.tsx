@@ -2,68 +2,89 @@ import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { paymentService } from '../../services/paymentService';
 
-const PAYMENT_METHODS = ['bankTransfer', 'cash', 'check', 'wallet'];
+const PAYMENT_METHODS = [
+  { value: 'credit_card', label: 'Credit Card' },
+  { value: 'bankTransfer', label: 'Bank Transfer' },
+  { value: 'cash', label: 'Cash' },
+  { value: 'check', label: 'Check' },
+  { value: 'wallet', label: 'Digital Wallet' },
+];
 
 const AddPaymentModal = ({ isOpen, onClose, onSuccess }) => {
   const { t } = useTranslation();
   const [events, setEvents] = useState([]);
   const [formData, setFormData] = useState({
-    eventId: '',
-    eventName: '',
-    customerName: '',
-    customerEmail: '',
-    subtotal: '',
-    discount: '',
-    method: '',
-    invoiceId: '',
-    notes: '',
-    dueDate: '',
+    invoice_id: '',
+    amount: '',
+    payment_method: 'credit_card',
+    card_number: '',
+    card_holder: '',
+    expiry_month: '',
+    expiry_year: '',
+    cvv: '',
   });
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [apiMessage, setApiMessage] = useState(null);
 
-  // Fetch events when modal opens
   useEffect(() => {
     if (isOpen) {
       paymentService.getEvents().then(setEvents);
       setFormData({
-        eventId: '', eventName: '', customerName: '', customerEmail: '',
-        subtotal: '', discount: '', method: '', invoiceId: '', notes: '', dueDate: '',
+        invoice_id: '',
+        amount: '',
+        payment_method: 'credit_card',
+        card_number: '',
+        card_holder: '',
+        expiry_month: '',
+        expiry_year: '',
+        cvv: '',
       });
       setErrors({});
+      setApiMessage(null);
     }
   }, [isOpen]);
 
-  // Auto-calculate tax and total
-  const subtotalNum = Number(formData.subtotal) || 0;
-  const discountNum = Number(formData.discount) || 0;
-  const taxable = Math.max(subtotalNum - discountNum, 0);
-  const taxAmount = Math.round(taxable * 0.15);
-  const totalAmount = taxable + taxAmount;
+  const isCardPayment = formData.payment_method === 'credit_card';
 
   const validate = () => {
     const e = {};
-    if (!formData.eventId) e.eventId = t('payments.eventRequired');
-    if (!formData.customerName.trim()) e.customerName = t('payments.customerRequired');
-    if (!formData.subtotal || subtotalNum <= 0) e.subtotal = t('payments.subtotalRequired');
-    if (!formData.method) e.method = t('payments.methodRequired');
-    if (!formData.dueDate) e.dueDate = t('payments.dueDateRequired');
+    if (!formData.invoice_id) e.invoice_id = t('payments.invoiceIdRequired');
+    if (!formData.amount || Number(formData.amount) <= 0) e.amount = t('payments.subtotalRequired');
+    if (!formData.payment_method) e.payment_method = t('payments.methodRequired');
+
+    if (isCardPayment) {
+      if (!formData.card_number || formData.card_number.replace(/\s/g, '').length < 13) {
+        e.card_number = t('payments.cardNumberRequired');
+      }
+      if (!formData.card_holder.trim()) e.card_holder = t('payments.cardHolderRequired');
+      if (!formData.expiry_month) e.expiry_month = t('payments.expiryRequired');
+      if (!formData.expiry_year) e.expiry_year = t('payments.expiryRequired');
+      if (!formData.cvv || formData.cvv.length < 3) e.cvv = t('payments.cvvRequired');
+    }
+
     setErrors(e);
     return Object.keys(e).length === 0;
   };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => {
-      const updated = { ...prev, [name]: value };
-      // Sync event name when event is selected
-      if (name === 'eventId') {
-        const selected = events.find(ev => String(ev.id) === value);
-        updated.eventName = selected?.name || '';
-      }
-      return updated;
-    });
+    setFormData(prev => ({ ...prev, [name]: value }));
     if (errors[name]) setErrors(prev => ({ ...prev, [name]: '' }));
+    setApiMessage(null);
+  };
+
+  const handleCardNumberChange = (e) => {
+    // Allow only digits and spaces, max 19 chars (16 digits + 3 spaces)
+    const raw = e.target.value.replace(/[^\d\s]/g, '').substring(0, 19);
+    setFormData(prev => ({ ...prev, card_number: raw }));
+    if (errors.card_number) setErrors(prev => ({ ...prev, card_number: '' }));
+  };
+
+  const handleCvvChange = (e) => {
+    const raw = e.target.value.replace(/\D/g, '').substring(0, 4);
+    setFormData(prev => ({ ...prev, cvv: raw }));
+    if (errors.cvv) setErrors(prev => ({ ...prev, cvv: '' }));
   };
 
   const handleSubmit = async (e) => {
@@ -71,16 +92,36 @@ const AddPaymentModal = ({ isOpen, onClose, onSuccess }) => {
     if (!validate()) return;
 
     setIsSubmitting(true);
+    setApiMessage(null);
+
     try {
-      await paymentService.create({
-        ...formData,
-        subtotal: subtotalNum,
-        discount: discountNum,
-      });
-      onSuccess();
-      onClose();
+      const payload = {
+        invoice_id: Number(formData.invoice_id),
+        amount: Number(formData.amount),
+        payment_method: formData.payment_method,
+      };
+
+      // Only include card fields for credit card payments
+      if (isCardPayment) {
+        payload.card_number = formData.card_number.replace(/\s/g, '');
+        payload.card_holder = formData.card_holder.trim();
+        payload.expiry_month = Number(formData.expiry_month);
+        payload.expiry_year = Number(formData.expiry_year);
+        payload.cvv = formData.cvv;
+      }
+
+      const result = await paymentService.createPayment(payload);
+
+      if (result.success) {
+        setApiMessage({ type: 'success', text: result.message });
+        setTimeout(() => {
+          onSuccess();
+          onClose();
+        }, 1200);
+      }
     } catch (err) {
-      console.error('Error creating payment:', err);
+      console.error('Error recording payment:', err);
+      setApiMessage({ type: 'error', text: err.message || 'Failed to record payment' });
     } finally {
       setIsSubmitting(false);
     }
@@ -95,19 +136,27 @@ const AddPaymentModal = ({ isOpen, onClose, onSuccess }) => {
         : 'border-gray-300 dark:border-gray-600 focus:ring-indigo-500'
     } bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 transition-colors text-sm`;
 
+  const months = Array.from({ length: 12 }, (_, i) => ({
+    value: String(i + 1).padStart(2, '0'),
+    label: String(i + 1).padStart(2, '0'),
+  }));
+
+  const years = Array.from({ length: 10 }, (_, i) => ({
+    value: String(2026 + i),
+    label: String(2026 + i),
+  }));
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-      {/* Backdrop */}
       <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={onClose} />
 
-      {/* Modal */}
       <div className="relative bg-white dark:bg-gray-800 rounded-2xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-hidden flex flex-col">
         {/* Header */}
         <div className="flex items-center justify-between px-6 py-4 border-b border-gray-200 dark:border-gray-700 flex-shrink-0">
           <div className="flex items-center gap-3">
             <div className="p-2 bg-indigo-100 dark:bg-indigo-900/30 rounded-lg">
               <svg className="w-5 h-5 text-indigo-600 dark:text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
               </svg>
             </div>
             <h2 className="text-xl font-bold text-gray-900 dark:text-white">{t('payments.formTitle')}</h2>
@@ -121,92 +170,164 @@ const AddPaymentModal = ({ isOpen, onClose, onSuccess }) => {
 
         {/* Scrollable Body */}
         <div className="flex-1 overflow-y-auto p-6">
+          {/* API Response Message */}
+          {apiMessage && (
+            <div className={`mb-5 p-3 rounded-lg text-sm font-medium ${
+              apiMessage.type === 'success'
+                ? 'bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-400 border border-green-200 dark:border-green-800'
+                : 'bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-400 border border-red-200 dark:border-red-800'
+            }`}>
+              {apiMessage.text}
+            </div>
+          )}
+
           <form id="payment-form" onSubmit={handleSubmit} className="space-y-5">
-            {/* Row 1: Event + Invoice ID */}
+            {/* Row 1: Invoice ID + Amount */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">{t('payments.selectEvent')}</label>
-                <select name="eventId" value={formData.eventId} onChange={handleChange} className={inputClass('eventId')}>
-                  <option value="">{t('payments.selectEventPlaceholder')}</option>
-                  {events.map(ev => <option key={ev.id} value={ev.id}>{ev.name}</option>)}
-                </select>
-                {errors.eventId && <p className="mt-1 text-xs text-red-500">{errors.eventId}</p>}
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">
+                  {t('payments.invoiceIdLabel')} *
+                </label>
+                <input
+                  type="number"
+                  name="invoice_id"
+                  min="1"
+                  value={formData.invoice_id}
+                  onChange={handleChange}
+                  placeholder="e.g., 5"
+                  className={inputClass('invoice_id')}
+                />
+                {errors.invoice_id && <p className="mt-1 text-xs text-red-500">{errors.invoice_id}</p>}
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">{t('payments.invoiceIdLabel')}</label>
-                <input type="text" name="invoiceId" value={formData.invoiceId} onChange={handleChange} placeholder={t('payments.invoiceIdPlaceholder')} className={inputClass('invoiceId')} />
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">
+                  {t('payments.subtotalLabel')} *
+                </label>
+                <input
+                  type="number"
+                  name="amount"
+                  min="0"
+                  step="0.01"
+                  value={formData.amount}
+                  onChange={handleChange}
+                  placeholder={t('payments.subtotalPlaceholder')}
+                  className={inputClass('amount')}
+                />
+                {errors.amount && <p className="mt-1 text-xs text-red-500">{errors.amount}</p>}
               </div>
             </div>
 
-            {/* Row 2: Customer Name + Email */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">{t('payments.customerNameLabel')}</label>
-                <input type="text" name="customerName" value={formData.customerName} onChange={handleChange} placeholder={t('payments.customerNamePlaceholder')} className={inputClass('customerName')} />
-                {errors.customerName && <p className="mt-1 text-xs text-red-500">{errors.customerName}</p>}
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">{t('payments.customerEmailLabel')}</label>
-                <input type="email" name="customerEmail" value={formData.customerEmail} onChange={handleChange} placeholder={t('payments.customerEmailPlaceholder')} className={inputClass('customerEmail')} />
-              </div>
+            {/* Row 2: Payment Method */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">
+                {t('payments.methodLabel')} *
+              </label>
+              <select
+                name="payment_method"
+                value={formData.payment_method}
+                onChange={handleChange}
+                className={inputClass('payment_method')}
+              >
+                {PAYMENT_METHODS.map(m => (
+                  <option key={m.value} value={m.value}>{m.label}</option>
+                ))}
+              </select>
+              {errors.payment_method && <p className="mt-1 text-xs text-red-500">{errors.payment_method}</p>}
             </div>
 
-            {/* Row 3: Financial Breakdown */}
-            <div className="bg-gray-50 dark:bg-gray-700/40 rounded-xl p-5 space-y-4 border border-gray-200 dark:border-gray-600">
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">{t('payments.subtotalLabel')}</label>
-                  <input type="number" name="subtotal" min="0" step="0.01" value={formData.subtotal} onChange={handleChange} placeholder={t('payments.subtotalPlaceholder')} className={inputClass('subtotal')} />
-                  {errors.subtotal && <p className="mt-1 text-xs text-red-500">{errors.subtotal}</p>}
+            {/* Card Details Section — only shown for credit_card */}
+            {isCardPayment && (
+              <div className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-xl p-5 space-y-4 text-white">
+                <div className="flex items-center gap-2 mb-2">
+                  <svg className="w-5 h-5 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
+                  </svg>
+                  <span className="text-sm font-semibold tracking-wide">Card Details</span>
                 </div>
+
+                {/* Card Number */}
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">{t('payments.discountLabel')}</label>
-                  <input type="number" name="discount" min="0" step="0.01" value={formData.discount} onChange={handleChange} placeholder={t('payments.discountPlaceholder')} className={inputClass('discount')} />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">
-                    {t('payments.taxLabel')}
-                    <span className="ml-1 text-[10px] text-gray-400 font-normal">({t('payments.autoCalculated')})</span>
+                  <label className="block text-xs font-medium text-slate-300 mb-1.5">
+                    {t('payments.cardNumberLabel')} *
                   </label>
-                  <div className="w-full px-4 py-2.5 rounded-lg border border-gray-200 dark:border-gray-600 bg-gray-100 dark:bg-gray-600 text-gray-600 dark:text-gray-300 text-sm cursor-not-allowed">
-                    {taxAmount.toLocaleString()} SAR
+                  <input
+                    type="text"
+                    name="card_number"
+                    value={formData.card_number}
+                    onChange={handleCardNumberChange}
+                    placeholder="4111 1111 1111 1111"
+                    maxLength={19}
+                    className="w-full px-4 py-2.5 rounded-lg border border-slate-600 bg-slate-700/50 text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-colors text-sm tracking-widest"
+                  />
+                  {errors.card_number && <p className="mt-1 text-xs text-red-400">{errors.card_number}</p>}
+                </div>
+
+                {/* Card Holder */}
+                <div>
+                  <label className="block text-xs font-medium text-slate-300 mb-1.5">
+                    {t('payments.cardHolderLabel')} *
+                  </label>
+                  <input
+                    type="text"
+                    name="card_holder"
+                    value={formData.card_holder}
+                    onChange={handleChange}
+                    placeholder="Mohamed Kheir"
+                    className="w-full px-4 py-2.5 rounded-lg border border-slate-600 bg-slate-700/50 text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-colors text-sm"
+                  />
+                  {errors.card_holder && <p className="mt-1 text-xs text-red-400">{errors.card_holder}</p>}
+                </div>
+
+                {/* Expiry + CVV Row */}
+                <div className="grid grid-cols-3 gap-4">
+                  <div>
+                    <label className="block text-xs font-medium text-slate-300 mb-1.5">
+                      {t('payments.expiryMonthLabel')} *
+                    </label>
+                    <select
+                      name="expiry_month"
+                      value={formData.expiry_month}
+                      onChange={handleChange}
+                      className="w-full px-3 py-2.5 rounded-lg border border-slate-600 bg-slate-700/50 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-colors text-sm"
+                    >
+                      <option value="">MM</option>
+                      {months.map(m => <option key={m.value} value={m.value}>{m.label}</option>)}
+                    </select>
+                    {errors.expiry_month && <p className="mt-1 text-xs text-red-400">{errors.expiry_month}</p>}
+                  </div>
+                  <div>
+                    <label className="block text-xs font-medium text-slate-300 mb-1.5">
+                      {t('payments.expiryYearLabel')} *
+                    </label>
+                    <select
+                      name="expiry_year"
+                      value={formData.expiry_year}
+                      onChange={handleChange}
+                      className="w-full px-3 py-2.5 rounded-lg border border-slate-600 bg-slate-700/50 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-colors text-sm"
+                    >
+                      <option value="">YYYY</option>
+                      {years.map(y => <option key={y.value} value={y.value}>{y.label}</option>)}
+                    </select>
+                    {errors.expiry_year && <p className="mt-1 text-xs text-red-400">{errors.expiry_year}</p>}
+                  </div>
+                  <div>
+                    <label className="block text-xs font-medium text-slate-300 mb-1.5">
+                      {t('payments.cvvLabel')} *
+                    </label>
+                    <input
+                      type="password"
+                      name="cvv"
+                      value={formData.cvv}
+                      onChange={handleCvvChange}
+                      placeholder="•••"
+                      maxLength={4}
+                      className="w-full px-3 py-2.5 rounded-lg border border-slate-600 bg-slate-700/50 text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-colors text-sm tracking-widest text-center"
+                    />
+                    {errors.cvv && <p className="mt-1 text-xs text-red-400">{errors.cvv}</p>}
                   </div>
                 </div>
               </div>
-
-              {/* Total Display */}
-              <div className="flex items-center justify-between pt-3 border-t border-dashed border-gray-300 dark:border-gray-500">
-                <span className="text-sm font-bold text-gray-900 dark:text-white">{t('payments.totalLabel')}</span>
-                <span className="text-2xl font-bold text-indigo-600 dark:text-indigo-400">
-                  {totalAmount.toLocaleString()} <span className="text-xs font-normal text-gray-500">SAR</span>
-                </span>
-              </div>
-            </div>
-
-            {/* Row 4: Method + Due Date */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">{t('payments.methodLabel')}</label>
-                <select name="method" value={formData.method} onChange={handleChange} className={inputClass('method')}>
-                  <option value="">{t('payments.methodPlaceholder')}</option>
-                  {PAYMENT_METHODS.map(m => (
-                    <option key={m} value={m}>{t(`paymentMethod.${m}`)}</option>
-                  ))}
-                </select>
-                {errors.method && <p className="mt-1 text-xs text-red-500">{errors.method}</p>}
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">{t('payments.dueDateLabel')}</label>
-                <input type="date" name="dueDate" value={formData.dueDate} onChange={handleChange} className={inputClass('dueDate')} />
-                {errors.dueDate && <p className="mt-1 text-xs text-red-500">{errors.dueDate}</p>}
-              </div>
-            </div>
-
-            {/* Row 5: Notes */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">{t('payments.notesLabel')}</label>
-              <textarea name="notes" rows={3} value={formData.notes} onChange={handleChange} placeholder={t('payments.notesPlaceholder')} className={`${inputClass('notes')} resize-none`} />
-            </div>
+            )}
           </form>
         </div>
 
@@ -224,12 +345,13 @@ const AddPaymentModal = ({ isOpen, onClose, onSuccess }) => {
                 <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
               </svg>
             )}
-            {t('payments.submitBtn')}
+            {isSubmitting ? 'Processing...' : t('payments.submitBtn')}
           </button>
           <button
             type="button"
             onClick={onClose}
-            className="flex-1 py-2.5 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 font-medium rounded-lg hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors text-sm"
+            disabled={isSubmitting}
+            className="flex-1 py-2.5 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 font-medium rounded-lg hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors text-sm disabled:opacity-50"
           >
             {t('payments.cancelBtn')}
           </button>
