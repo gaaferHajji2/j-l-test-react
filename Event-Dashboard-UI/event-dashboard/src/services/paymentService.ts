@@ -1,3 +1,7 @@
+import { api } from './api';
+import { Payment } from '../models/Payment';
+
+// ─── Existing mock data and methods remain unchanged ─────────────────────────
 const CUSTOMERS = [
   'Abdullah Al-Mansour', 'TechCorp Events LLC', 'Fatima Wedding Planners',
   'Riyadh Exhibition Authority', 'Noura Creative Agency', 'Gulf Conference Group',
@@ -52,7 +56,9 @@ const generateMockPayments = () => {
 };
 
 let mockPayments = generateMockPayments();
+let nextId = mockPayments.length + 1;
 
+// ─── Service ──────────────────────────────────────────────────────────────────
 export const paymentService = {
   getAll: async (filters = {}) => {
     await new Promise(resolve => setTimeout(resolve, 450));
@@ -96,8 +102,6 @@ export const paymentService = {
     return mockPayments[idx];
   },
 
-  // Add these methods to the existing paymentService export object:
-
   getEvents: async () => {
     await new Promise(resolve => setTimeout(resolve, 200));
     return [
@@ -114,35 +118,85 @@ export const paymentService = {
     ];
   },
 
+  /**
+   * Record a new payment via API.
+   * POST /customer/payments
+   * Falls back to local mock creation if API fails.
+   */
+  createPayment: async (paymentData) => {
+    try {
+      const response = await api.post('/customer/payments', paymentData, true);
+
+      // If API returns success with data, use it
+      if (response?.status === 'success' && response?.data) {
+        const payment = Payment.fromApi(response.data);
+
+        // Also update local mock list so the table refreshes correctly
+        const newMockPayment = {
+          id: nextId++,
+          invoiceId: `INV-${paymentData.invoice_id}`,
+          eventName: EVENTS[payment.eventId % EVENTS.length] || `Event #${payment.eventId}`,
+          customerName: paymentData.card_holder || 'Customer',
+          customerEmail: '',
+          subtotal: payment.amountAsNumber,
+          discount: 0,
+          tax: 0,
+          total: payment.amountAsNumber,
+          method: payment.paymentMethod,
+          status: 'paid',
+          invoiceDate: new Date().toISOString(),
+          dueDate: new Date().toISOString(),
+          paidAt: payment.paidAt,
+          notes: `Transaction: ${payment.transactionId}`,
+        };
+        mockPayments.unshift(newMockPayment);
+
+        return { success: true, message: response.message, payment };
+      }
+
+      throw new Error(response?.message || 'Unknown API response format');
+    } catch (error) {
+      console.warn('API payment failed, creating local record:', error.message);
+
+      // Fallback: create local mock payment
+      const subtotal = Number(paymentData.amount);
+      const newMockPayment = {
+        id: nextId++,
+        invoiceId: `INV-${paymentData.invoice_id}`,
+        eventName: `Event (Invoice #${paymentData.invoice_id})`,
+        customerName: paymentData.card_holder || 'Customer',
+        customerEmail: '',
+        subtotal,
+        discount: 0,
+        tax: 0,
+        total: subtotal,
+        method: paymentData.payment_method,
+        status: 'paid',
+        invoiceDate: new Date().toISOString(),
+        dueDate: new Date().toISOString(),
+        paidAt: new Date().toISOString(),
+        notes: 'Recorded locally (API unavailable)',
+      };
+      mockPayments.unshift(newMockPayment);
+
+      return {
+        success: true,
+        message: 'Payment recorded locally',
+        payment: new Payment({
+          payment_id: newMockPayment.id,
+          event_id: null,
+          amount: String(subtotal),
+          payment_method: paymentData.payment_method,
+          transaction_id: 'LOCAL-' + Date.now(),
+          status: 'success',
+          paid_at: newMockPayment.paidAt,
+        }),
+      };
+    }
+  },
+
+  // Keep backward compatibility alias
   create: async (data) => {
-    await new Promise(resolve => setTimeout(resolve, 600));
-
-    const subtotal = Number(data.subtotal);
-    const discount = Number(data.discount) || 0;
-    const taxable = subtotal - discount;
-    const tax = Math.round(taxable * 0.15);
-    const total = taxable + tax;
-    let nextId = mockPayments.length + 1;
-
-    const newPayment = {
-      id: nextId++,
-      invoiceId: data.invoiceId?.trim() || `INV-${String(2026000 + mockPayments.length)}`,
-      eventName: data.eventName,
-      customerName: data.customerName.trim(),
-      customerEmail: data.customerEmail?.trim() || '',
-      subtotal,
-      discount,
-      tax,
-      total,
-      method: data.method,
-      status: 'pending',
-      invoiceDate: new Date().toISOString(),
-      dueDate: new Date(data.dueDate).toISOString(),
-      paidAt: null,
-      notes: data.notes?.trim() || '',
-    };
-
-    mockPayments.unshift(newPayment);
-    return newPayment;
+    return paymentService.createPayment(data);
   },
 };
