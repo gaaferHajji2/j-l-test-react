@@ -1,82 +1,132 @@
-const VENDOR_TYPES = [
-  'Catering', 'Photography', 'Decoration', 'Audio/Visual',
-  'Security', 'Transportation', 'Printing', 'Entertainment',
-  'Lighting', 'Stage Equipment', 'Tent Rental', 'Floral Design'
-];
+import { api } from './api';
+import { VendorRequest } from '../models/VendorRequest';
 
-const generateMockRequests = () => {
+// ─── Dummy Data (Fallback) ───────────────────────────────────────────────────
+const EVENT_TYPES = ['wedding', 'conference', 'birthday', 'corporate', 'exhibition', 'concert', 'workshop', 'gala'];
+
+const generateDummyRequests = () => {
   const statuses = ['pending', 'pending', 'pending', 'approved', 'approved', 'rejected'];
 
   return Array.from({ length: 25 }, (_, index) => {
     const status = statuses[Math.floor(Math.random() * statuses.length)];
-    const type = VENDOR_TYPES[Math.floor(Math.random() * VENDOR_TYPES.length)];
+    const eventType = EVENT_TYPES[Math.floor(Math.random() * EVENT_TYPES.length)];
     const submittedDate = new Date();
     submittedDate.setDate(submittedDate.getDate() - Math.floor(Math.random() * 60));
+    const eventDate = new Date();
+    eventDate.setDate(eventDate.getDate() + Math.floor(Math.random() * 90));
 
-    return {
+    return new VendorRequest({
       id: index + 1,
-      businessName: `${type} Services ${String.fromCharCode(65 + (index % 26))}`,
-      contactPerson: `Contact Person ${index + 1}`,
-      email: `vendor${index + 1}@example.com`,
-      phone: `+966 5${Math.floor(Math.random() * 10)} ${Math.floor(1000000 + Math.random() * 9000000)}`,
-      type,
-      description: `Professional ${type.toLowerCase()} services provider with over ${Math.floor(Math.random() * 10) + 1} years of experience. We offer comprehensive solutions for events of all sizes including setup, execution, and teardown.`,
-      website: `www.vendor${index + 1}.com`,
-      address: `Building ${Math.floor(Math.random() * 100) + 1}, Street ${Math.floor(Math.random() * 50) + 1}, Riyadh`,
-      documentsCount: Math.floor(Math.random() * 5) + 1,
+      customer_id: Math.floor(Math.random() * 50) + 1,
+      event_name: `${eventType.charAt(0).toUpperCase() + eventType.slice(1)} Event ${index + 1}`,
+      event_type: eventType,
+      venue_id: Math.floor(Math.random() * 10) + 1,
+      date: eventDate.toISOString().split('T')[0],
+      start_time: `${String(Math.floor(Math.random() * 12) + 8).padStart(2, '0')}:00:00`,
+      end_time: `${String(Math.floor(Math.random() * 6) + 18).padStart(2, '0')}:00:00`,
+      guests_count: Math.floor(Math.random() * 400) + 50,
+      total_price: String(Math.floor(Math.random() * 80000) + 5000) + '.00',
+      invoice_id: index + 1,
+      payment_id: status === 'approved' ? index + 1 : null,
+      note: Math.random() > 0.7 ? 'Special requirements: VIP seating arrangement needed.' : null,
       status,
-      rejectionReason: status === 'rejected' ? 'Incomplete documentation. Please resubmit with valid commercial registration and insurance certificates.' : null,
-      submittedAt: submittedDate.toISOString(),
-      reviewedAt: status !== 'pending' ? new Date(submittedDate.getTime() + 86400000 * Math.floor(Math.random() * 5)).toISOString() : null,
-    };
+      rejection_reason: status === 'rejected'
+        ? 'Incomplete documentation. Please resubmit with valid commercial registration and insurance certificates.'
+        : null,
+      created_at: submittedDate.toISOString(),
+      updated_at: status !== 'pending'
+        ? new Date(submittedDate.getTime() + 86400000 * Math.floor(Math.random() * 5)).toISOString()
+        : submittedDate.toISOString(),
+      customer: {
+        id: Math.floor(Math.random() * 50) + 1,
+        name: `Customer ${String.fromCharCode(65 + (index % 26))}`,
+        email: `customer${index + 1}@example.com`,
+        phone: `+966 5${Math.floor(Math.random() * 10)} ${Math.floor(1000000 + Math.random() * 9000000)}`,
+      },
+      venue: {
+        id: Math.floor(Math.random() * 10) + 1,
+        name: `Venue ${String.fromCharCode(65 + (index % 10))}`,
+      },
+    });
   });
 };
 
-let mockRequests = generateMockRequests();
+let dummyRequests = generateDummyRequests();
 
+// ─── Service ──────────────────────────────────────────────────────────────────
 export const vendorRequestService = {
+  /**
+   * Fetch all vendor requests from API.
+   * Falls back to dummy data if API call fails.
+   */
   getAll: async (filters = {}) => {
-    await new Promise(resolve => setTimeout(resolve, 500));
-    let filtered = [...mockRequests];
+    let requests = [];
 
+    try {
+      const response = await api.get('/venue-owner/events', true);
+      requests = VendorRequest.fromApiResponse(response);
+    } catch (error) {
+      console.warn('API fetch failed, using dummy data:', error.message);
+      requests = [...dummyRequests];
+    }
+
+    // Apply client-side filters
     if (filters.status && filters.status !== 'all') {
-      filtered = filtered.filter(r => r.status === filters.status);
+      requests = requests.filter(r => r.status === filters.status);
     }
 
     if (filters.search) {
       const q = filters.search.toLowerCase();
-      filtered = filtered.filter(r =>
-        r.businessName.toLowerCase().includes(q) ||
-        r.contactPerson.toLowerCase().includes(q) ||
-        r.email.toLowerCase().includes(q) ||
-        r.type.toLowerCase().includes(q)
+      requests = requests.filter(r =>
+        r.eventName.toLowerCase().includes(q) ||
+        r.customerDisplayName.toLowerCase().includes(q) ||
+        r.customer?.email?.toLowerCase().includes(q) ||
+        r.eventType.toLowerCase().includes(q) ||
+        r.venueDisplayName.toLowerCase().includes(q)
       );
     }
 
     if (filters.sortBy) {
       const { field, order } = filters.sortBy;
-      filtered.sort((a, b) => {
+      requests.sort((a, b) => {
         let cmp = 0;
-        if (field === 'submittedAt') cmp = new Date(a.submittedAt) - new Date(b.submittedAt);
-        else if (field === 'businessName') cmp = a.businessName.localeCompare(b.businessName);
-        else if (field === 'type') cmp = a.type.localeCompare(b.type);
+        if (field === 'created_at') cmp = new Date(a.createdAt) - new Date(b.createdAt);
+        else if (field === 'event_name') cmp = a.eventName.localeCompare(b.eventName);
+        else if (field === 'date') cmp = new Date(a.date) - new Date(b.date);
+        else if (field === 'total_price') cmp = a.totalPriceAsNumber - b.totalPriceAsNumber;
         return order === 'asc' ? cmp : -cmp;
       });
     }
 
-    return filtered;
+    return requests;
   },
 
+  /**
+   * Update request status via API.
+   * Falls back to updating dummy data if API call fails.
+   */
   updateStatus: async (id, newStatus, reason = null) => {
-    await new Promise(resolve => setTimeout(resolve, 500));
-    const idx = mockRequests.findIndex(r => r.id === id);
-    if (idx === -1) throw new Error('notFound');
-    mockRequests[idx] = {
-      ...mockRequests[idx],
-      status: newStatus,
-      rejectionReason: newStatus === 'rejected' ? reason : null,
-      reviewedAt: new Date().toISOString(),
-    };
-    return mockRequests[idx];
+    try {
+      const response = await api.put(`/venue-owner/events/${id}/status`, {
+        status: newStatus,
+        rejection_reason: reason,
+      }, true);
+
+      return VendorRequest.fromApi(response?.data ?? response);
+    } catch (error) {
+      console.warn('API update failed, updating dummy data:', error.message);
+
+      const idx = dummyRequests.findIndex(r => r.id === id);
+      if (idx === -1) throw new Error('notFound');
+
+      dummyRequests[idx] = new VendorRequest({
+        ...dummyRequests[idx],
+        status: newStatus,
+        rejection_reason: newStatus === 'rejected' ? reason : null,
+        updated_at: new Date().toISOString(),
+      });
+
+      return dummyRequests[idx];
+    }
   },
 };
