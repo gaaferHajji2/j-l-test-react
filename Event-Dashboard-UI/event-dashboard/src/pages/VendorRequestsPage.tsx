@@ -32,19 +32,25 @@ const VendorRequestsPage = () => {
 
   useEffect(() => { fetchRequests(); }, [fetchRequests]);
 
-  const handleStatusChange = async (requestId, newStatus, reason = null) => {
+  const handleApprove = async (requestId) => {
     try {
-      await vendorRequestService.updateStatus(requestId, newStatus, reason);
+      await vendorRequestService.approve(requestId);
       await fetchRequests();
-
-      const successMap = {
-        approved: t('vendorRequests.approveSuccess'),
-        rejected: t('vendorRequests.rejectSuccess'),
-      };
-      alert(successMap[newStatus] || 'Status updated');
+      alert(t('vendorRequests.approveSuccess'));
     } catch (error) {
-      console.error('Error updating vendor request:', error);
-      alert('Error updating vendor request status');
+      console.error('Error approving vendor request:', error);
+      alert('Error approving vendor request');
+    }
+  };
+
+  const handleReject = async (requestId, reason) => {
+    try {
+      await vendorRequestService.reject(requestId, reason);
+      await fetchRequests();
+      alert(t('vendorRequests.rejectSuccess'));
+    } catch (error) {
+      console.error('Error rejecting vendor request:', error);
+      alert('Error rejecting vendor request');
     }
   };
 
@@ -55,7 +61,7 @@ const VendorRequestsPage = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
-      <DashboardHeader onLogout={handleLogout} />
+      <DashboardHeader />
       <div className="flex">
         <DashboardSidebar />
         <main className="flex-1 p-6 lg:p-8">
@@ -79,7 +85,7 @@ const VendorRequestsPage = () => {
                         <div className="w-11 h-11 bg-gray-200 dark:bg-gray-700 rounded-full" />
                         <div className="flex-1 space-y-2"><div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-2/3" /><div className="h-3 bg-gray-200 dark:bg-gray-700 rounded w-1/3" /></div>
                       </div>
-                      <div className="h-5 bg-gray-200 dark:bg-gray-700 rounded w-20" />
+                      <div className="flex gap-2"><div className="h-5 bg-gray-200 dark:bg-gray-700 rounded w-20" /><div className="h-5 bg-gray-200 dark:bg-gray-700 rounded w-16" /></div>
                     </div>
                     <div className="p-5 space-y-3">
                       <div className="h-3 bg-gray-200 dark:bg-gray-700 rounded w-full" />
@@ -92,7 +98,12 @@ const VendorRequestsPage = () => {
             ) : requests.length > 0 ? (
               <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
                 {requests.map(request => (
-                  <VendorRequestCard key={request.id} request={request} onStatusChange={handleStatusChange} />
+                  <VendorRequestCard
+                    key={request.id}
+                    request={request}
+                    onApprove={handleApprove}
+                    onReject={handleReject}
+                  />
                 ))}
               </div>
             ) : (
