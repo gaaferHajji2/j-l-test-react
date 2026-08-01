@@ -1,65 +1,185 @@
-// Lightweight service for header notification badge/dropdown
-// Separate from the full notificationService to keep header performant
+import { api } from './api';
+import { Notification } from '../models/Notification';
 
-const generateHeaderNotifications = () => {
-  const types = [
-    { icon: 'M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9', color: 'blue' },
-    { icon: 'M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z', color: 'green' },
-    { icon: 'M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z', color: 'amber' },
-    { icon: 'M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z', color: 'purple' },
-    { icon: 'M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z', color: 'emerald' },
+// ─── Dummy Data (Fallback) ───────────────────────────────────────────────────
+const generateDummyNotifications = () => {
+  const templates = [
+    {
+      type: 'App\\Notifications\\EventCancelledByCustomerNotification',
+      data: {
+        event_id: 3,
+        type: 'booking_cancelled_by_customer',
+        title: 'تم إلغاء الحجز من قبل الزبون ❌',
+        message: 'قام الزبون بإلغاء حجز مناسبة (حفل زفاف) بتاريخ 2026-08-01. تم استرجاع مبلغ (600000) للزبون بحسب سياسة الاسترجاع.',
+      },
+    },
+    {
+      type: 'App\\Notifications\\InvoicePaidNotification',
+      data: {
+        event_id: 3,
+        payment_id: 2,
+        type: 'invoice_paid',
+        title: 'تم استلام الدفعة 💰',
+        message: 'قام الزبون بدفع فاتورة مناسبة (حفل زفاف) بمبلغ (600000.00) بنجاح، الحجز أصبح معتمداً ومدفوعاً بالكامل.',
+      },
+    },
+    {
+      type: 'App\\Notifications\\NewEventNotification',
+      data: {
+        event_id: 3,
+        title: 'طلب حجز جديد قيد الانتظار',
+        message: 'تم تقديم طلب حجز جديد لصالتك بتاريخ 2026-08-01',
+        type: 'new_booking',
+      },
+    },
+    {
+      type: 'App\\Notifications\\NewEventNotification',
+      data: {
+        event_id: 5,
+        title: 'طلب حجز جديد قيد الانتظار',
+        message: 'تم تقديم طلب حجز جديد لفعالية (مؤتمر تقني) بتاريخ 2026-09-15',
+        type: 'new_booking',
+      },
+    },
+    {
+      type: 'App\\Notifications\\InvoicePaidNotification',
+      data: {
+        event_id: 7,
+        payment_id: 4,
+        type: 'invoice_paid',
+        title: 'تم استلام الدفعة 💰',
+        message: 'قام الزبون بدفع فاتورة مناسبة (معرض فني) بمبلغ (25000.00) بنجاح.',
+      },
+    },
+    {
+      type: 'App\\Notifications\\EventCancelledByCustomerNotification',
+      data: {
+        event_id: 8,
+        type: 'booking_cancelled_by_customer',
+        title: 'تم إلغاء الحجز من قبل الزبون ❌',
+        message: 'قام الزبون بإلغاء حجز مناسبة (عيد ميلاد) بتاريخ 2026-08-20.',
+      },
+    },
+    {
+      type: 'App\\Notifications\\NewEventNotification',
+      data: {
+        event_id: 10,
+        title: 'طلب حجز جديد قيد الانتظار',
+        message: 'تم تقديم طلب حجز جديد لفعالية (حفلة موسيقية) بتاريخ 2026-10-01',
+        type: 'new_booking',
+      },
+    },
+    {
+      type: 'App\\Notifications\\InvoicePaidNotification',
+      data: {
+        event_id: 12,
+        payment_id: 6,
+        type: 'invoice_paid',
+        title: 'تم استلام الدفعة 💰',
+        message: 'قام الزبون بدفع فاتورة مناسبة (قمة ريادة أعمال) بمبلغ (45000.00) بنجاح.',
+      },
+    },
   ];
 
-  const messages = [
-    'New vendor request from "Al-Damashkey Catering" pending review',
-    'Event "Tech Conference 2026" has been approved',
-    'Product "LED Uplight Package" was rejected — missing certification',
-    'Vendor "Ahmed Al-Farsi" submitted a new venue inspection report',
-    'Payment of 12,500 SYR received for "Summer Music Festival"',
-    'New rating (★5) received for "Art Exhibition Opening"',
-    'Venue "Damascus Convention Center" availability updated',
-    '3 new product submissions awaiting approval',
-  ];
-
-  return Array.from({ length: 8 }, (_, i) => {
-    const type = types[i % types.length];
+  return templates.map((tmpl, index) => {
     const date = new Date();
-    date.setMinutes(date.getMinutes() - i * 45 - Math.floor(Math.random() * 30));
+    date.setMinutes(date.getMinutes() - index * 45 - Math.floor(Math.random() * 30));
 
-    return {
-      id: i + 1,
-      message: messages[i % messages.length],
-      icon: type.icon,
-      color: type.color,
-      isRead: i > 3,
-      createdAt: date.toISOString(),
-    };
+    // Generate a deterministic pseudo-GUID for dummy data
+    const hex = (index + 1).toString(16).padStart(8, '0');
+    const guid = `${hex}-15ce-41f7-a0f3-2cfa914c${String(index).padStart(4, '0')}`;
+
+    return new Notification({
+      id: guid,
+      type: tmpl.type,
+      notifiable_type: 'App\\Models\\User',
+      notifiable_id: 9,
+      data: tmpl.data,
+      read_at: index > 3 ? date.toISOString() : null,
+      created_at: date.toISOString(),
+      updated_at: date.toISOString(),
+    });
   });
 };
 
-let mockNotifications = generateHeaderNotifications();
+let dummyNotifications = generateDummyNotifications();
 
+// ─── Service ──────────────────────────────────────────────────────────────────
 export const headerNotificationService = {
+  /**
+   * Fetch all notifications from API.
+   * GET /notifications
+   * Falls back to dummy data if API fails.
+   */
   getRecent: async () => {
-    await new Promise(resolve => setTimeout(resolve, 200));
-    return [...mockNotifications].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+    try {
+      const response = await api.get('/notifications', true);
+      return Notification.fromApiResponse(response);
+    } catch (error) {
+      console.warn('API fetch failed, using dummy notifications:', error.message);
+      return [...dummyNotifications].sort(
+        (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+      );
+    }
   },
 
+  /**
+   * Get unread count.
+   * Derived from full list (API or dummy).
+   */
   getUnreadCount: async () => {
-    await new Promise(resolve => setTimeout(resolve, 100));
-    return mockNotifications.filter(n => !n.isRead).length;
+    try {
+      const notifications = await headerNotificationService.getRecent();
+      return notifications.filter(n => !n.isRead).length;
+    } catch (error) {
+      return 0;
+    }
   },
 
+  /**
+   * Mark a single notification as read by GUID.
+   * POST /notifications/{guid}/read
+   * Falls back to updating dummy data if API fails.
+   */
+  markAsRead: async (guid) => {
+    try {
+      await api.post(`/notifications/${guid}/read`, {}, true);
+      return true;
+    } catch (error) {
+      console.warn(`API markAsRead failed for ${guid}, updating dummy:`, error.message);
+      const idx = dummyNotifications.findIndex(n => n.id === guid);
+      if (idx !== -1) {
+        dummyNotifications[idx] = new Notification({
+          ...dummyNotifications[idx],
+          read_at: new Date().toISOString(),
+        });
+      }
+      return false;
+    }
+  },
+
+  /**
+   * Mark all notifications as read.
+   * Calls markAsRead for each unread notification.
+   */
   markAllAsRead: async () => {
-    await new Promise(resolve => setTimeout(resolve, 300));
-    mockNotifications = mockNotifications.map(n => ({ ...n, isRead: true }));
-    return true;
-  },
+    try {
+      const notifications = await headerNotificationService.getRecent();
+      const unread = notifications.filter(n => !n.isRead);
 
-  markAsRead: async (id) => {
-    await new Promise(resolve => setTimeout(resolve, 150));
-    const idx = mockNotifications.findIndex(n => n.id === id);
-    if (idx !== -1) mockNotifications[idx] = { ...mockNotifications[idx], isRead: true };
-    return true;
+      // Fire all read requests in parallel
+      await Promise.allSettled(
+        unread.map(n => headerNotificationService.markAsRead(n.id))
+      );
+
+      return true;
+    } catch (error) {
+      console.warn('API markAllAsRead failed:', error.message);
+      // Fallback: mark all dummy as read
+      dummyNotifications = dummyNotifications.map(
+        n => n.isRead ? n : new Notification({ ...n, read_at: new Date().toISOString() })
+      );
+      return false;
+    }
   },
 };
