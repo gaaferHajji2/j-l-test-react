@@ -272,7 +272,7 @@ const AddPaymentModal = ({ isOpen, onClose, onSuccess }) => {
                     name="card_holder"
                     value={formData.card_holder}
                     onChange={handleChange}
-                    placeholder="Mohamed Kheir"
+                    placeholder="Add The card Holder"
                     className="w-full px-4 py-2.5 rounded-lg border border-slate-600 bg-slate-700/50 text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-colors text-sm"
                   />
                   {errors.card_holder && <p className="mt-1 text-xs text-red-400">{errors.card_holder}</p>}
