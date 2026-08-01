@@ -15,7 +15,7 @@ const VenueOwnerRequestsPage = () => {
   const [filters, setFilters] = useState({
     search: '',
     status: 'all',
-    sortBy: { field: 'submittedAt', order: 'desc' },
+    sortBy: { field: 'created_at', order: 'desc' },
   });
 
   const fetchRequests = useCallback(async () => {
@@ -38,7 +38,7 @@ const VenueOwnerRequestsPage = () => {
       await fetchRequests();
 
       const successMap = {
-        approved: t('venueOwnerRequests.approveSuccess'),
+        active: t('venueOwnerRequests.approveSuccess'),
         rejected: t('venueOwnerRequests.rejectSuccess'),
       };
       alert(successMap[newStatus] || 'Status updated');
