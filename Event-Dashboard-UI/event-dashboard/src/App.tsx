@@ -16,9 +16,9 @@ import PaymentsPage from './pages/PaymentsPage';
 import VendorRequestsPage from './pages/VendorRequestsPage';
 import VenueOwnerRequestsPage from './pages/VenueOwnerRequestsPage';
 
-
 // Simple auth check (replace with proper auth logic)
-const isAuthenticated = () => {
+const isAuthenticated = () =>  {
+  console.log("The Auth Token is: ", localStorage.getItem('authToken'))
   return localStorage.getItem('authToken') !== null;
 };
 
@@ -39,6 +39,8 @@ const DashboardLayout = () => {
 };
 
 function App() {
+  console.log("The Test Is Ok")
+
   return (
     <ThemeProvider>
       <I18nProvider>
@@ -67,7 +69,7 @@ function App() {
             </Route>
             
             {/* Redirect root to login */}
-            <Route path="/" element={<Navigate to="/login" replace />} />
+            {/* <Route path="/" element={<Navigate to="/login" replace />} /> */}
             
             {/* Catch-all route for 404 */}
             <Route path="*" element={<Navigate to="/dashboard" replace />} />
