@@ -78,7 +78,7 @@ const PaymentRow = ({ payment, onMarkPaid, onSendReminder, onViewReceipt }) => {
             ) : (
               <>
                 <button
-                  onClick={() => onViewReceipt(payment)}
+                  onClick={() => onViewReceipt(payment.id)}
                   className="px-3 py-2 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 text-xs font-medium rounded-lg hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors"
                 >
                   {t('payments.viewReceipt')}
