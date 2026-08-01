@@ -5,9 +5,10 @@ import DashboardHeader from '../components/Layout/DashboardHeader';
 import DashboardSidebar from '../components/Layout/DashboardSidebar';
 import PaymentStatsBar from '../components/Payments/PaymentStatsBar';
 import PaymentRow from '../components/Payments/PaymentRow';
-import ReceiptModal from '../components/Payments/ReceiptModal';
+// import ReceiptModal from '../components/Payments/ReceiptModal';
 import { paymentService } from '../services/paymentService';
 import AddPaymentModal from '../components/Payments/AddPaymentModal';
+import PaymentDetailModal from '../components/Payments/PaymentDetailModal';
 
 const PaymentsPage = () => {
   const navigate = useNavigate();
@@ -16,9 +17,10 @@ const PaymentsPage = () => {
   const [stats, setStats] = useState(null);
   const [loading, setLoading] = useState(true);
   const [statsLoading, setStatsLoading] = useState(true);
-  const [selectedReceipt, setSelectedReceipt] = useState(null);
+  const [selectedPaymentId, setSelectedPaymentId] = useState(null);
   const [filters, setFilters] = useState({ search: '', status: 'all' });
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+
 
   const fetchPayments = useCallback(async () => {
     setLoading(true);
@@ -149,7 +151,7 @@ const PaymentsPage = () => {
                     payment={payment}
                     onMarkPaid={handleMarkPaid}
                     onSendReminder={handleSendReminder}
-                    onViewReceipt={setSelectedReceipt}
+                    onViewReceipt={setSelectedPaymentId}
                   />
                 ))}
               </div>
@@ -169,7 +171,10 @@ const PaymentsPage = () => {
       </div>
 
       {/* Receipt Modal */}
-      <ReceiptModal payment={selectedReceipt} onClose={() => setSelectedReceipt(null)} />
+      <PaymentDetailModal
+        paymentId={selectedPaymentId}
+        onClose={() => setSelectedPaymentId(null)}
+      />
     </div>
   );
 };
