@@ -46,11 +46,11 @@ const VenueOwnerRequestsFilter = ({ filters, onFilterChange }) => {
 
         {/* Sort */}
         <div className="flex gap-2">
-          <button onClick={() => handleSortChange('submittedAt')} className="flex-1 flex items-center justify-center gap-1.5 px-3 py-2.5 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors text-xs font-medium">
-            {t('venueOwnerRequests.submittedAt')}{getSortIcon('submittedAt')}
+          <button onClick={() => handleSortChange('created_at')} className="flex-1 flex items-center justify-center gap-1.5 px-3 py-2.5 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors text-xs font-medium">
+            {t('venueOwnerRequests.submittedAt')}{getSortIcon('created_at')}
           </button>
-          <button onClick={() => handleSortChange('venueName')} className="flex-1 flex items-center justify-center gap-1.5 px-3 py-2.5 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors text-xs font-medium">
-            {t('venueOwnerRequests.venueName')}{getSortIcon('venueName')}
+          <button onClick={() => handleSortChange('name')} className="flex-1 flex items-center justify-center gap-1.5 px-3 py-2.5 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors text-xs font-medium">
+            {t('venueOwnerRequests.venueName')}{getSortIcon('name')}
           </button>
         </div>
       </div>
