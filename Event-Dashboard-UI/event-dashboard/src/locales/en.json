@@ -431,7 +431,17 @@
     "subtotalRequired": "Subtotal must be greater than 0",
     "methodRequired": "Please select a payment method",
     "dueDateRequired": "Due date is required",
-    "autoCalculated": "Auto-calculated"
+    "autoCalculated": "Auto-calculated",
+    "cardNumberLabel": "Card Number",
+    "cardNumberRequired": "Valid card number is required",
+    "cardHolderLabel": "Card Holder Name",
+    "cardHolderRequired": "Card holder name is required",
+    "expiryMonthLabel": "Month",
+    "expiryYearLabel": "Year",
+    "expiryRequired": "Expiry date is required",
+    "cvvLabel": "CVV",
+    "cvvRequired": "Valid CVV is required",
+    "invoiceIdRequired": "Invoice ID is required"
   },
   "paymentStatus": {
     "paid": "Paid",
