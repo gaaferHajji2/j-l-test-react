@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
+import { authApi } from '../../services/api';
 
 const LoginForm = () => {
   const { t } = useTranslation();
@@ -36,7 +37,7 @@ const LoginForm = () => {
       ...prev,
       [name]: type === 'checkbox' ? checked : value
     }));
-    
+
     // Clear error when user starts typing
     if (errors[name]) {
       setErrors(prev => ({
@@ -48,24 +49,33 @@ const LoginForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     if (!validateForm()) return;
 
     setIsLoading(true);
-    
-    // Simulate API call
-    try {
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      // TODO: Replace with actual authentication logic
-      console.log('Login attempt:', formData);
+    setErrors({});
 
-      localStorage.setItem('authToken', 'JLoka-01')
-      
+    try {
+      const response = await authApi.login(formData.email, formData.password);
+
+      // Store token from API response
+      if (response.token) {
+        localStorage.setItem('authToken', response.token);
+      }
+
       // Navigate to dashboard on success
       navigate('/dashboard');
     } catch (error) {
-      setErrors({ submit: t('common.loginError') });
+      console.error('Login error:', error);
+
+      // Map API errors to form fields or show general error
+      if (error.message.includes('email') || error.message.includes('credentials')) {
+        setErrors({ submit: t('common.loginError') });
+      } else if (error.message.includes('password')) {
+        setErrors({ password: error.message });
+      } else {
+        setErrors({ submit: error.message || t('common.loginError') });
+      }
     } finally {
       setIsLoading(false);
     }
@@ -85,8 +95,8 @@ const LoginForm = () => {
       <form onSubmit={handleSubmit} className="space-y-6">
         {/* Email Field */}
         <div>
-          <label 
-            htmlFor="email" 
+          <label
+            htmlFor="email"
             className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
           >
             {t('common.email')}
@@ -98,11 +108,12 @@ const LoginForm = () => {
             value={formData.email}
             onChange={handleChange}
             placeholder={t('common.emailPlaceholder')}
+            disabled={isLoading}
             className={`w-full px-4 py-3 rounded-lg border ${
-              errors.email 
-                ? 'border-red-500 focus:ring-red-500' 
+              errors.email
+                ? 'border-red-500 focus:ring-red-500'
                 : 'border-gray-300 dark:border-gray-600 focus:ring-blue-500'
-            } bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 transition-colors`}
+            } bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 transition-colors disabled:opacity-50 disabled:cursor-not-allowed`}
           />
           {errors.email && (
             <p className="mt-1 text-sm text-red-500">{errors.email}</p>
@@ -111,8 +122,8 @@ const LoginForm = () => {
 
         {/* Password Field */}
         <div>
-          <label 
-            htmlFor="password" 
+          <label
+            htmlFor="password"
             className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
           >
             {t('common.password')}
@@ -124,11 +135,12 @@ const LoginForm = () => {
             value={formData.password}
             onChange={handleChange}
             placeholder={t('common.passwordPlaceholder')}
+            disabled={isLoading}
             className={`w-full px-4 py-3 rounded-lg border ${
-              errors.password 
-                ? 'border-red-500 focus:ring-red-500' 
+              errors.password
+                ? 'border-red-500 focus:ring-red-500'
                 : 'border-gray-300 dark:border-gray-600 focus:ring-blue-500'
-            } bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 transition-colors`}
+            } bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 transition-colors disabled:opacity-50 disabled:cursor-not-allowed`}
           />
           {errors.password && (
             <p className="mt-1 text-sm text-red-500">{errors.password}</p>
@@ -143,7 +155,8 @@ const LoginForm = () => {
               name="rememberMe"
               checked={formData.rememberMe}
               onChange={handleChange}
-              className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+              disabled={isLoading}
+              className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500 disabled:opacity-50"
             />
             <span className="ml-2 text-sm text-gray-700 dark:text-gray-300">
               {t('common.rememberMe')}
@@ -151,7 +164,8 @@ const LoginForm = () => {
           </label>
           <button
             type="button"
-            className="text-sm text-blue-600 dark:text-blue-400 hover:underline"
+            disabled={isLoading}
+            className="text-sm text-blue-600 dark:text-blue-400 hover:underline disabled:opacity-50"
           >
             {t('common.forgotPassword')}
           </button>
@@ -172,22 +186,22 @@ const LoginForm = () => {
         >
           {isLoading ? (
             <div className="flex items-center justify-center">
-              <svg 
-                className="animate-spin h-5 w-5 mr-2" 
+              <svg
+                className="animate-spin h-5 w-5 mr-2"
                 viewBox="0 0 24 24"
               >
-                <circle 
-                  className="opacity-25" 
-                  cx="12" 
-                  cy="12" 
-                  r="10" 
-                  stroke="currentColor" 
+                <circle
+                  className="opacity-25"
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
                   strokeWidth="4"
                   fill="none"
                 />
-                <path 
-                  className="opacity-75" 
-                  fill="currentColor" 
+                <path
+                  className="opacity-75"
+                  fill="currentColor"
                   d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                 />
               </svg>
