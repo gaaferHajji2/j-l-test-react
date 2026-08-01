@@ -107,7 +107,7 @@ export const vendorRequestService = {
    */
   approve: async (id) => {
     try {
-      const response = await api.post(`/venue-owner/events/${id}/accept`, {}, true);
+      const response = await api.put(`/venue-owner/events/${id}/accept`, {}, true);
       return VendorRequest.fromApi(response?.data ?? response);
     } catch (error) {
       console.warn('API approve failed, updating dummy data:', error.message);
@@ -132,7 +132,7 @@ export const vendorRequestService = {
    */
   reject: async (id, reason) => {
     try {
-      const response = await api.post(`/venue-owner/venue/${id}`, {
+      const response = await api.put(`/venue-owner/venue/${id}`, {
         rejection_reason: reason,
       }, true);
       return VendorRequest.fromApi(response?.data ?? response);
