@@ -9,6 +9,7 @@ const COLOR_MAP = {
   amber: 'bg-amber-100 text-amber-600 dark:bg-amber-900/30 dark:text-amber-400',
   purple: 'bg-purple-100 text-purple-600 dark:bg-purple-900/30 dark:text-purple-400',
   emerald: 'bg-emerald-100 text-emerald-600 dark:bg-emerald-900/30 dark:text-emerald-400',
+  red: 'bg-red-100 text-red-600 dark:bg-red-900/30 dark:text-red-400',
 };
 
 const NotificationBell = () => {
@@ -20,16 +21,13 @@ const NotificationBell = () => {
   const dropdownRef = useRef(null);
   const bellRef = useRef(null);
 
-  // Fetch data when dropdown opens
+  // Fetch notifications when dropdown opens
   useEffect(() => {
     if (isOpen) {
       setLoading(true);
-      Promise.all([
-        headerNotificationService.getRecent(),
-        headerNotificationService.getUnreadCount(),
-      ]).then(([items, count]) => {
+      headerNotificationService.getRecent().then((items) => {
         setNotifications(items);
-        setUnreadCount(count);
+        setUnreadCount(items.filter(n => !n.isRead).length);
       }).finally(() => setLoading(false));
     }
   }, [isOpen]);
@@ -42,8 +40,10 @@ const NotificationBell = () => {
         setUnreadCount(count);
       }
     }, 60000);
+
     // Initial fetch
     headerNotificationService.getUnreadCount().then(setUnreadCount);
+
     return () => clearInterval(poll);
   }, [isOpen]);
 
@@ -63,24 +63,20 @@ const NotificationBell = () => {
 
   const handleMarkAllRead = async () => {
     await headerNotificationService.markAllAsRead();
-    setNotifications(prev => prev.map(n => ({ ...n, isRead: true })));
+    setNotifications(prev => prev.map(n =>
+      n.isRead ? n : new (Object.getPrototypeOf(n).constructor)({ ...n, read_at: new Date().toISOString() })
+    ));
     setUnreadCount(0);
   };
 
-  const handleMarkAsRead = async (id) => {
-    await headerNotificationService.markAsRead(id);
-    setNotifications(prev => prev.map(n => n.id === id ? { ...n, isRead: true } : n));
+  const handleMarkAsRead = async (guid) => {
+    await headerNotificationService.markAsRead(guid);
+    setNotifications(prev => prev.map(n =>
+      n.id === guid && !n.isRead
+        ? new (Object.getPrototypeOf(n).constructor)({ ...n, read_at: new Date().toISOString() })
+        : n
+    ));
     setUnreadCount(prev => Math.max(prev - 1, 0));
-  };
-
-  const formatTimeAgo = (dateStr) => {
-    const diff = Date.now() - new Date(dateStr).getTime();
-    const minutes = Math.floor(diff / 60000);
-    if (minutes < 1) return 'Just now';
-    if (minutes < 60) return `${minutes}m ago`;
-    const hours = Math.floor(minutes / 60);
-    if (hours < 24) return `${hours}h ago`;
-    return `${Math.floor(hours / 24)}d ago`;
   };
 
   return (
@@ -157,43 +153,53 @@ const NotificationBell = () => {
               </div>
             ) : (
               <div className="divide-y divide-gray-100 dark:divide-gray-700">
-                {notifications.map((notification) => (
-                  <div
-                    key={notification.id}
-                    onClick={() => !notification.isRead && handleMarkAsRead(notification.id)}
-                    className={`px-4 py-3 flex items-start gap-3 transition-colors cursor-pointer ${
-                      !notification.isRead
-                        ? 'bg-indigo-50/50 dark:bg-indigo-900/10 hover:bg-indigo-50 dark:hover:bg-indigo-900/20'
-                        : 'hover:bg-gray-50 dark:hover:bg-gray-700/50'
-                    }`}
-                  >
-                    {/* Icon */}
-                    <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${COLOR_MAP[notification.color] || COLOR_MAP.blue}`}>
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={notification.icon} />
-                      </svg>
-                    </div>
+                {notifications.map((notification) => {
+                  const style = notification.visualStyle;
+                  const colorClass = COLOR_MAP[style.color] || COLOR_MAP.blue;
 
-                    {/* Content */}
-                    <div className="flex-1 min-w-0">
-                      <p className={`text-xs leading-relaxed ${
+                  return (
+                    <div
+                      key={notification.id}
+                      onClick={() => !notification.isRead && handleMarkAsRead(notification.id)}
+                      className={`px-4 py-3 flex items-start gap-3 transition-colors cursor-pointer ${
                         !notification.isRead
-                          ? 'text-gray-900 dark:text-white font-medium'
-                          : 'text-gray-600 dark:text-gray-400'
-                      }`}>
-                        {notification.message}
-                      </p>
-                      <p className="text-[10px] text-gray-400 dark:text-gray-500 mt-1">
-                        {formatTimeAgo(notification.createdAt)}
-                      </p>
-                    </div>
+                          ? 'bg-indigo-50/50 dark:bg-indigo-900/10 hover:bg-indigo-50 dark:hover:bg-indigo-900/20'
+                          : 'hover:bg-gray-50 dark:hover:bg-gray-700/50'
+                      }`}
+                    >
+                      {/* Icon */}
+                      <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${colorClass}`}>
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={style.icon} />
+                        </svg>
+                      </div>
 
-                    {/* Unread Dot */}
-                    {!notification.isRead && (
-                      <div className="w-2 h-2 bg-indigo-500 rounded-full flex-shrink-0 mt-1.5" />
-                    )}
-                  </div>
-                ))}
+                      {/* Content — uses title & message from nested data */}
+                      <div className="flex-1 min-w-0">
+                        <p className={`text-xs leading-relaxed ${
+                          !notification.isRead
+                            ? 'text-gray-900 dark:text-white font-medium'
+                            : 'text-gray-600 dark:text-gray-400'
+                        }`}>
+                          {notification.title}
+                        </p>
+                        {notification.message && (
+                          <p className="text-[11px] text-gray-500 dark:text-gray-500 mt-0.5 line-clamp-2">
+                            {notification.message}
+                          </p>
+                        )}
+                        <p className="text-[10px] text-gray-400 dark:text-gray-500 mt-1">
+                          {notification.timeAgo}
+                        </p>
+                      </div>
+
+                      {/* Unread Dot */}
+                      {!notification.isRead && (
+                        <div className="w-2 h-2 bg-indigo-500 rounded-full flex-shrink-0 mt-1.5" />
+                      )}
+                    </div>
+                  );
+                })}
               </div>
             )}
           </div>
