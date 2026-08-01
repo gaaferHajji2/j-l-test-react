@@ -143,7 +143,7 @@ export const headerNotificationService = {
    */
   markAsRead: async (guid) => {
     try {
-      await api.post(`/notifications/${guid}/read`, {}, true);
+      await api.put(`/notifications/${guid}/read`, {}, true);
       return true;
     } catch (error) {
       console.warn(`API markAsRead failed for ${guid}, updating dummy:`, error.message);
