@@ -13,7 +13,7 @@ const EVENT_TYPE_COLORS = {
   gala: 'bg-indigo-100 text-indigo-800 dark:bg-indigo-900/30 dark:text-indigo-400',
 };
 
-const VendorRequestCard = ({ request, onStatusChange }) => {
+const VendorRequestCard = ({ request, onApprove, onReject }) => {
   const { t } = useTranslation();
   const [confirmAction, setConfirmAction] = useState(null);
   const [showRejectModal, setShowRejectModal] = useState(false);
@@ -33,7 +33,7 @@ const VendorRequestCard = ({ request, onStatusChange }) => {
 
   const handleApproveConfirm = async () => {
     try {
-      await onStatusChange(request.id, 'approved', null);
+      await onApprove(request.id);
       setConfirmAction(null);
     } catch (error) {
       console.error('Error approving vendor request:', error);
@@ -47,7 +47,7 @@ const VendorRequestCard = ({ request, onStatusChange }) => {
 
   const handleRejectWithReason = async (reason) => {
     try {
-      await onStatusChange(request.id, 'rejected', reason);
+      await onReject(request.id, reason);
       setShowRejectModal(false);
     } catch (error) {
       console.error('Error rejecting vendor request:', error);
