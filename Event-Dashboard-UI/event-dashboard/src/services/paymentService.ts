@@ -60,7 +60,12 @@ let nextId = mockPayments.length + 1;
 
 // ─── Generate dummy detail for fallback ──────────────────────────────────────
 const generateDummyDetail = (id) => {
-  const mock = mockPayments.find(p => p.id === parseInt(id));
+  const numericId = parseInt(id);
+  const mock = mockPayments.find(p =>
+    p.id === numericId ||
+    p.invoiceId === String(id) ||
+    p.invoiceId === `INV-${id}`
+  );
   if (!mock) return null;
 
   return new PaymentDetail({
