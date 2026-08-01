@@ -47,11 +47,11 @@ const VendorRequestsFilter = ({ filters, onFilterChange }) => {
 
         {/* Sort */}
         <div className="flex gap-2">
-          <button onClick={() => handleSortChange('submittedAt')} className="flex-1 flex items-center justify-center gap-1.5 px-3 py-2.5 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors text-xs font-medium">
-            {t('vendorRequests.submittedAt')}{getSortIcon('submittedAt')}
+          <button onClick={() => handleSortChange('created_at')} className="flex-1 flex items-center justify-center gap-1.5 px-3 py-2.5 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors text-xs font-medium">
+            {t('vendorRequests.submittedAt')}{getSortIcon('created_at')}
           </button>
-          <button onClick={() => handleSortChange('businessName')} className="flex-1 flex items-center justify-center gap-1.5 px-3 py-2.5 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors text-xs font-medium">
-            {t('vendorRequests.businessName')}{getSortIcon('businessName')}
+          <button onClick={() => handleSortChange('event_name')} className="flex-1 flex items-center justify-center gap-1.5 px-3 py-2.5 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors text-xs font-medium">
+            {t('vendorRequests.businessName')}{getSortIcon('event_name')}
           </button>
         </div>
       </div>
