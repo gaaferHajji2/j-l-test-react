@@ -32,9 +32,9 @@ const VendorRequestsPage = () => {
 
   useEffect(() => { fetchRequests(); }, [fetchRequests]);
 
-  const handleApprove = async (requestId) => {
+  const handleApprove = async (request) => {
     try {
-      await vendorRequestService.approve(requestId);
+      await vendorRequestService.approve(request);
       await fetchRequests();
       alert(t('vendorRequests.approveSuccess'));
     } catch (error) {
@@ -43,9 +43,9 @@ const VendorRequestsPage = () => {
     }
   };
 
-  const handleReject = async (requestId, reason) => {
+  const handleReject = async (request, reason) => {
     try {
-      await vendorRequestService.reject(requestId, reason);
+      await vendorRequestService.reject(request, reason);
       await fetchRequests();
       alert(t('vendorRequests.rejectSuccess'));
     } catch (error) {
