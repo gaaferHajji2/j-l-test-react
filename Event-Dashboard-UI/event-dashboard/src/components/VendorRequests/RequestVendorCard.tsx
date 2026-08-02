@@ -2,17 +2,6 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import RejectReasonModal from './RejectReasonModal';
 
-const EVENT_TYPE_COLORS = {
-  wedding: 'bg-pink-100 text-pink-800 dark:bg-pink-900/30 dark:text-pink-400',
-  conference: 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400',
-  birthday: 'bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-400',
-  corporate: 'bg-slate-100 text-slate-800 dark:bg-slate-700 dark:text-slate-300',
-  exhibition: 'bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-400',
-  concert: 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400',
-  workshop: 'bg-teal-100 text-teal-800 dark:bg-teal-900/30 dark:text-teal-400',
-  gala: 'bg-indigo-100 text-indigo-800 dark:bg-indigo-900/30 dark:text-indigo-400',
-};
-
 const VendorRequestCard = ({ request, onApprove, onReject }) => {
   const { t } = useTranslation();
   const [confirmAction, setConfirmAction] = useState(null);
@@ -22,21 +11,22 @@ const VendorRequestCard = ({ request, onApprove, onReject }) => {
     const styles = {
       pending: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400 border-yellow-200 dark:border-yellow-800',
       approved: 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400 border-green-200 dark:border-green-800',
+      accepted: 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400 border-green-200 dark:border-green-800',
       rejected: 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400 border-red-200 dark:border-red-800',
     };
     return (
       <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold border ${styles[status] || styles.pending}`}>
-        {t(`vendorRequestStatus.${status}`)}
+        {t(`vendorRequestStatus.${status === 'accepted' ? 'approved' : status}`)}
       </span>
     );
   };
 
   const handleApproveConfirm = async () => {
     try {
-      await onApprove(request.id);
+      await onApprove(request);
       setConfirmAction(null);
     } catch (error) {
-      console.error('Error approving vendor request:', error);
+      console.error('Error approving:', error);
     }
   };
 
@@ -47,16 +37,15 @@ const VendorRequestCard = ({ request, onApprove, onReject }) => {
 
   const handleRejectWithReason = async (reason) => {
     try {
-      await onReject(request.id, reason);
+      await onReject(request, reason);
       setShowRejectModal(false);
     } catch (error) {
-      console.error('Error rejecting vendor request:', error);
+      console.error('Error rejecting:', error);
       throw error;
     }
   };
 
   const renderActions = () => {
-    // Inline confirmation for approve
     if (confirmAction === 'approved') {
       return (
         <div className="flex flex-col gap-2 w-full">
@@ -69,7 +58,6 @@ const VendorRequestCard = ({ request, onApprove, onReject }) => {
       );
     }
 
-    // Inline confirmation for reject — opens reason modal on confirm
     if (confirmAction === 'rejected') {
       return (
         <div className="flex flex-col gap-2 w-full">
@@ -82,21 +70,14 @@ const VendorRequestCard = ({ request, onApprove, onReject }) => {
       );
     }
 
-    // Pending → Approve or Reject
     if (request.isPending) {
       return (
         <>
-          <button
-            onClick={() => setConfirmAction('approved')}
-            className="flex-1 px-4 py-2 bg-green-600 hover:bg-green-700 text-white text-sm font-medium rounded-lg transition-colors flex items-center justify-center gap-2"
-          >
+          <button onClick={() => setConfirmAction('approved')} className="flex-1 px-4 py-2 bg-green-600 hover:bg-green-700 text-white text-sm font-medium rounded-lg transition-colors flex items-center justify-center gap-2">
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>
             Approve
           </button>
-          <button
-            onClick={() => setConfirmAction('rejected')}
-            className="flex-1 px-4 py-2 bg-red-600 hover:bg-red-700 text-white text-sm font-medium rounded-lg transition-colors flex items-center justify-center gap-2"
-          >
+          <button onClick={() => setConfirmAction('rejected')} className="flex-1 px-4 py-2 bg-red-600 hover:bg-red-700 text-white text-sm font-medium rounded-lg transition-colors flex items-center justify-center gap-2">
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
             Reject
           </button>
@@ -104,23 +85,17 @@ const VendorRequestCard = ({ request, onApprove, onReject }) => {
       );
     }
 
-    // Rejected → show stored reason
     if (request.isRejected && request.rejectionReason) {
       return (
         <div className="w-full p-3 bg-red-50 dark:bg-red-900/10 rounded-lg border border-red-100 dark:border-red-800/30">
-          <p className="text-[10px] font-semibold text-red-600 dark:text-red-400 uppercase tracking-wider mb-1">
-            {t('vendorRequests.rejectionReasonDisplay')}
-          </p>
+          <p className="text-[10px] font-semibold text-red-600 dark:text-red-400 uppercase tracking-wider mb-1">{t('vendorRequests.rejectionReasonDisplay')}</p>
           <p className="text-xs text-red-800 dark:text-red-300 leading-relaxed">{request.rejectionReason}</p>
         </div>
       );
     }
 
-    // Approved → no actions
     return null;
   };
-
-  const typeColorClass = EVENT_TYPE_COLORS[request.eventType] || 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300';
 
   return (
     <>
@@ -129,72 +104,45 @@ const VendorRequestCard = ({ request, onApprove, onReject }) => {
         <div className="p-5 border-b border-gray-200 dark:border-gray-700">
           <div className="flex items-start justify-between mb-3">
             <div className="min-w-0 flex-1">
-              <h3 className="text-base font-bold text-gray-900 dark:text-white truncate">{request.eventName}</h3>
-              <p className="text-xs text-gray-500 dark:text-gray-400 truncate mt-0.5">{request.venueDisplayName}</p>
+              <h3 className="text-base font-bold text-gray-900 dark:text-white truncate">{request.serviceName}</h3>
+              <p className="text-xs text-gray-500 dark:text-gray-400 truncate mt-0.5">{request.eventDisplayName}</p>
             </div>
-            <div className="flex-shrink-0 ml-3">
-              {getStatusBadge(request.status)}
-            </div>
+            <div className="flex-shrink-0 ml-3">{getStatusBadge(request.status)}</div>
           </div>
-
-          {/* Tags Row */}
           <div className="flex flex-wrap gap-2">
-            <span className={`inline-flex items-center px-2.5 py-1 text-[10px] font-semibold rounded-md uppercase tracking-wide ${typeColorClass}`}>
-              {request.eventType}
+            <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-indigo-100 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-400 text-[10px] font-semibold rounded-md">
+              <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
+              {request.vendorDisplayName}
             </span>
-            <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 text-[10px] font-medium rounded-md">
-              <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
-              {request.formattedDate}
-            </span>
-            <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 text-[10px] font-medium rounded-md">
-              <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-              {request.timeRange}
-            </span>
+            {request.eventDateFormatted && (
+              <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 text-[10px] font-medium rounded-md">
+                <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                {request.eventDateFormatted}
+              </span>
+            )}
           </div>
         </div>
 
         {/* Body */}
         <div className="p-5 space-y-3 flex-1">
-          {/* Customer Info */}
-          <div className="flex items-center gap-3 p-3 bg-gray-50 dark:bg-gray-700/40 rounded-lg">
-            <div className="w-9 h-9 rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white font-bold text-xs flex-shrink-0">
-              {request.customerDisplayName.charAt(0)}
-            </div>
-            <div className="min-w-0 flex-1">
-              <p className="text-sm font-semibold text-gray-900 dark:text-white truncate">{request.customerDisplayName}</p>
-              <div className="flex items-center gap-3 text-[10px] text-gray-500 dark:text-gray-400 mt-0.5">
-                {request.customer?.email && <span className="truncate">{request.customer.email}</span>}
-                {request.customer?.phone && <span>{request.customer.phone}</span>}
-              </div>
-            </div>
-          </div>
+          <p className="text-xs text-gray-600 dark:text-gray-400 line-clamp-2">{request.description}</p>
 
-          {/* Key Stats */}
           <div className="grid grid-cols-2 gap-3">
             <div className="flex items-center gap-2">
-              <svg className="w-4 h-4 text-gray-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
-              <span className="text-xs text-gray-700 dark:text-gray-300">{request.guestsCount} guests</span>
+              <svg className="w-4 h-4 text-gray-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+              <span className="text-xs font-semibold text-gray-900 dark:text-white">{request.totalPrice.toLocaleString()} SAR</span>
             </div>
             <div className="flex items-center gap-2">
-              <svg className="w-4 h-4 text-gray-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-              <span className="text-xs font-semibold text-gray-900 dark:text-white">{request.totalPriceAsNumber.toLocaleString()} SAR</span>
+              <svg className="w-4 h-4 text-gray-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" /></svg>
+              <span className="text-xs text-gray-700 dark:text-gray-300">Qty: {request.quantity}</span>
             </div>
           </div>
 
-          {/* Note */}
-          {request.note && (
-            <div className="p-2.5 bg-amber-50 dark:bg-amber-900/10 rounded-lg border border-amber-100 dark:border-amber-800/30">
-              <p className="text-[10px] font-semibold text-amber-600 dark:text-amber-400 uppercase tracking-wider mb-0.5">Note</p>
-              <p className="text-xs text-amber-800 dark:text-amber-300 leading-relaxed">{request.note}</p>
-            </div>
-          )}
-
-          {/* Invoice & Dates */}
           <div className="space-y-1.5 pt-2">
-            {request.invoiceId && (
+            {request.vendor?.email && (
               <div className="flex items-center gap-2 text-xs text-gray-500 dark:text-gray-400">
-                <svg className="w-3.5 h-3.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
-                <span>Invoice #{request.invoiceId}</span>
+                <svg className="w-3.5 h-3.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+                <span className="truncate">{request.vendor.email}</span>
               </div>
             )}
             <div className="flex items-center gap-2 text-xs text-gray-500 dark:text-gray-400">
@@ -206,16 +154,13 @@ const VendorRequestCard = ({ request, onApprove, onReject }) => {
 
         {/* Footer Actions */}
         <div className="p-5 border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/50">
-          <div className="flex items-center gap-2">
-            {renderActions()}
-          </div>
+          <div className="flex items-center gap-2">{renderActions()}</div>
         </div>
       </div>
 
-      {/* Rejection Reason Modal */}
       <RejectReasonModal
         isOpen={showRejectModal}
-        businessName={request.eventName}
+        businessName={request.serviceName}
         onClose={() => setShowRejectModal(false)}
         onConfirm={handleRejectWithReason}
       />
