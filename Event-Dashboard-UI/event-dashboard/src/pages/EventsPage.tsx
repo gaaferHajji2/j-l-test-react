@@ -13,7 +13,7 @@ const EventsPage = () => {
   const [filters, setFilters] = useState({
     search: '',
     status: 'all',
-    sortBy: { field: 'date', order: 'desc' },
+    sortBy: { field: 'created_at', order: 'desc' },
   });
 
   const fetchEvents = async () => {
@@ -32,23 +32,27 @@ const EventsPage = () => {
     fetchEvents();
   }, [filters]);
 
-  const handleStatusChange = async (eventId, newStatus) => {
+  const handleAccept = async (eventId) => {
     try {
-      await eventService.updateStatus(eventId, newStatus);
-      // Refresh events list
+      await eventService.accept(eventId);
       await fetchEvents();
-      
-      // Show success message (you can integrate a toast library here)
-      const message = newStatus === 'approved' 
-        ? t('events.approveSuccess') 
-        : t('events.rejectSuccess');
-      alert(message); // Replace with proper toast notification
+      alert(t('events.approveSuccess'));
     } catch (error) {
-      console.error('Error updating event status:', error);
-      alert('Error updating event status');
+      console.error('Error accepting event:', error);
+      alert('Error accepting event');
     }
   };
 
+  const handleReject = async (eventId, reason) => {
+    try {
+      await eventService.reject(eventId, reason);
+      await fetchEvents();
+      alert(t('events.rejectSuccess'));
+    } catch (error) {
+      console.error('Error rejecting event:', error);
+      alert('Error rejecting event');
+    }
+  };
   const handleLogout = () => {
     localStorage.removeItem('authToken');
     window.location.href = '/login';
@@ -57,10 +61,10 @@ const EventsPage = () => {
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       <DashboardHeader onLogout={handleLogout} />
-      
+
       <div className="flex">
         <DashboardSidebar />
-        
+
         <main className="flex-1 p-6 lg:p-8">
           <div className="max-w-7xl mx-auto">
             {/* Page Header */}
@@ -94,7 +98,8 @@ const EventsPage = () => {
                   <EventCard
                     key={event.id}
                     event={event}
-                    onStatusChange={handleStatusChange}
+                    onAccept={handleAccept}
+                    onReject={handleReject}
                   />
                 ))}
               </div>
