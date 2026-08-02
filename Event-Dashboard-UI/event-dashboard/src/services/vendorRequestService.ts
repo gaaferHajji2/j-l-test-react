@@ -2,14 +2,19 @@ import { api } from './api';
 import { VendorRequest } from '../models/VendorRequest';
 
 // ─── Dummy Data (Fallback) ───────────────────────────────────────────────────
-const EVENT_TYPES = ['wedding', 'conference', 'birthday', 'corporate', 'exhibition', 'concert', 'workshop', 'gala'];
+const SERVICE_NAMES = [
+  'Catering Package Premium', 'Photography Full Day', 'Decoration Setup',
+  'AV Equipment Rental', 'Security Team (8hr)', 'Transport Shuttle',
+  'Floral Arrangement Deluxe', 'Stage Lighting Package', 'DJ & Sound System',
+  'Tent & Canopy Setup', 'Print Materials Bundle', 'Live Entertainment',
+];
 
 const generateDummyRequests = () => {
   const statuses = ['pending', 'pending', 'pending', 'approved', 'approved', 'rejected'];
 
   return Array.from({ length: 25 }, (_, index) => {
     const status = statuses[Math.floor(Math.random() * statuses.length)];
-    const eventType = EVENT_TYPES[Math.floor(Math.random() * EVENT_TYPES.length)];
+    const serviceName = SERVICE_NAMES[index % SERVICE_NAMES.length];
     const submittedDate = new Date();
     submittedDate.setDate(submittedDate.getDate() - Math.floor(Math.random() * 60));
     const eventDate = new Date();
@@ -17,35 +22,36 @@ const generateDummyRequests = () => {
 
     return new VendorRequest({
       id: index + 1,
-      customer_id: Math.floor(Math.random() * 50) + 1,
-      event_name: `${eventType.charAt(0).toUpperCase() + eventType.slice(1)} Event ${index + 1}`,
-      event_type: eventType,
-      venue_id: Math.floor(Math.random() * 10) + 1,
-      date: eventDate.toISOString().split('T')[0],
-      start_time: `${String(Math.floor(Math.random() * 12) + 8).padStart(2, '0')}:00:00`,
-      end_time: `${String(Math.floor(Math.random() * 6) + 18).padStart(2, '0')}:00:00`,
-      guests_count: Math.floor(Math.random() * 400) + 50,
-      total_price: String(Math.floor(Math.random() * 80000) + 5000) + '.00',
-      invoice_id: index + 1,
-      payment_id: status === 'approved' ? index + 1 : null,
-      note: Math.random() > 0.7 ? 'Special requirements: VIP seating arrangement needed.' : null,
+      order_id: Math.floor(Math.random() * 20) + 1,
+      event_id: Math.floor(Math.random() * 15) + 1,
+      vendor_id: Math.floor(Math.random() * 10) + 1,
+      service_name: serviceName,
+      description: `Professional ${serviceName.toLowerCase()} service including setup, execution, and teardown. Suitable for events up to ${Math.floor(Math.random() * 400) + 100} guests.`,
+      price: String(Math.floor(Math.random() * 15000) + 1000) + '.00',
+      quantity: Math.floor(Math.random() * 3) + 1,
       status,
       rejection_reason: status === 'rejected'
-        ? 'Incomplete documentation. Please resubmit with valid commercial registration and insurance certificates.'
+        ? 'Service requirements do not match venue specifications. Please revise and resubmit.'
         : null,
       created_at: submittedDate.toISOString(),
       updated_at: status !== 'pending'
         ? new Date(submittedDate.getTime() + 86400000 * Math.floor(Math.random() * 5)).toISOString()
         : submittedDate.toISOString(),
-      customer: {
-        id: Math.floor(Math.random() * 50) + 1,
-        name: `Customer ${String.fromCharCode(65 + (index % 26))}`,
-        email: `customer${index + 1}@example.com`,
-        phone: `+966 5${Math.floor(Math.random() * 10)} ${Math.floor(1000000 + Math.random() * 9000000)}`,
+      event: {
+        id: Math.floor(Math.random() * 15) + 1,
+        event_name: `Event ${String.fromCharCode(65 + (index % 26))}`,
+        event_type: ['wedding', 'conference', 'birthday', 'corporate'][index % 4],
+        date: eventDate.toISOString().split('T')[0],
+        start_time: '18:00:00',
+        end_time: '23:00:00',
+        guests_count: Math.floor(Math.random() * 300) + 50,
+        status: 'active',
       },
-      venue: {
+      vendor: {
         id: Math.floor(Math.random() * 10) + 1,
-        name: `Venue ${String.fromCharCode(65 + (index % 10))}`,
+        name: `Vendor ${String.fromCharCode(65 + (index % 10))}`,
+        email: `vendor${index + 1}@example.com`,
+        phone: `+966 5${Math.floor(Math.random() * 10)} ${Math.floor(1000000 + Math.random() * 9000000)}`,
       },
     });
   });
@@ -56,44 +62,40 @@ let dummyRequests = generateDummyRequests();
 // ─── Service ──────────────────────────────────────────────────────────────────
 export const vendorRequestService = {
   /**
-   * Fetch all vendor requests from API.
-   * Falls back to dummy data if API call fails.
+   * Fetch all vendor service requests.
+   * GET /vendor/services
    */
   getAll: async (filters = {}) => {
     let requests = [];
 
     try {
-      const response = await api.get('/venue-owner/events', true);
+      const response = await api.get('/vendor/services', true);
       requests = VendorRequest.fromApiResponse(response);
     } catch (error) {
       console.warn('API fetch failed, using dummy data:', error.message);
       requests = [...dummyRequests];
     }
 
-    // Apply client-side filters
+    // Client-side filters
     if (filters.status && filters.status !== 'all') {
       requests = requests.filter(r => r.status === filters.status);
     }
-
     if (filters.search) {
       const q = filters.search.toLowerCase();
       requests = requests.filter(r =>
-        r.eventName.toLowerCase().includes(q) ||
-        r.customerDisplayName.toLowerCase().includes(q) ||
-        r.customer?.email?.toLowerCase().includes(q) ||
-        r.eventType.toLowerCase().includes(q) ||
-        r.venueDisplayName.toLowerCase().includes(q)
+        r.serviceName.toLowerCase().includes(q) ||
+        r.vendorDisplayName.toLowerCase().includes(q) ||
+        r.eventDisplayName.toLowerCase().includes(q) ||
+        r.description.toLowerCase().includes(q)
       );
     }
-
     if (filters.sortBy) {
       const { field, order } = filters.sortBy;
       requests.sort((a, b) => {
         let cmp = 0;
         if (field === 'created_at') cmp = new Date(a.createdAt) - new Date(b.createdAt);
-        else if (field === 'event_name') cmp = a.eventName.localeCompare(b.eventName);
-        else if (field === 'date') cmp = new Date(a.date) - new Date(b.date);
-        else if (field === 'total_price') cmp = a.totalPriceAsNumber - b.totalPriceAsNumber;
+        else if (field === 'service_name') cmp = a.serviceName.localeCompare(b.serviceName);
+        else if (field === 'price') cmp = a.priceAsNumber - b.priceAsNumber;
         return order === 'asc' ? cmp : -cmp;
       });
     }
@@ -102,53 +104,59 @@ export const vendorRequestService = {
   },
 
   /**
-   * Approve a vendor request.
-   * POST /venue-owner/events/{id}/accept
+   * Approve a vendor service request.
+   * POST /vendor/orders/{event_id}/services/{id}/accept
    */
-  approve: async (id) => {
+  approve: async (request) => {
+    const eventId = request.eventId || request.event?.id;
+    const serviceId = request.id;
+
     try {
-      const response = await api.put(`/venue-owner/events/${id}/accept`, {}, true);
+      const response = await api.post(
+        `/vendor/orders/${eventId}/services/${serviceId}/accept`,
+        {},
+        true
+      );
       return VendorRequest.fromApi(response?.data ?? response);
     } catch (error) {
       console.warn('API approve failed, updating dummy data:', error.message);
-
-      const idx = dummyRequests.findIndex(r => r.id === id);
+      const idx = dummyRequests.findIndex(r => r.id === serviceId);
       if (idx === -1) throw new Error('notFound');
-
       dummyRequests[idx] = new VendorRequest({
         ...dummyRequests[idx],
         status: 'approved',
         rejection_reason: null,
         updated_at: new Date().toISOString(),
       });
-
       return dummyRequests[idx];
     }
   },
 
   /**
-   * Reject a vendor request with reason.
-   * POST /venue-owner/venue/{id}
+   * Reject a vendor service request with reason.
+   * POST /vendor/orders/{event_id}/services/{service_id}/reject
    */
-  reject: async (id, reason) => {
+  reject: async (request, reason) => {
+    const eventId = request.eventId || request.event?.id;
+    const serviceId = request.id;
+
     try {
-      const response = await api.put(`/venue-owner/venue/${id}`, {
-        rejection_reason: reason,
-      }, true);
+      const response = await api.post(
+        `/vendor/orders/${eventId}/services/${serviceId}/reject`,
+        { rejection_reason: reason },
+        true
+      );
       return VendorRequest.fromApi(response?.data ?? response);
     } catch (error) {
       console.warn('API reject failed, updating dummy data:', error.message);
-
-      const idx = dummyRequests.findIndex(r => r.id === id);
+      const idx = dummyRequests.findIndex(r => r.id === serviceId);
       if (idx === -1) throw new Error('notFound');
-
       dummyRequests[idx] = new VendorRequest({
         ...dummyRequests[idx],
         status: 'rejected',
         rejection_reason: reason,
         updated_at: new Date().toISOString(),
       });
-
       return dummyRequests[idx];
     }
   },
