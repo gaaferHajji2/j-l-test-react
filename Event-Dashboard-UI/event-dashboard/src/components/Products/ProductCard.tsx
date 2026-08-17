@@ -180,7 +180,7 @@ const ProductCard = ({ product, onStatusChange }) => {
             {getStatusBadge(product.status)}
           </div>
           <div className="absolute bottom-3 left-3 bg-white/90 dark:bg-gray-900/90 backdrop-blur-sm px-3 py-1 rounded-lg">
-            <p className="text-sm font-bold text-blue-600 dark:text-blue-400">{product.price.toLocaleString()} SAR</p>
+            <p className="text-sm font-bold text-blue-600 dark:text-blue-400">{product.price.toLocaleString()} SYR</p>
           </div>
         </div>
 

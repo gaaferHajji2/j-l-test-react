@@ -107,7 +107,7 @@ const PaymentDetailModal = ({ paymentId, onClose }) => {
                 <div className="text-right">
                   <p className="text-xs text-gray-500 dark:text-gray-400">{t('payments.amount')}</p>
                   <p className="text-2xl font-bold text-indigo-600 dark:text-indigo-400">
-                    {detail.amountAsNumber.toLocaleString()} <span className="text-sm font-normal text-gray-500">SAR</span>
+                    {detail.amountAsNumber.toLocaleString()} <span className="text-sm font-normal text-gray-500">SYR</span>
                   </p>
                 </div>
               </div>
@@ -143,7 +143,7 @@ const PaymentDetailModal = ({ paymentId, onClose }) => {
                   </div>
                   <div className="flex items-center justify-between">
                     <span className="text-sm text-amber-800 dark:text-amber-300">Refund Amount</span>
-                    <span className="text-sm font-bold text-amber-800 dark:text-amber-300">{detail.refundAmountAsNumber.toLocaleString()} SAR</span>
+                    <span className="text-sm font-bold text-amber-800 dark:text-amber-300">{detail.refundAmountAsNumber.toLocaleString()} SYR</span>
                   </div>
                   {detail.formattedRefundedAt && (
                     <p className="text-xs text-amber-600 dark:text-amber-400 mt-1">Refunded at: {detail.formattedRefundedAt}</p>
@@ -163,15 +163,15 @@ const PaymentDetailModal = ({ paymentId, onClose }) => {
                   <div className="space-y-2 text-sm">
                     <div className="flex justify-between text-gray-700 dark:text-gray-300">
                       <span>{t('payments.venuePrice')}</span>
-                      <span className="font-medium">{detail.venuePriceAsNumber.toLocaleString()} SAR</span>
+                      <span className="font-medium">{detail.venuePriceAsNumber.toLocaleString()} SYR</span>
                     </div>
                     <div className="flex justify-between text-gray-700 dark:text-gray-300">
                       <span>{t('payments.servicesTotal')}</span>
-                      <span className="font-medium">{detail.servicesTotalAsNumber.toLocaleString()} SAR</span>
+                      <span className="font-medium">{detail.servicesTotalAsNumber.toLocaleString()} SYR</span>
                     </div>
                     <div className="flex justify-between pt-2 mt-2 border-t border-dashed border-gray-300 dark:border-gray-600 font-bold text-gray-900 dark:text-white">
                       <span>{t('payments.total')}</span>
-                      <span>{detail.invoiceTotalAsNumber.toLocaleString()} SAR</span>
+                      <span>{detail.invoiceTotalAsNumber.toLocaleString()} SYR</span>
                     </div>
                   </div>
                 </div>

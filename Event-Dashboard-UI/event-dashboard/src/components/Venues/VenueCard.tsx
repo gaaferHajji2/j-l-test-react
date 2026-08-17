@@ -53,7 +53,7 @@ const VenueCard = ({ venue, onEdit, onViewVendors }) => {
         {/* Price Tag */}
         <div className="absolute bottom-3 right-3 bg-white/90 dark:bg-gray-900/90 backdrop-blur-sm px-3 py-1.5 rounded-lg">
           <p className="text-xs text-gray-500 dark:text-gray-400">{t('venues.pricePerDay')}</p>
-          <p className="text-sm font-bold text-blue-600 dark:text-blue-400">{venue.pricePerDay.toLocaleString()} SAR</p>
+          <p className="text-sm font-bold text-blue-600 dark:text-blue-400">{venue.pricePerDay.toLocaleString()} SYR</p>
         </div>
       </div>
 

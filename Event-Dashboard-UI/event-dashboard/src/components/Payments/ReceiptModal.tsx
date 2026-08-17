@@ -43,24 +43,24 @@ const ReceiptModal = ({ payment, onClose }) => {
           <div className="space-y-2.5 text-sm">
             <div className="flex justify-between text-gray-700 dark:text-gray-300">
               <span>{t('payments.subtotal')}</span>
-              <span className="font-medium">{payment.subtotal.toLocaleString()} SAR</span>
+              <span className="font-medium">{payment.subtotal.toLocaleString()} SYR</span>
             </div>
 
             {payment.discount > 0 && (
               <div className="flex justify-between text-emerald-600 dark:text-emerald-400">
                 <span>{t('payments.discount')}</span>
-                <span className="font-medium">-{payment.discount.toLocaleString()} SAR</span>
+                <span className="font-medium">-{payment.discount.toLocaleString()} SYR</span>
               </div>
             )}
 
             <div className="flex justify-between text-gray-700 dark:text-gray-300">
               <span>{t('payments.tax')}</span>
-              <span className="font-medium">{payment.tax.toLocaleString()} SAR</span>
+              <span className="font-medium">{payment.tax.toLocaleString()} SYR</span>
             </div>
 
             <div className="pt-3 mt-3 border-t border-dashed border-gray-300 dark:border-gray-600 flex justify-between items-end">
               <span className="text-base font-bold text-gray-900 dark:text-white">{t('payments.total')}</span>
-              <span className="text-2xl font-bold text-indigo-600 dark:text-indigo-400">{payment.total.toLocaleString()} <span className="text-sm font-normal text-gray-500">SAR</span></span>
+              <span className="text-2xl font-bold text-indigo-600 dark:text-indigo-400">{payment.total.toLocaleString()} <span className="text-sm font-normal text-gray-500">SYR</span></span>
             </div>
           </div>
         </div>

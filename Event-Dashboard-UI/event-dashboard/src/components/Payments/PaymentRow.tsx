@@ -52,7 +52,7 @@ const PaymentRow = ({ payment, onMarkPaid, onSendReminder, onViewReceipt }) => {
           <div className="flex items-center gap-6 lg:gap-8 pl-16 lg:pl-0">
             <div>
               <p className="text-xs text-gray-500 dark:text-gray-400 mb-0.5">{t('payments.amount')}</p>
-              <p className="text-lg font-bold text-gray-900 dark:text-white">{payment.total.toLocaleString()} <span className="text-xs font-normal text-gray-500">SAR</span></p>
+              <p className="text-lg font-bold text-gray-900 dark:text-white">{payment.total.toLocaleString()} <span className="text-xs font-normal text-gray-500">SYR</span></p>
             </div>
             <div className="hidden sm:block">
               <p className="text-xs text-gray-500 dark:text-gray-400 mb-0.5">{t('payments.method')}</p>
