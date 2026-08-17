@@ -1,3 +1,9 @@
+import { Rating, VenueRatingStats } from '../models/Rating';
+
+const BASE_URL = 'http://127.0.0.1:8000/api';
+const VENUE_IDS = Array.from({ length: 25 }, (_, i) => i + 1);
+
+// ─── Dummy Data (Fallback) ───────────────────────────────────────────────────
 const CUSTOMER_NAMES = [
   'Ahmed Al-Rashid', 'Sarah Johnson', 'Mohammed Al-Farsi', 'Emily Chen',
   'Khalid Ibrahim', 'Fatima Hassan', 'James Wilson', 'Noura Al-Saud',
@@ -6,143 +12,202 @@ const CUSTOMER_NAMES = [
   'Hassan Al-Zahrani', 'Maria Garcia', 'Faisal Al-Otaibi', 'Anna Kowalski',
 ];
 
-const EVENT_NAMES = [
-  'Tech Conference 2026', 'Music Festival Summer', 'Art Exhibition Opening',
-  'Food & Culture Fair', 'Startup Summit', 'Wedding Expo',
-  'Sports Tournament Finals', 'Charity Gala Dinner', 'Book Launch Event',
-  'Fashion Week Showcase', 'Health & Wellness Retreat', 'Gaming Convention',
-];
-
 const REVIEW_TEMPLATES = {
   5: [
-    "Absolutely outstanding event! Every detail was perfectly organized. The venue was stunning and the staff went above and beyond.",
-    "Best event I've attended this year. Seamless registration, amazing speakers, and incredible networking opportunities.",
-    "Exceeded all expectations. The atmosphere was electric and everything ran like clockwork. Highly recommend!",
+    "خدمة ممتازة، كل التفاصيل كانت منظمة بشكل رائع",
+    "أفضل فعالية حضرتها هذا العام، تنظيم احترافي",
+    "تجاوزت كل التوقعات، الأجواء كانت مميزة",
   ],
   4: [
-    "Really enjoyed the event overall. Great organization with only minor hiccups. Would definitely attend again.",
-    "Very well put together. The content was relevant and engaging. Only wish there was more time for Q&A sessions.",
-    "Solid experience from start to finish. Good venue choice and professional staff. A few small improvements needed.",
+    "فعالية جيدة جداً مع بعض الملاحظات البسيطة",
+    "تنظيم جيد والمحتوى كان مفيداً",
+    "تجربة إيجابية بشكل عام، أنصح بالحضور",
   ],
   3: [
-    "Decent event but nothing extraordinary. Some sessions were great while others felt rushed. Average organization.",
-    "It was okay. Met basic expectations but didn't wow me. Parking was an issue and the food options were limited.",
-    "Mixed feelings about this one. Good concept but execution could be better. Hope they improve next time.",
+    "فعالية عادية، لم تكن مميزة",
+    "متوسط من حيث التنظيم والمحتوى",
+    "تجربة مقبولة لكن تحتاج تحسين",
   ],
   2: [
-    "Disappointed with the overall experience. Long wait times at registration and several sessions started late.",
-    "Below average organization. Sound issues during presentations and inadequate seating. Needs significant improvement.",
-    "Not what I expected based on the promotion. Felt overcrowded and poorly managed. Won't be returning.",
+    "تنظيم ضعيف وتأخير في البداية",
+    "لم تكن كما توقعت، خدمات محدودة",
+    "تحتاج تحسينات كبيرة في المستقبل",
   ],
   1: [
-    "Terrible experience. Complete disorganization from arrival to departure. Waste of time and money.",
-    "Extremely disappointing. Keynote speaker cancelled last minute with no communication. Venue was uncomfortable.",
-    "Worst event I've ever attended. Nothing went according to schedule. Staff seemed unprepared and unhelpful.",
+    "تجربة سيئة، عدم تنظيم واضح",
+    "ضياع وقت ومال، لن أكرر التجربة",
+    "أسوأ فعالية حضرتها، لا أنصح بها",
   ],
 };
 
-const generateMockRatings = () => {
-  return Array.from({ length: 40 }, (_, index) => {
-    const score = Math.random() < 0.35 ? 5 : Math.random() < 0.55 ? 4 : Math.random() < 0.75 ? 3 : Math.random() < 0.9 ? 2 : 1;
-    const templates = REVIEW_TEMPLATES[score];
-    const submittedDate = new Date();
-    submittedDate.setDate(submittedDate.getDate() - Math.floor(Math.random() * 90));
-    const hasResponse = Math.random() > 0.7;
+const generateDummyRatings = () => {
+  const ratings = [];
+  let idCounter = 1;
 
-    return {
-      id: index + 1,
-      eventId: Math.floor(Math.random() * 12) + 1,
-      eventName: EVENT_NAMES[Math.floor(Math.random() * EVENT_NAMES.length)],
-      customerId: Math.floor(Math.random() * 20) + 1,
-      customerName: CUSTOMER_NAMES[Math.floor(Math.random() * CUSTOMER_NAMES.length)],
-      customerAvatar: null,
-      score,
-      description: templates[Math.floor(Math.random() * templates.length)],
-      isVerified: Math.random() > 0.2,
-      helpfulCount: Math.floor(Math.random() * 30),
-      isFlagged: Math.random() > 0.9,
-      adminResponse: hasResponse ? "Thank you for your valuable feedback. We appreciate your input and will use it to improve future events." : null,
-      respondedAt: hasResponse ? new Date(submittedDate.getTime() + 86400000).toISOString() : null,
-      submittedAt: submittedDate.toISOString(),
-    };
-  }).sort((a, b) => new Date(b.submittedAt) - new Date(a.submittedAt));
+  VENUE_IDS.forEach(venueId => {
+    const count = Math.floor(Math.random() * 8) + 3;
+    for (let i = 0; i < count; i++) {
+      const score = Math.random() < 0.35 ? 5 : Math.random() < 0.55 ? 4 : Math.random() < 0.75 ? 3 : Math.random() < 0.9 ? 2 : 1;
+      const templates = REVIEW_TEMPLATES[score];
+      const submittedDate = new Date();
+      submittedDate.setDate(submittedDate.getDate() - Math.floor(Math.random() * 90));
+
+      ratings.push(new Rating({
+        rating: score,
+        comment: templates[Math.floor(Math.random() * templates.length)],
+        customer_name: CUSTOMER_NAMES[Math.floor(Math.random() * CUSTOMER_NAMES.length)],
+        created_at: submittedDate.toISOString(),
+      }, venueId));
+    }
+  });
+
+  return ratings.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
 };
 
-let mockRatings = generateMockRatings();
+let dummyRatings = generateDummyRatings();
 
+// ─── Fetch Helper ────────────────────────────────────────────────────────────
+const getAuthHeaders = () => {
+  const headers = {
+    'Accept': 'application/json',
+    'Content-Type': 'application/json',
+  };
+  const token = localStorage.getItem('authToken');
+  if (token) {
+    headers['Authorization'] = `Bearer ${token}`;
+  }
+  return headers;
+};
+
+/**
+ * Fetch ratings for a single venue using native fetch.
+ * Returns { stats, ratings } or null on failure.
+ */
+const fetchVenueRatings = async (venueId) => {
+  try {
+    const response = await fetch(`${BASE_URL}/venues/${venueId}/ratings`, {
+      method: 'GET',
+      headers: getAuthHeaders(),
+    });
+
+    if (!response.ok) return null;
+
+    const json = await response.json().catch(() => null);
+    if (!json || json.status !== 'success' || !json.data) return null;
+
+    const stats = new VenueRatingStats(json.data, venueId);
+    const ratings = (json.data.ratings || []).map(r => Rating.fromApi(r, venueId));
+
+    return { stats, ratings };
+  } catch {
+    return null;
+  }
+};
+
+// ─── Service ──────────────────────────────────────────────────────────────────
 export const ratingService = {
+  /**
+   * Fetch ratings from all 25 venues in parallel using native fetch.
+   * Falls back to dummy data if ALL requests fail.
+   */
   getAll: async (filters = {}) => {
-    await new Promise(resolve => setTimeout(resolve, 500));
-    let filtered = [...mockRatings];
+    let allRatings = [];
+    let aggregatedStats = null;
 
-    if (filters.score && filters.score !== 'all') {
-      filtered = filtered.filter(r => r.score === Number(filters.score));
+    try {
+      // Fire all 25 venue requests in parallel
+      const results = await Promise.allSettled(
+        VENUE_IDS.map(id => fetchVenueRatings(id))
+      );
+
+      const successfulResults = results
+        .filter(r => r.status === 'fulfilled' && r.value !== null)
+        .map(r => r.value);
+
+      if (successfulResults.length === 0) {
+        throw new Error('All venue rating requests failed');
+      }
+
+      // Flatten all ratings
+      allRatings = successfulResults.flatMap(r => r.ratings);
+
+      // Aggregate stats across all venues
+      const totalRatings = successfulResults.reduce((sum, r) => sum + r.stats.ratingsCount, 0);
+      const weightedSum = successfulResults.reduce(
+        (sum, r) => sum + r.stats.averageRating * r.stats.ratingsCount, 0
+      );
+      const distribution = [5, 4, 3, 2, 1].map(score => {
+        const count = allRatings.filter(r => r.rating === score).length;
+        return {
+          score,
+          count,
+          percentage: totalRatings > 0 ? Math.round((count / totalRatings) * 100) : 0,
+        };
+      });
+
+      aggregatedStats = {
+        total: totalRatings,
+        average: totalRatings > 0 ? (weightedSum / totalRatings).toFixed(1) : '0.0',
+        distribution,
+      };
+    } catch (error) {
+      console.warn('API fetch failed, using dummy ratings:', error.message);
+      allRatings = [...dummyRatings];
+
+      const total = allRatings.length;
+      const avg = total > 0
+        ? (allRatings.reduce((sum, r) => sum + r.rating, 0) / total).toFixed(1)
+        : '0.0';
+      const distribution = [5, 4, 3, 2, 1].map(score => {
+        const count = allRatings.filter(r => r.rating === score).length;
+        return {
+          score,
+          count,
+          percentage: total > 0 ? Math.round((count / total) * 100) : 0,
+        };
+      });
+
+      aggregatedStats = { total, average: avg, distribution };
     }
 
-    if (filters.eventId && filters.eventId !== 'all') {
-      filtered = filtered.filter(r => r.eventId === Number(filters.eventId));
+    // Apply client-side filters
+    if (filters.score && filters.score !== 'all') {
+      allRatings = allRatings.filter(r => r.rating === Number(filters.score));
     }
 
     if (filters.search) {
       const q = filters.search.toLowerCase();
-      filtered = filtered.filter(r =>
-        r.eventName.toLowerCase().includes(q) ||
+      allRatings = allRatings.filter(r =>
         r.customerName.toLowerCase().includes(q) ||
-        r.description.toLowerCase().includes(q)
+        r.comment.toLowerCase().includes(q)
       );
     }
 
-    return filtered;
+    return { ratings: allRatings, stats: aggregatedStats };
   },
 
-  getStats: async () => {
-    await new Promise(resolve => setTimeout(resolve, 300));
-    const total = mockRatings.length;
-    const avg = total > 0 ? (mockRatings.reduce((sum, r) => sum + r.score, 0) / total).toFixed(1) : '0.0';
-    const distribution = [5, 4, 3, 2, 1].map(score => ({
-      score,
-      count: mockRatings.filter(r => r.score === score).length,
-      percentage: total > 0 ? Math.round((mockRatings.filter(r => r.score === score).length / total) * 100) : 0,
-    }));
+  /**
+   * Get unique venue IDs that have ratings (for filter dropdown).
+   */
+  getUniqueVenues: async () => {
+    try {
+      const results = await Promise.allSettled(
+        VENUE_IDS.map(id => fetchVenueRatings(id))
+      );
 
-    return { total, average: avg, distribution };
-  },
-
-  getUniqueEvents: async () => {
-    const eventsMap = new Map();
-    mockRatings.forEach(r => {
-      if (!eventsMap.has(r.eventId)) {
-        eventsMap.set(r.eventId, { id: r.eventId, name: r.eventName });
-      }
-    });
-    return Array.from(eventsMap.values()).sort((a, b) => a.name.localeCompare(b.name));
-  },
-
-  respond: async (ratingId, response) => {
-    await new Promise(resolve => setTimeout(resolve, 500));
-    const idx = mockRatings.findIndex(r => r.id === ratingId);
-    if (idx === -1) throw new Error('notFound');
-    mockRatings[idx] = {
-      ...mockRatings[idx],
-      adminResponse: response.trim(),
-      respondedAt: new Date().toISOString(),
-    };
-    return mockRatings[idx];
-  },
-
-  flag: async (ratingId) => {
-    await new Promise(resolve => setTimeout(resolve, 300));
-    const idx = mockRatings.findIndex(r => r.id === ratingId);
-    if (idx === -1) throw new Error('notFound');
-    mockRatings[idx] = { ...mockRatings[idx], isFlagged: true };
-    return mockRatings[idx];
-  },
-
-  delete: async (ratingId) => {
-    await new Promise(resolve => setTimeout(resolve, 400));
-    const idx = mockRatings.findIndex(r => r.id === ratingId);
-    if (idx === -1) throw new Error('notFound');
-    mockRatings.splice(idx, 1);
-    return true;
+      return results
+        .filter(r => r.status === 'fulfilled' && r.value !== null && r.value.ratings.length > 0)
+        .map(r => ({ id: r.value.stats.venueId, name: `Venue #${r.value.stats.venueId}` }))
+        .sort((a, b) => a.id - b.id);
+    } catch {
+      // Fallback: extract unique venue IDs from dummy data
+      const venueMap = new Map();
+      dummyRatings.forEach(r => {
+        if (r.venueId && !venueMap.has(r.venueId)) {
+          venueMap.set(r.venueId, { id: r.venueId, name: `Venue #${r.venueId}` });
+        }
+      });
+      return Array.from(venueMap.values()).sort((a, b) => a.id - b.id);
+    }
   },
 };
