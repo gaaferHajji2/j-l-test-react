@@ -1,7 +1,7 @@
 import { Rating, VenueRatingStats } from '../models/Rating';
 
 const BASE_URL = 'http://127.0.0.1:8000/api';
-const VENUE_IDS = Array.from({ length: 25 }, (_, i) => i + 1);
+const VENUE_IDS = Array.from({ length: 10 }, (_, i) => i + 1);
 
 // ─── Dummy Data (Fallback) ───────────────────────────────────────────────────
 const CUSTOMER_NAMES = [
