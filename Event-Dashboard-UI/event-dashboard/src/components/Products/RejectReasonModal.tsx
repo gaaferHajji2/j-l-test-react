@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-const RejectReasonModal = ({ isOpen, productName, onClose, onConfirm }) => {
+const RejectReasonModal = ({ isOpen, serviceName, onClose, onConfirm }) => {
   const { t } = useTranslation();
   const [reason, setReason] = useState('');
   const [error, setError] = useState('');
@@ -63,7 +63,7 @@ const RejectReasonModal = ({ isOpen, productName, onClose, onConfirm }) => {
           </div>
           <div className="min-w-0">
             <h2 className="text-lg font-bold text-gray-900 dark:text-white">{t('products.rejectReasonTitle')}</h2>
-            <p className="text-xs text-gray-500 dark:text-gray-400 truncate">{productName}</p>
+            <p className="text-xs text-gray-500 dark:text-gray-400 truncate">{serviceName}</p>
           </div>
           <button onClick={handleClose} className="ml-auto p-1.5 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors flex-shrink-0">
             <svg className="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">

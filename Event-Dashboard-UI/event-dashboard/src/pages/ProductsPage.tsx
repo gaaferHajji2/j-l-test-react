@@ -3,30 +3,30 @@ import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import DashboardHeader from '../components/Layout/DashboardHeader';
 import DashboardSidebar from '../components/Layout/DashboardSidebar';
-import ProductCard from '../components/Products/ProductCard';
+import ServiceCard from '../components/Products/ProductCard';
 import ProductsFilter from '../components/Products/ProductsFilter';
 import { productService } from '../services/productService';
 
-const ProductsPage = () => {
+const ServicesPage = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
-  const [products, setProducts] = useState([]);
+  const [services, setServices] = useState([]);
   const [vendors, setVendors] = useState([]);
   const [loading, setLoading] = useState(true);
   const [filters, setFilters] = useState({
     search: '',
     status: 'all',
     vendorId: 'all',
-    sortBy: { field: 'submittedAt', order: 'desc' },
+    sortBy: { field: 'created_at', order: 'desc' },
   });
 
-  const fetchProducts = useCallback(async () => {
+  const fetchServices = useCallback(async () => {
     setLoading(true);
     try {
       const data = await productService.getAll(filters);
-      setProducts(data);
+      setServices(data);
     } catch (err) {
-      console.error('Error fetching products:', err);
+      console.error('Error fetching services:', err);
     } finally {
       setLoading(false);
     }
@@ -37,25 +37,26 @@ const ProductsPage = () => {
   }, []);
 
   useEffect(() => {
-    fetchProducts();
-  }, [fetchProducts]);
+    fetchServices();
+  }, [fetchServices]);
 
-  const handleStatusChange = async (productId, newStatus, reason = null) => {
+  const handleStatusChange = async (serviceId, newStatus, reason = null) => {
     try {
-      await productService.updateStatus(productId, newStatus, reason);
-      await fetchProducts();
+      await productService.updateStatus(serviceId, newStatus, reason);
+      await fetchServices();
 
       const successMap = {
-        active: t('products.activateSuccess'),
-        rejected: t('products.rejectSuccess'),
-        inactive: t('products.deactivateSuccess'),
+        active: t('services.activateSuccess'),
+        rejected: t('services.rejectSuccess'),
+        inactive: t('services.deactivateSuccess'),
       };
       alert(successMap[newStatus] || 'Status updated');
     } catch (error) {
-      console.error('Error updating product status:', error);
-      alert('Error updating product status');
+      console.error('Error updating service status:', error);
+      alert('Error updating service status');
     }
   };
+
   const handleLogout = () => {
     localStorage.removeItem('authToken');
     navigate('/login');
@@ -63,15 +64,15 @@ const ProductsPage = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
-      <DashboardHeader onLogout={handleLogout} />
+      <DashboardHeader />
       <div className="flex">
         <DashboardSidebar />
         <main className="flex-1 p-6 lg:p-8">
           <div className="max-w-7xl mx-auto">
             {/* Header */}
             <div className="mb-8">
-              <h1 className="text-3xl font-bold text-gray-900 dark:text-white">{t('products.title')}</h1>
-              <p className="mt-2 text-gray-600 dark:text-gray-400">{t('products.subtitle')}</p>
+              <h1 className="text-3xl font-bold text-gray-900 dark:text-white">{t('services.title')}</h1>
+              <p className="mt-2 text-gray-600 dark:text-gray-400">{t('services.subtitle')}</p>
             </div>
 
             {/* Filters */}
@@ -92,12 +93,12 @@ const ProductsPage = () => {
                   </div>
                 ))}
               </div>
-            ) : products.length > 0 ? (
+            ) : services.length > 0 ? (
               <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-6">
-                {products.map(product => (
-                  <ProductCard
-                    key={product.id}
-                    product={product}
+                {services.map(service => (
+                  <ServiceCard
+                    key={service.id}
+                    service={service}
                     onStatusChange={handleStatusChange}
                   />
                 ))}
@@ -105,7 +106,7 @@ const ProductsPage = () => {
             ) : (
               <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md p-16 text-center">
                 <svg className="mx-auto h-16 w-16 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" /></svg>
-                <h3 className="mt-4 text-lg font-medium text-gray-900 dark:text-white">{t('products.noProductsFound')}</h3>
+                <h3 className="mt-4 text-lg font-medium text-gray-900 dark:text-white">{t('services.noServicesFound')}</h3>
                 <p className="mt-2 text-gray-500 dark:text-gray-400">Try adjusting your search or filter criteria</p>
               </div>
             )}
@@ -116,4 +117,4 @@ const ProductsPage = () => {
   );
 };
 
-export default ProductsPage;
+export default ServicesPage;
