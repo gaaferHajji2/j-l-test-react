@@ -118,7 +118,7 @@ export const eventService = {
    */
   accept: async (eventId) => {
     try {
-      const response = await api.post(`/venue-owner/events/${eventId}/accept`, {}, true);
+      const response = await api.put(`/venue-owner/events/${eventId}/accept`, {}, true);
       return Event.fromApi(response?.data ?? response);
     } catch (error) {
       console.warn('API accept failed, updating dummy data:', error.message);
@@ -140,7 +140,7 @@ export const eventService = {
    */
   reject: async (eventId, reason) => {
     try {
-      const response = await api.post(`/venue-owner/venue/${eventId}`, {
+      const response = await api.put(`/venue-owner/venue/${eventId}`, {
         rejection_reason: reason,
       }, true);
       return Event.fromApi(response?.data ?? response);
