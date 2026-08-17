@@ -187,12 +187,12 @@ const EventCard = ({ event, onAccept, onReject }) => {
         {/* Card Footer */}
         <div className="p-6 border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/50">
           <div className="flex items-center justify-between gap-3">
-            <Link
+            {/* <Link
               to={`/dashboard/events/${event.id}`}
               className="text-blue-600 dark:text-blue-400 hover:underline text-sm font-medium whitespace-nowrap"
             >
               {t('actions.view')}
-            </Link>
+            </Link> */}
             <div className="flex items-center gap-2 flex-wrap justify-end flex-1">
               {renderActions()}
             </div>
