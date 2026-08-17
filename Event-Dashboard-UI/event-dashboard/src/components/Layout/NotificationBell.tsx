@@ -39,7 +39,7 @@ const NotificationBell = () => {
         const count = await headerNotificationService.getUnreadCount();
         setUnreadCount(count);
       }
-    }, 60000);
+    }, 30000);
 
     // Initial fetch
     headerNotificationService.getUnreadCount().then(setUnreadCount);
