@@ -499,7 +499,9 @@
     "rejectReasonMinLength": "يجب أن يكون السبب 10 أحرف على الأقل",
     "submitRejectBtn": "تأكيد الرفض",
     "cancelRejectBtn": "إلغاء",
-    "rejectionReasonDisplay": "سبب الرفض"
+    "rejectionReasonDisplay": "سبب الرفض",
+    "approve": "موافقة",
+    "reject": "رفض"
   },
   "vendorRequestStatus": {
     "pending": "قيد الانتظار",

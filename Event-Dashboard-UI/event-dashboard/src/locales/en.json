@@ -499,7 +499,9 @@
     "rejectReasonMinLength": "Reason must be at least 10 characters",
     "submitRejectBtn": "Confirm Rejection",
     "cancelRejectBtn": "Cancel",
-    "rejectionReasonDisplay": "Rejection Reason"
+    "rejectionReasonDisplay": "Rejection Reason",
+    "approve": "Approve",
+    "reject": "Reject"
   },
   "vendorRequestStatus": {
     "pending": "Pending",

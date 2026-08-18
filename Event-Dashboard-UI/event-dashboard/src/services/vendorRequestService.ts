@@ -119,7 +119,7 @@ export const vendorRequestService = {
   approve: async (requestId) => {
     try {
       const response = await fetch(`${BASE_URL}/admin/services/${requestId}/approve`, {
-        method: 'POST',
+        method: 'PUT',
         headers: getHeaders(),
       });
 
@@ -148,7 +148,7 @@ export const vendorRequestService = {
   reject: async (requestId, reason) => {
     try {
       const response = await fetch(`${BASE_URL}/admin/services/${requestId}/reject`, {
-        method: 'POST',
+        method: 'PUT',
         headers: getHeaders(),
         body: JSON.stringify({ rejection_reason: reason }),
       });

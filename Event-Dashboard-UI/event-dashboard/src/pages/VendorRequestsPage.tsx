@@ -32,28 +32,27 @@ const VendorRequestsPage = () => {
 
   useEffect(() => { fetchRequests(); }, [fetchRequests]);
 
-  const handleApprove = async (request) => {
-    try {
-      await vendorRequestService.approve(request);
-      await fetchRequests();
-      alert(t('vendorRequests.approveSuccess'));
-    } catch (error) {
-      console.error('Error approving vendor request:', error);
-      alert('Error approving vendor request');
-    }
-  };
+const handleApprove = async (requestId) => {
+  try {
+    await vendorRequestService.approve(requestId);
+    await fetchRequests();
+    alert(t('vendorRequests.approveSuccess'));
+  } catch (error) {
+    console.error('Error approving vendor request:', error);
+    alert('Error approving vendor request');
+  }
+};
 
-  const handleReject = async (request, reason) => {
-    try {
-      await vendorRequestService.reject(request, reason);
-      await fetchRequests();
-      alert(t('vendorRequests.rejectSuccess'));
-    } catch (error) {
-      console.error('Error rejecting vendor request:', error);
-      alert('Error rejecting vendor request');
-    }
-  };
-
+const handleReject = async (requestId, reason) => {
+  try {
+    await vendorRequestService.reject(requestId, reason);
+    await fetchRequests();
+    alert(t('vendorRequests.rejectSuccess'));
+  } catch (error) {
+    console.error('Error rejecting vendor request:', error);
+    alert('Error rejecting vendor request');
+  }
+};
   const handleLogout = () => {
     localStorage.removeItem('authToken');
     navigate('/login');
