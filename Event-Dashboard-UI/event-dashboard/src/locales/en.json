@@ -72,7 +72,7 @@
   },
   "status": {
     "pending": "Pending",
-    "approved": "Approved",
+    "confirmed": "Approved",
     "rejected": "Rejected"
   },
   "events": {
