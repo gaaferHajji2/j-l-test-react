@@ -444,7 +444,11 @@
     "cvvRequired": "Valid CVV is required",
     "invoiceIdRequired": "Invoice ID is required",
     "venuePrice": "Venue Price",
-    "servicesTotal": "Services Total"
+    "servicesTotal": "Services Total",
+    "totalCollected": "Total Collected",
+    "pendingAmount": "Pending Amount",
+    "successfulPayments": "Successful Payments",
+    "totalInvoicesAmount": "Total Invoices"
   },
   "paymentStatus": {
     "paid": "Paid",

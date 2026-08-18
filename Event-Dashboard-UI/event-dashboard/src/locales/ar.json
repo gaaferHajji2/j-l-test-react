@@ -444,7 +444,11 @@
     "cvvRequired": "رمز CVV صالح مطلوب",
     "invoiceIdRequired": "رقم الفاتورة مطلوب",
     "venuePrice": "سعر القاعة",
-    "servicesTotal": "إجمالي الخدمات"
+    "servicesTotal": "إجمالي الخدمات",
+    "totalCollected": "إجمالي المحصل",
+    "pendingAmount": "المبلغ المعلق",
+    "successfulPayments": "المدفوعات الناجحة",
+    "totalInvoicesAmount": "إجمالي الفواتير"
   },
   "paymentStatus": {
     "paid": "مدفوع",
