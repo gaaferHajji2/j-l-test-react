@@ -451,7 +451,7 @@
     "totalInvoicesAmount": "Total Invoices"
   },
   "paymentStatus": {
-    "paid": "Paid",
+    "success": "Paid",
     "pending": "Pending",
     "overdue": "Overdue",
     "refunded": "Refunded",

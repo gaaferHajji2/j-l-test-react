@@ -451,7 +451,7 @@
     "totalInvoicesAmount": "إجمالي الفواتير"
   },
   "paymentStatus": {
-    "paid": "مدفوع",
+    "success": "مدفوع",
     "pending": "قيد الانتظار",
     "overdue": "متأخر",
     "refunded": "مسترد",
