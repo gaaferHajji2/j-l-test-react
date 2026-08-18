@@ -454,7 +454,8 @@
     "paid": "Paid",
     "pending": "Pending",
     "overdue": "Overdue",
-    "refunded": "Refunded"
+    "refunded": "Refunded",
+    "failed": "Failed"
   },
   "paymentMethod": {
     "bankTransfer": "Bank Transfer",

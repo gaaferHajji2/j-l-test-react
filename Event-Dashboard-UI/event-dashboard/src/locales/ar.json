@@ -454,7 +454,8 @@
     "paid": "مدفوع",
     "pending": "قيد الانتظار",
     "overdue": "متأخر",
-    "refunded": "مسترد"
+    "refunded": "مسترد",
+    "failed": "فاشل"
   },
   "paymentMethod": {
     "bankTransfer": "تحويل بنكي",
