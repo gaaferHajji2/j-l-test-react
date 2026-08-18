@@ -33,7 +33,8 @@
     "products": "المنتجات",
     "payments": "المدفوعات",
     "vendorRequests": "طلبات الموردين",
-    "venueOwnerRequests": "طلبات ملاك المواقع"
+    "venueOwnerRequests": "طلبات ملاك المواقع",
+    "users": "المستخدمون"
   },
   "dashboard": {
     "welcome": "مرحباً بك في لوحة التحكم",
@@ -535,5 +536,19 @@
     "pending": "قيد الانتظار",
     "approved": "معتمد",
     "rejected": "مرفوض"
+  },
+  "users": {
+    "title": "إدارة المستخدمين",
+    "subtitle": "عرض وإدارة جميع المستخدمين المسجلين",
+    "searchPlaceholder": "البحث بالاسم أو البريد أو الهاتف...",
+    "allRoles": "جميع الأدوار",
+    "noUsersFound": "لم يتم العثور على مستخدمين يطابقون معاييرك",
+    "name": "الاسم",
+    "email": "البريد الإلكتروني",
+    "phone": "الهاتف",
+    "role": "الدور",
+    "joinedAt": "تاريخ الانضمام",
+    "emailVerified": "البريد موثق",
+    "emailNotVerified": "البريد غير موثق"
   }
 }

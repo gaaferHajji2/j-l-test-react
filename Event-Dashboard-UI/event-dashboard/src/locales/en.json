@@ -24,6 +24,7 @@
     "dashboard": "Dashboard",
     "events": "Events",
     "vendors": "Users Management",
+    "users": "Users",
     "settings": "Settings",
     "eventTypes": "Event Types",
     "agents": "Agents",
@@ -535,5 +536,19 @@
     "pending": "Pending",
     "approved": "Approved",
     "rejected": "Rejected"
+  },
+  "users": {
+    "title": "Users Management",
+    "subtitle": "View and manage all registered users",
+    "searchPlaceholder": "Search by name, email, or phone...",
+    "allRoles": "All Roles",
+    "noUsersFound": "No users found matching your criteria",
+    "name": "Name",
+    "email": "Email",
+    "phone": "Phone",
+    "role": "Role",
+    "joinedAt": "Joined",
+    "emailVerified": "Email Verified",
+    "emailNotVerified": "Email Not Verified"
   }
 }
