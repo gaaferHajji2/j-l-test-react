@@ -1,12 +1,14 @@
-import { api } from './api';
 import { VendorRequest } from '../models/VendorRequest';
+
+const BASE_URL = 'http://127.0.0.1:8000/api';
+const AUTH_TOKEN = '1|TsGcZ0VIZedIMIP2cTZrs8t5nf0azvAcMs4xO9Z2d8f868e0';
 
 // ─── Dummy Data (Fallback) ───────────────────────────────────────────────────
 const SERVICE_NAMES = [
-  'Catering Package Premium', 'Photography Full Day', 'Decoration Setup',
-  'AV Equipment Rental', 'Security Team (8hr)', 'Transport Shuttle',
-  'Floral Arrangement Deluxe', 'Stage Lighting Package', 'DJ & Sound System',
-  'Tent & Canopy Setup', 'Print Materials Bundle', 'Live Entertainment',
+  'تنسيق كوشة ملكي', 'تصوير احترافي كامل', 'ديكور قاعة فاخر',
+  'نظام صوت وإضاءة', 'فريق حراسة أمنية', 'خدمة نقل ضيوف',
+  'تنسيق زهور طبيعي', 'إضاءة مسرح LED', 'DJ ونظام صوتي',
+  'خيمة خارجية مكيفة', 'طباعة دعوات وبطاقات', 'فرقة موسيقية حية',
 ];
 
 const generateDummyRequests = () => {
@@ -17,41 +19,32 @@ const generateDummyRequests = () => {
     const serviceName = SERVICE_NAMES[index % SERVICE_NAMES.length];
     const submittedDate = new Date();
     submittedDate.setDate(submittedDate.getDate() - Math.floor(Math.random() * 60));
-    const eventDate = new Date();
-    eventDate.setDate(eventDate.getDate() + Math.floor(Math.random() * 90));
 
     return new VendorRequest({
       id: index + 1,
-      order_id: Math.floor(Math.random() * 20) + 1,
-      event_id: Math.floor(Math.random() * 15) + 1,
       vendor_id: Math.floor(Math.random() * 10) + 1,
-      service_name: serviceName,
-      description: `Professional ${serviceName.toLowerCase()} service including setup, execution, and teardown. Suitable for events up to ${Math.floor(Math.random() * 400) + 100} guests.`,
+      category_id: Math.floor(Math.random() * 12) + 1,
+      name: serviceName,
+      description: `خدمة ${serviceName} متكاملة تشمل التجهيز والتنفيذ والتفكيك. مناسبة للفعاليات حتى ${Math.floor(Math.random() * 400) + 100} ضيف.`,
       price: String(Math.floor(Math.random() * 15000) + 1000) + '.00',
-      quantity: Math.floor(Math.random() * 3) + 1,
+      images: [],
       status,
       rejection_reason: status === 'rejected'
-        ? 'Service requirements do not match venue specifications. Please revise and resubmit.'
+        ? 'المستندات المقدمة غير مكتملة. يرجى إعادة التقديم مع إرفاق السجل التجاري وشهادة التأمين.'
         : null,
       created_at: submittedDate.toISOString(),
       updated_at: status !== 'pending'
         ? new Date(submittedDate.getTime() + 86400000 * Math.floor(Math.random() * 5)).toISOString()
         : submittedDate.toISOString(),
-      event: {
-        id: Math.floor(Math.random() * 15) + 1,
-        event_name: `Event ${String.fromCharCode(65 + (index % 26))}`,
-        event_type: ['wedding', 'conference', 'birthday', 'corporate'][index % 4],
-        date: eventDate.toISOString().split('T')[0],
-        start_time: '18:00:00',
-        end_time: '23:00:00',
-        guests_count: Math.floor(Math.random() * 300) + 50,
-        status: 'active',
-      },
       vendor: {
         id: Math.floor(Math.random() * 10) + 1,
-        name: `Vendor ${String.fromCharCode(65 + (index % 10))}`,
+        name: `مورد ${String.fromCharCode(1571 + (index % 10))}`,
         email: `vendor${index + 1}@example.com`,
+        avatar: null,
         phone: `+966 5${Math.floor(Math.random() * 10)} ${Math.floor(1000000 + Math.random() * 9000000)}`,
+        role: 'vendor',
+        email_verified_at: Math.random() > 0.3 ? submittedDate.toISOString() : null,
+        created_at: submittedDate.toISOString(),
       },
     });
   });
@@ -59,18 +52,34 @@ const generateDummyRequests = () => {
 
 let dummyRequests = generateDummyRequests();
 
+// ─── Fetch Helper ────────────────────────────────────────────────────────────
+const getHeaders = () => ({
+  'Accept': 'application/json',
+  'Content-Type': 'application/json',
+  'Authorization': `Bearer ${AUTH_TOKEN}`,
+});
+
 // ─── Service ──────────────────────────────────────────────────────────────────
 export const vendorRequestService = {
   /**
-   * Fetch all vendor service requests.
-   * GET /vendor/services
+   * Fetch all service requests.
+   * GET /admin/services/requests
    */
   getAll: async (filters = {}) => {
     let requests = [];
 
     try {
-      const response = await api.get('/vendor/services', true);
-      requests = VendorRequest.fromApiResponse(response);
+      const response = await fetch(`${BASE_URL}/admin/services/requests`, {
+        method: 'GET',
+        headers: getHeaders(),
+      });
+
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+
+      const json = await response.json();
+      if (json?.status !== 'success') throw new Error(json?.message || 'Non-success response');
+
+      requests = VendorRequest.fromApiResponse(json);
     } catch (error) {
       console.warn('API fetch failed, using dummy data:', error.message);
       requests = [...dummyRequests];
@@ -83,9 +92,9 @@ export const vendorRequestService = {
     if (filters.search) {
       const q = filters.search.toLowerCase();
       requests = requests.filter(r =>
-        r.serviceName.toLowerCase().includes(q) ||
+        r.name.toLowerCase().includes(q) ||
         r.vendorDisplayName.toLowerCase().includes(q) ||
-        r.eventDisplayName.toLowerCase().includes(q) ||
+        r.vendorEmail.toLowerCase().includes(q) ||
         r.description.toLowerCase().includes(q)
       );
     }
@@ -94,7 +103,7 @@ export const vendorRequestService = {
       requests.sort((a, b) => {
         let cmp = 0;
         if (field === 'created_at') cmp = new Date(a.createdAt) - new Date(b.createdAt);
-        else if (field === 'service_name') cmp = a.serviceName.localeCompare(b.serviceName);
+        else if (field === 'name') cmp = a.name.localeCompare(b.name);
         else if (field === 'price') cmp = a.priceAsNumber - b.priceAsNumber;
         return order === 'asc' ? cmp : -cmp;
       });
@@ -104,23 +113,23 @@ export const vendorRequestService = {
   },
 
   /**
-   * Approve a vendor service request.
-   * POST /vendor/orders/{event_id}/services/{id}/accept
+   * Approve a service request.
+   * POST /admin/services/{id}/approve
    */
-  approve: async (request) => {
-    const eventId = request.eventId || request.event?.id;
-    const serviceId = request.id;
-
+  approve: async (requestId) => {
     try {
-      const response = await api.post(
-        `/vendor/orders/${eventId}/services/${serviceId}/accept`,
-        {},
-        true
-      );
-      return VendorRequest.fromApi(response?.data ?? response);
+      const response = await fetch(`${BASE_URL}/admin/services/${requestId}/approve`, {
+        method: 'POST',
+        headers: getHeaders(),
+      });
+
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+
+      const json = await response.json();
+      return VendorRequest.fromApi(json?.data ?? json);
     } catch (error) {
       console.warn('API approve failed, updating dummy data:', error.message);
-      const idx = dummyRequests.findIndex(r => r.id === serviceId);
+      const idx = dummyRequests.findIndex(r => r.id === requestId);
       if (idx === -1) throw new Error('notFound');
       dummyRequests[idx] = new VendorRequest({
         ...dummyRequests[idx],
@@ -133,23 +142,24 @@ export const vendorRequestService = {
   },
 
   /**
-   * Reject a vendor service request with reason.
-   * POST /vendor/orders/{event_id}/services/{service_id}/reject
+   * Reject a service request with reason.
+   * POST /admin/services/{id}/reject
    */
-  reject: async (request, reason) => {
-    const eventId = request.eventId || request.event?.id;
-    const serviceId = request.id;
-
+  reject: async (requestId, reason) => {
     try {
-      const response = await api.post(
-        `/vendor/orders/${eventId}/services/${serviceId}/reject`,
-        { rejection_reason: reason },
-        true
-      );
-      return VendorRequest.fromApi(response?.data ?? response);
+      const response = await fetch(`${BASE_URL}/admin/services/${requestId}/reject`, {
+        method: 'POST',
+        headers: getHeaders(),
+        body: JSON.stringify({ rejection_reason: reason }),
+      });
+
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+
+      const json = await response.json();
+      return VendorRequest.fromApi(json?.data ?? json);
     } catch (error) {
       console.warn('API reject failed, updating dummy data:', error.message);
-      const idx = dummyRequests.findIndex(r => r.id === serviceId);
+      const idx = dummyRequests.findIndex(r => r.id === requestId);
       if (idx === -1) throw new Error('notFound');
       dummyRequests[idx] = new VendorRequest({
         ...dummyRequests[idx],
