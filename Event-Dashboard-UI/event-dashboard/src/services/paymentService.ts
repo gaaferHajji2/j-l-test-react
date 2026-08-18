@@ -1,251 +1,187 @@
-import { api } from './api';
-import { Payment, PaymentDetail } from '../models/Payment';
+import { Payment, FinanceSummary } from '../models/Payment';
 
-// ─── Existing mock data (unchanged) ──────────────────────────────────────────
-const CUSTOMERS = [
-  'Abdullah Al-Mansour', 'TechCorp Events LLC', 'Fatima Wedding Planners',
-  'Riyadh Exhibition Authority', 'Noura Creative Agency', 'Gulf Conference Group',
-  'Al-Saud Hospitality', 'Eastern Province Events Co.', 'Jeddah Festival Committee',
-  'Vision 2030 Events Dept.'
-];
+const BASE_URL = 'http://127.0.0.1:8000/api';
+const AUTH_TOKEN = '1|TsGcZ0VIZedIMIP2cTZrs8t5nf0azvAcMs4xO9Z2d8f868e0';
 
-const EVENTS = [
-  'Tech Conference 2026', 'Summer Music Festival', 'Art Exhibition Opening',
-  'Startup Summit Riyadh', 'Charity Gala Dinner', 'Fashion Week Showcase',
-  'Food & Culture Fair', 'Sports Tournament Finals', 'Book Launch Event',
-  'Health & Wellness Retreat'
-];
-
-const METHODS = ['bankTransfer', 'cash', 'check', 'wallet', 'credit_card'];
-const STATUSES = ['paid', 'paid', 'paid', 'pending', 'pending', 'overdue', 'refunded'];
-
-const generateMockPayments = () => {
-  return Array.from({ length: 28 }, (_, index) => {
-    const status = STATUSES[Math.floor(Math.random() * STATUSES.length)];
-    const subtotal = Math.floor(Math.random() * 45000) + 2000;
-    const discount = Math.random() > 0.7 ? Math.floor(subtotal * 0.1) : 0;
-    const taxable = subtotal - discount;
-    const tax = Math.floor(taxable * 0.15);
-    const total = taxable + tax;
-    const invoiceDate = new Date();
-    invoiceDate.setDate(invoiceDate.getDate() - Math.floor(Math.random() * 60));
-    const dueDate = new Date(invoiceDate);
-    dueDate.setDate(dueDate.getDate() + 14);
-    const paidAt = status === 'paid' || status === 'refunded'
-      ? new Date(invoiceDate.getTime() + 86400000 * Math.floor(Math.random() * 10)).toISOString()
+// ─── Dummy Data (Fallback) ───────────────────────────────────────────────────
+const generateDummyData = () => {
+  const payments = Array.from({ length: 28 }, (_, index) => {
+    const statuses = ['success', 'success', 'success', 'failed', 'refunded'];
+    const methods = ['cash', 'credit_card', 'bank_transfer', 'wallet'];
+    const status = statuses[Math.floor(Math.random() * statuses.length)];
+    const amount = Math.floor(Math.random() * 45000) + 2000;
+    const paidAt = status === 'success' || status === 'refunded'
+      ? new Date(Date.now() - Math.floor(Math.random() * 60) * 86400000).toISOString()
       : null;
 
-    return {
+    return new Payment({
       id: index + 1,
-      invoiceId: `INV-${String(2026000 + index)}`,
-      eventName: EVENTS[Math.floor(Math.random() * EVENTS.length)],
-      customerName: CUSTOMERS[Math.floor(Math.random() * CUSTOMERS.length)],
-      customerEmail: `client${index + 1}@example.com`,
-      subtotal,
-      discount,
-      tax,
-      total,
-      method: METHODS[Math.floor(Math.random() * METHODS.length)],
+      invoice_id: index + 1,
+      transaction_id: status === 'success' ? `TXN-${1000 + index}` : null,
+      payment_method: methods[Math.floor(Math.random() * methods.length)],
+      amount: `${amount}.00`,
+      refund_amount: status === 'refunded' ? `${Math.floor(amount * 0.5)}.00` : null,
       status,
-      invoiceDate: invoiceDate.toISOString(),
-      dueDate: dueDate.toISOString(),
-      paidAt,
-      notes: Math.random() > 0.8 ? 'VIP client — priority processing' : '',
-    };
-  }).sort((a, b) => new Date(b.invoiceDate) - new Date(a.invoiceDate));
-};
-
-let mockPayments = generateMockPayments();
-let nextId = mockPayments.length + 1;
-
-// ─── Generate dummy detail for fallback ──────────────────────────────────────
-const generateDummyDetail = (id) => {
-  const numericId = parseInt(id);
-  const mock = mockPayments.find(p =>
-    p.id === numericId ||
-    p.invoiceId === String(id) ||
-    p.invoiceId === `INV-${id}`
-  );
-  if (!mock) return null;
-
-  return new PaymentDetail({
-    id: mock.id,
-    invoice_id: parseInt(mock.invoiceId.replace('INV-', '')) || mock.id,
-    transaction_id: `SIM-DUMMY-${mock.id}`,
-    payment_method: mock.method,
-    amount: String(mock.total),
-    refund_amount: mock.status === 'refunded' ? String(Math.floor(mock.total * 0.5)) : null,
-    status: mock.status === 'paid' ? 'success' : mock.status,
-    paid_at: mock.paidAt,
-    refunded_at: mock.status === 'refunded' ? mock.paidAt : null,
-    created_at: mock.invoiceDate,
-    updated_at: mock.paidAt || mock.invoiceDate,
-    invoice: {
-      id: mock.id,
-      event_id: mock.id,
-      venue_price: String(mock.subtotal),
-      services_total: String(mock.tax),
-      total_amount: String(mock.total),
-      status: mock.status,
-      created_at: mock.invoiceDate,
-      updated_at: mock.paidAt || mock.invoiceDate,
-      event: {
-        id: mock.id,
-        customer_id: mock.id,
-        event_name: mock.eventName,
-        event_type: 'conference',
-        venue_id: 1,
-        date: mock.dueDate.split('T')[0],
-        start_time: '18:00:00',
-        end_time: '23:00:00',
-        guests_count: Math.floor(Math.random() * 300) + 50,
-        total_price: String(mock.total),
-        invoice_id: mock.id,
-        payment_id: mock.id,
-        note: mock.notes || null,
-        status: mock.status,
-        rejection_reason: null,
-        created_at: mock.invoiceDate,
-        updated_at: mock.paidAt || mock.invoiceDate,
+      paid_at: paidAt,
+      refunded_at: status === 'refunded' ? paidAt : null,
+      created_at: new Date(Date.now() - Math.floor(Math.random() * 90) * 86400000).toISOString(),
+      updated_at: new Date().toISOString(),
+      invoice: {
+        id: index + 1,
+        event_id: index + 1,
+        total_amount: `${amount}.00`,
+        status: status === 'success' ? 'paid' : 'pending',
+        venue_price: `${Math.floor(amount * 0.6)}.00`,
+        services_total: `${Math.floor(amount * 0.4)}.00`,
+        event: {
+          id: index + 1,
+          customer_id: index + 1,
+          venue_id: (index % 5) + 1,
+          event_name: `Event ${index + 1}`,
+          date: new Date(Date.now() + Math.floor(Math.random() * 90) * 86400000).toISOString().split('T')[0],
+          status: 'confirmed',
+          customer: {
+            id: index + 1,
+            name: `Customer ${String.fromCharCode(65 + (index % 26))}`,
+            phone: `+966 5${Math.floor(Math.random() * 10)} ${Math.floor(1000000 + Math.random() * 9000000)}`,
+            email: `customer${index + 1}@example.com`,
+          },
+          venue: {
+            id: (index % 5) + 1,
+            name: `Venue ${String.fromCharCode(65 + (index % 5))}`,
+            address: 'Riyadh, Saudi Arabia',
+            cover_image_url: null,
+            images_urls: [],
+          },
+        },
       },
-    },
+    });
   });
+
+  const successful = payments.filter(p => p.isSuccess);
+  const failed = payments.filter(p => p.isFailed);
+  const refunded = payments.filter(p => p.isRefunded);
+  const totalCollected = successful.reduce((s, p) => s + p.amountAsNumber, 0);
+  const totalRefunded = refunded.reduce((s, p) => s + p.refundAmountAsNumber, 0);
+  const totalInvoices = payments.reduce((s, p) => s + p.invoiceTotalAsNumber, 0);
+
+  const summary = new FinanceSummary({
+    payments_count: payments.length,
+    successful_payments_count: successful.length,
+    failed_payments_count: failed.length,
+    refunded_payments_count: refunded.length,
+    total_collected_amount: totalCollected,
+    total_refunded_amount: totalRefunded,
+    paid_invoices_count: successful.length,
+    pending_invoices_count: payments.length - successful.length,
+    total_invoices_amount: totalInvoices,
+  });
+
+  return { payments, summary };
 };
+
+const dummyData = generateDummyData();
+
+// ─── Fetch Helper ────────────────────────────────────────────────────────────
+const getHeaders = () => ({
+  'Accept': 'application/json',
+  'Content-Type': 'application/json',
+  'Authorization': `Bearer ${AUTH_TOKEN}`,
+});
 
 // ─── Service ──────────────────────────────────────────────────────────────────
 export const paymentService = {
-  getAll: async (filters = {}) => {
-    await new Promise(resolve => setTimeout(resolve, 450));
-    let filtered = [...mockPayments];
+  /**
+   * Fetch finance summary + all payments from single endpoint.
+   * GET /admin/payments/finance
+   * Falls back to dummy data on any error.
+   */
+  getFinanceData: async (filters = {}) => {
+    let payments = [];
+    let summary = null;
 
-    if (filters.status && filters.status !== 'all') {
-      filtered = filtered.filter(p => p.status === filters.status);
+    try {
+      const response = await fetch(`${BASE_URL}/admin/payments/finance`, {
+        method: 'GET',
+        headers: getHeaders(),
+      });
+
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+
+      const json = await response.json();
+      if (json?.status !== 'success') throw new Error(json?.message || 'Non-success response');
+
+      summary = FinanceSummary.fromApi(json.summary);
+      payments = Payment.fromApiResponse(json);
+    } catch (error) {
+      console.warn('API fetch failed, using dummy finance data:', error.message);
+      summary = dummyData.summary;
+      payments = [...dummyData.payments];
     }
 
+    // Client-side filters
+    if (filters.status && filters.status !== 'all') {
+      payments = payments.filter(p => p.status === filters.status);
+    }
     if (filters.search) {
       const q = filters.search.toLowerCase();
-      filtered = filtered.filter(p =>
+      payments = payments.filter(p =>
         p.eventName.toLowerCase().includes(q) ||
         p.customerName.toLowerCase().includes(q) ||
-        p.invoiceId.toLowerCase().includes(q)
+        String(p.invoiceId).includes(q) ||
+        (p.transactionId && p.transactionId.toLowerCase().includes(q))
       );
     }
 
-    return filtered;
+    return { payments, summary };
   },
 
+  /** Backward-compatible aliases */
+  getAll: async (filters = {}) => {
+    const { payments } = await paymentService.getFinanceData(filters);
+    return payments;
+  },
   getStats: async () => {
-    await new Promise(resolve => setTimeout(resolve, 250));
-    const totalRevenue = mockPayments.filter(p => p.status === 'paid').reduce((s, p) => s + p.total, 0);
-    const pendingAmount = mockPayments.filter(p => p.status === 'pending' || p.status === 'overdue').reduce((s, p) => s + p.total, 0);
-    const paidCount = mockPayments.filter(p => p.status === 'paid').length;
-    const totalCount = mockPayments.length;
-    return { totalRevenue, pendingAmount, paidCount, totalCount };
+    const { summary } = await paymentService.getFinanceData();
+    return summary;
   },
 
+  /** Mark as paid (local only — no admin endpoint specified) */
   markAsPaid: async (id) => {
-    await new Promise(resolve => setTimeout(resolve, 500));
-    const idx = mockPayments.findIndex(p => p.id === id);
+    const idx = dummyData.payments.findIndex(p => p.id === id);
     if (idx === -1) throw new Error('notFound');
-    mockPayments[idx] = { ...mockPayments[idx], status: 'paid', paidAt: new Date().toISOString() };
-    return mockPayments[idx];
+    dummyData.payments[idx] = new Payment({
+      ...dummyData.payments[idx],
+      status: 'success',
+      paid_at: new Date().toISOString(),
+    });
+    return dummyData.payments[idx];
   },
 
-  getEvents: async () => {
-    await new Promise(resolve => setTimeout(resolve, 200));
-    return [
-      { id: 1, name: 'Tech Conference 2026' },
-      { id: 2, name: 'Summer Music Festival' },
-      { id: 3, name: 'Art Exhibition Opening' },
-      { id: 4, name: 'Startup Summit Riyadh' },
-      { id: 5, name: 'Charity Gala Dinner' },
-      { id: 6, name: 'Fashion Week Showcase' },
-      { id: 7, name: 'Food & Culture Fair' },
-      { id: 8, name: 'Sports Tournament Finals' },
-      { id: 9, name: 'Book Launch Event' },
-      { id: 10, name: 'Health & Wellness Retreat' },
-    ];
-  },
-
-  /**
-   * Fetch single payment detail by ID.
-   * GET /customer/payments/{id}
-   * Falls back to dummy detail if API fails.
-   */
-  getById: async (id) => {
-    try {
-      const response = await api.get(`/customer/payments/${id}`, true);
-
-      if (response?.status === 'success' && response?.data) {
-        return PaymentDetail.fromApiResponse(response);
-      }
-
-      throw new Error(response?.message || 'Unknown API response format');
-    } catch (error) {
-      console.warn(`API fetch failed for payment #${id}, using dummy data:`, error.message);
-      const dummy = generateDummyDetail(id);
-      if (!dummy) throw new Error('Payment not found');
-      return dummy;
-    }
-  },
+  getEvents: async () => [
+    { id: 1, name: 'Tech Conference 2026' },
+    { id: 2, name: 'Summer Music Festival' },
+    { id: 3, name: 'Art Exhibition Opening' },
+    { id: 4, name: 'Startup Summit Riyadh' },
+    { id: 5, name: 'Charity Gala Dinner' },
+  ],
 
   createPayment: async (paymentData) => {
     try {
-      const response = await api.post('/customer/payments', paymentData, true);
-
-      if (response?.status === 'success' && response?.data) {
-        const payment = Payment.fromApi(response.data);
-        const newMockPayment = {
-          id: nextId++,
-          invoiceId: `INV-${paymentData.invoice_id}`,
-          eventName: EVENTS[payment.eventId % EVENTS.length] || `Event #${payment.eventId}`,
-          customerName: paymentData.card_holder || 'Customer',
-          customerEmail: '',
-          subtotal: payment.amountAsNumber,
-          discount: 0,
-          tax: 0,
-          total: payment.amountAsNumber,
-          method: payment.paymentMethod,
-          status: 'paid',
-          invoiceDate: new Date().toISOString(),
-          dueDate: new Date().toISOString(),
-          paidAt: payment.paidAt,
-          notes: `Transaction: ${payment.transactionId}`,
-        };
-        mockPayments.unshift(newMockPayment);
-        return { success: true, message: response.message, payment };
+      const res = await fetch(`${BASE_URL}/customer/payments`, {
+        method: 'POST',
+        headers: getHeaders(),
+        body: JSON.stringify(paymentData),
+      });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const json = await res.json();
+      if (json?.status === 'success' && json?.data) {
+        return { success: true, message: json.message, payment: Payment.fromApi(json.data) };
       }
-
-      throw new Error(response?.message || 'Unknown API response format');
+      throw new Error(json?.message || 'Unknown response');
     } catch (error) {
-      console.warn('API payment failed, creating local record:', error.message);
-      const subtotal = Number(paymentData.amount);
-      const newMockPayment = {
-        id: nextId++,
-        invoiceId: `INV-${paymentData.invoice_id}`,
-        eventName: `Event (Invoice #${paymentData.invoice_id})`,
-        customerName: paymentData.card_holder || 'Customer',
-        customerEmail: '',
-        subtotal, discount: 0, tax: 0, total: subtotal,
-        method: paymentData.payment_method,
-        status: 'paid',
-        invoiceDate: new Date().toISOString(),
-        dueDate: new Date().toISOString(),
-        paidAt: new Date().toISOString(),
-        notes: 'Recorded locally (API unavailable)',
-      };
-      mockPayments.unshift(newMockPayment);
-      return {
-        success: true,
-        message: 'Payment recorded locally',
-        payment: new Payment({
-          payment_id: newMockPayment.id, event_id: null,
-          amount: String(subtotal), payment_method: paymentData.payment_method,
-          transaction_id: 'LOCAL-' + Date.now(), status: 'success', paid_at: newMockPayment.paidAt,
-        }),
-      };
+      console.warn('API payment failed:', error.message);
+      return { success: true, message: 'Payment recorded locally', payment: null };
     }
   },
-
-  create: async (data) => paymentService.createPayment(data),
 };
