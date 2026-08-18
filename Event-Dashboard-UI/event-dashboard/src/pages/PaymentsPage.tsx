@@ -5,10 +5,9 @@ import DashboardHeader from '../components/Layout/DashboardHeader';
 import DashboardSidebar from '../components/Layout/DashboardSidebar';
 import PaymentStatsBar from '../components/Payments/PaymentStatsBar';
 import PaymentRow from '../components/Payments/PaymentRow';
-// import ReceiptModal from '../components/Payments/ReceiptModal';
-import { paymentService } from '../services/paymentService';
-import AddPaymentModal from '../components/Payments/AddPaymentModal';
 import PaymentDetailModal from '../components/Payments/PaymentDetailModal';
+import AddPaymentModal from '../components/Payments/AddPaymentModal';
+import { paymentService } from '../services/paymentService';
 
 const PaymentsPage = () => {
   const navigate = useNavigate();
@@ -16,44 +15,29 @@ const PaymentsPage = () => {
   const [payments, setPayments] = useState([]);
   const [stats, setStats] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [statsLoading, setStatsLoading] = useState(true);
   const [selectedPaymentId, setSelectedPaymentId] = useState(null);
-  const [filters, setFilters] = useState({ search: '', status: 'all' });
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [filters, setFilters] = useState({ search: '', status: 'all' });
 
-
-  const fetchPayments = useCallback(async () => {
+  const fetchData = useCallback(async () => {
     setLoading(true);
     try {
-      const data = await paymentService.getAll(filters);
-      setPayments(data);
+      const result = await paymentService.getFinanceData(filters);
+      setPayments(result.payments);
+      setStats(result.summary);
     } catch (err) {
-      console.error(err);
+      console.error('Error fetching finance data:', err);
     } finally {
       setLoading(false);
     }
   }, [filters]);
 
-  const fetchStats = useCallback(async () => {
-    setStatsLoading(true);
-    try {
-      const data = await paymentService.getStats();
-      setStats(data);
-    } catch (err) {
-      console.error(err);
-    } finally {
-      setStatsLoading(false);
-    }
-  }, []);
-
-  useEffect(() => { fetchPayments(); }, [fetchPayments]);
-  useEffect(() => { fetchStats(); }, []);
+  useEffect(() => { fetchData(); }, [fetchData]);
 
   const handleMarkPaid = async (id) => {
     try {
       await paymentService.markAsPaid(id);
-      fetchPayments();
-      fetchStats();
+      fetchData();
       alert(t('payments.markPaidSuccess'));
     } catch (err) {
       console.error(err);
@@ -65,17 +49,19 @@ const PaymentsPage = () => {
     alert(t('payments.reminderSent'));
   };
 
-  const handleLogout = () => { localStorage.removeItem('authToken'); navigate('/login'); };
-
   const handleAddSuccess = () => {
-    fetchPayments();
-    fetchStats();
+    fetchData();
     alert(t('payments.createSuccess'));
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('authToken');
+    navigate('/login');
   };
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
-      <DashboardHeader onLogout={handleLogout} />
+      <DashboardHeader />
       <div className="flex">
         <DashboardSidebar />
         <main className="flex-1 p-6 lg:p-8">
@@ -97,9 +83,8 @@ const PaymentsPage = () => {
               </button>
             </div>
 
-
-            {/* Stats */}
-            <PaymentStatsBar stats={stats} loading={statsLoading} />
+            {/* Finance Summary Stats */}
+            <PaymentStatsBar stats={stats} loading={loading} />
 
             {/* Filters */}
             <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md p-5 mb-6">
@@ -120,9 +105,8 @@ const PaymentsPage = () => {
                   className="w-full px-4 py-2.5 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-sm"
                 >
                   <option value="all">{t('payments.allStatuses')}</option>
-                  <option value="paid">{t('paymentStatus.paid')}</option>
-                  <option value="pending">{t('paymentStatus.pending')}</option>
-                  <option value="overdue">{t('paymentStatus.overdue')}</option>
+                  <option value="success">{t('paymentStatus.paid')}</option>
+                  <option value="failed">{t('paymentStatus.failed')}</option>
                   <option value="refunded">{t('paymentStatus.refunded')}</option>
                 </select>
               </div>
@@ -151,7 +135,7 @@ const PaymentsPage = () => {
                     payment={payment}
                     onMarkPaid={handleMarkPaid}
                     onSendReminder={handleSendReminder}
-                    onViewReceipt={setSelectedPaymentId}
+                    onViewReceipt={(id) => setSelectedPaymentId(id)}
                   />
                 ))}
               </div>
@@ -162,19 +146,11 @@ const PaymentsPage = () => {
               </div>
             )}
           </div>
-          <AddPaymentModal
-            isOpen={isAddModalOpen}
-            onClose={() => setIsAddModalOpen(false)}
-            onSuccess={handleAddSuccess}
-          />
         </main>
       </div>
 
-      {/* Receipt Modal */}
-      <PaymentDetailModal
-        paymentId={selectedPaymentId}
-        onClose={() => setSelectedPaymentId(null)}
-      />
+      <PaymentDetailModal paymentId={selectedPaymentId} onClose={() => setSelectedPaymentId(null)} />
+      <AddPaymentModal isOpen={isAddModalOpen} onClose={() => setIsAddModalOpen(false)} onSuccess={handleAddSuccess} />
     </div>
   );
 };
