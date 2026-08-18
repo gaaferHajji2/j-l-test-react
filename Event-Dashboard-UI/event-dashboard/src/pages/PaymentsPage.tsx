@@ -72,7 +72,7 @@ const PaymentsPage = () => {
                 <h1 className="text-3xl font-bold text-gray-900 dark:text-white">{t('payments.title')}</h1>
                 <p className="mt-2 text-gray-600 dark:text-gray-400">{t('payments.subtitle')}</p>
               </div>
-              <button
+              {/* <button
                 onClick={() => setIsAddModalOpen(true)}
                 className="inline-flex items-center gap-2 px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-lg transition-colors shadow-lg shadow-indigo-500/30 text-sm"
               >
@@ -80,7 +80,7 @@ const PaymentsPage = () => {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
                 </svg>
                 {t('payments.addPayment')}
-              </button>
+              </button> */}
             </div>
 
             {/* Finance Summary Stats */}
