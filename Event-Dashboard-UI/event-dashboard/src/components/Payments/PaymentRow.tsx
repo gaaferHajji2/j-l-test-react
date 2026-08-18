@@ -7,10 +7,10 @@ const PaymentRow = ({ payment, onMarkPaid, onSendReminder, onViewReceipt }) => {
 
   const getStatusBadge = (status) => {
     const styles = {
-      paid: 'bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-400 border-emerald-200 dark:border-emerald-800',
-      pending: 'bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-400 border-amber-200 dark:border-amber-800',
-      overdue: 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400 border-red-200 dark:border-red-800',
+      success: 'bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-400 border-emerald-200 dark:border-emerald-800',
+      failed: 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400 border-red-200 dark:border-red-800',
       refunded: 'bg-slate-100 text-slate-800 dark:bg-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-600',
+      pending: 'bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-400 border-amber-200 dark:border-amber-800',
     };
     return (
       <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold border ${styles[status]}`}>
@@ -19,7 +19,7 @@ const PaymentRow = ({ payment, onMarkPaid, onSendReminder, onViewReceipt }) => {
     );
   };
 
-  const isOverdue = payment.status === 'overdue';
+  const isOverdue = payment.status === 'failed';
 
   return (
     <div className={`group bg-white dark:bg-gray-800 rounded-xl shadow-sm hover:shadow-md transition-all border ${isOverdue ? 'border-red-200 dark:border-red-800/50' : 'border-gray-200 dark:border-gray-700'} overflow-hidden`}>
@@ -29,8 +29,8 @@ const PaymentRow = ({ payment, onMarkPaid, onSendReminder, onViewReceipt }) => {
           <div className="flex items-start gap-4 min-w-0 flex-1">
             {/* Icon */}
             <div className={`w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 ${payment.status === 'paid' ? 'bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400' :
-                payment.status === 'overdue' ? 'bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400' :
-                  'bg-amber-100 dark:bg-amber-900/30 text-amber-600 dark:text-amber-400'
+              payment.status === 'overdue' ? 'bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400' :
+                'bg-amber-100 dark:bg-amber-900/30 text-amber-600 dark:text-amber-400'
               }`}>
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
@@ -47,7 +47,7 @@ const PaymentRow = ({ payment, onMarkPaid, onSendReminder, onViewReceipt }) => {
               </p>
               <p className="text-xs text-gray-500 dark:text-gray-400 truncate">
                 {payment.customerName}{payment.venueName ? ` • ${payment.venueName}` : ''}
-              </p>            
+              </p>
             </div>
           </div>
 
@@ -55,11 +55,11 @@ const PaymentRow = ({ payment, onMarkPaid, onSendReminder, onViewReceipt }) => {
           <div className="flex items-center gap-6 lg:gap-8 pl-16 lg:pl-0">
             <div>
               <p className="text-xs text-gray-500 dark:text-gray-400 mb-0.5">{t('payments.amount')}</p>
-              <p className="text-lg font-bold text-gray-900 dark:text-white">{payment.total.toLocaleString()} <span className="text-xs font-normal text-gray-500">SYR</span></p>
+              <p className="text-lg font-bold text-gray-900 dark:text-white">{payment.amountAsNumber.toLocaleString()} <span className="text-xs font-normal text-gray-500">SYR</span></p>
             </div>
             <div className="hidden sm:block">
               <p className="text-xs text-gray-500 dark:text-gray-400 mb-0.5">{t('payments.method')}</p>
-              <p className="text-sm text-gray-700 dark:text-gray-300">{t(`paymentMethod.${payment.method}`)}</p>
+              <p className="text-sm text-gray-700 dark:text-gray-300">{payment.paymentMethod.replace('_', ' ')}</p>
             </div>
             <div>
               <p className="text-xs text-gray-500 dark:text-gray-400 mb-0.5">
