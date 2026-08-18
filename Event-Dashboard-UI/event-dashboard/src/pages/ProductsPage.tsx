@@ -71,8 +71,8 @@ const ServicesPage = () => {
           <div className="max-w-7xl mx-auto">
             {/* Header */}
             <div className="mb-8">
-              <h1 className="text-3xl font-bold text-gray-900 dark:text-white">{t('services.title')}</h1>
-              <p className="mt-2 text-gray-600 dark:text-gray-400">{t('services.subtitle')}</p>
+              <h1 className="text-3xl font-bold text-gray-900 dark:text-white">{t('products.title')}</h1>
+              <p className="mt-2 text-gray-600 dark:text-gray-400">{t('products.subtitle')}</p>
             </div>
 
             {/* Filters */}

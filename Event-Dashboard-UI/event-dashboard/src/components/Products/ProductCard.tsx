@@ -16,7 +16,7 @@ const ServiceCard = ({ service, onStatusChange }) => {
     };
     return (
       <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold border ${styles[status] || styles.pending}`}>
-        {t(`serviceStatus.${status}`)}
+        {t(`productStatus.${status}`)}
       </span>
     );
   };
@@ -112,7 +112,7 @@ const ServiceCard = ({ service, onStatusChange }) => {
       return (
         <button onClick={() => setConfirmAction('inactive')} className="w-full px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white text-sm font-medium rounded-lg transition-colors flex items-center justify-center gap-2">
           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" /></svg>
-          {t('services.deactivate')}
+          {t('products.deactivate')}
         </button>
       );
     }
@@ -122,7 +122,7 @@ const ServiceCard = ({ service, onStatusChange }) => {
       return (
         <button onClick={() => setConfirmAction('active')} className="w-full px-4 py-2 bg-green-600 hover:bg-green-700 text-white text-sm font-medium rounded-lg transition-colors flex items-center justify-center gap-2">
           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-          {t('services.activate')}
+          {t('products.activate')}
         </button>
       );
     }
