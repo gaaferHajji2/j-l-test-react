@@ -28,11 +28,10 @@ const PaymentRow = ({ payment, onMarkPaid, onSendReminder, onViewReceipt }) => {
           {/* Left: Invoice Info */}
           <div className="flex items-start gap-4 min-w-0 flex-1">
             {/* Icon */}
-            <div className={`w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 ${
-              payment.status === 'paid' ? 'bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400' :
-              payment.status === 'overdue' ? 'bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400' :
-              'bg-amber-100 dark:bg-amber-900/30 text-amber-600 dark:text-amber-400'
-            }`}>
+            <div className={`w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 ${payment.status === 'paid' ? 'bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400' :
+                payment.status === 'overdue' ? 'bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400' :
+                  'bg-amber-100 dark:bg-amber-900/30 text-amber-600 dark:text-amber-400'
+              }`}>
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
               </svg>
@@ -43,8 +42,12 @@ const PaymentRow = ({ payment, onMarkPaid, onSendReminder, onViewReceipt }) => {
                 <h3 className="font-semibold text-gray-900 dark:text-white text-sm truncate">{payment.invoiceId}</h3>
                 {getStatusBadge(payment.status)}
               </div>
-              <p className="text-sm text-indigo-600 dark:text-indigo-400 font-medium truncate mb-0.5">{payment.eventName}</p>
-              <p className="text-xs text-gray-500 dark:text-gray-400 truncate">{payment.customerName}</p>
+              <p className="text-sm text-indigo-600 dark:text-indigo-400 font-medium truncate mb-0.5">
+                {payment.eventName}
+              </p>
+              <p className="text-xs text-gray-500 dark:text-gray-400 truncate">
+                {payment.customerName}{payment.venueName ? ` • ${payment.venueName}` : ''}
+              </p>            
             </div>
           </div>
 
