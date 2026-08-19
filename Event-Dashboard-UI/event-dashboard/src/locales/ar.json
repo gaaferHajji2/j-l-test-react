@@ -34,7 +34,8 @@
     "payments": "المدفوعات",
     "vendorRequests": "طلبات الموردين",
     "venueOwnerRequests": "طلبات ملاك المواقع",
-    "users": "المستخدمون"
+    "users": "المستخدمون",
+    "serviceCategories": "فئات الخدمات"
   },
   "dashboard": {
     "welcome": "مرحباً بك في لوحة التحكم",
@@ -557,5 +558,27 @@
     "joinedAt": "تاريخ الانضمام",
     "emailVerified": "البريد موثق",
     "emailNotVerified": "البريد غير موثق"
+  },
+  "serviceCategories": {
+    "title": "فئات الخدمات",
+    "subtitle": "إدارة فئات الخدمات للموردين",
+    "addNew": "إضافة فئة",
+    "editTitle": "تعديل الفئة",
+    "createTitle": "إضافة فئة جديدة",
+    "nameLabel": "اسم الفئة *",
+    "namePlaceholder": "مثال: تنسيق قاعات",
+    "descriptionLabel": "الوصف",
+    "descriptionPlaceholder": "وصف مختصر لهذه الفئة...",
+    "submitCreate": "إنشاء الفئة",
+    "submitUpdate": "تحديث الفئة",
+    "cancelBtn": "إلغاء",
+    "noCategories": "لم يتم العثور على فئات",
+    "createFirst": "أنشئ أول فئة خدمة للبدء",
+    "deleteConfirm": "هل أنت متأكد من حذف هذه الفئة؟",
+    "createSuccess": "تم إنشاء الفئة بنجاح",
+    "updateSuccess": "تم تحديث الفئة بنجاح",
+    "deleteSuccess": "تم حذف الفئة بنجاح",
+    "nameRequired": "اسم الفئة مطلوب",
+    "nameMinLength": "يجب أن يكون الاسم حرفين على الأقل"
   }
 }

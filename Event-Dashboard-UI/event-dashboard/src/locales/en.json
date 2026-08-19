@@ -34,7 +34,8 @@
     "products": "Services",
     "payments": "Payments",
     "vendorRequests": "Vendor Requests",
-    "venueOwnerRequests": "Venue Owner Requests"
+    "venueOwnerRequests": "Venue Owner Requests",
+    "serviceCategories": "Service Categories"
   },
   "dashboard": {
     "welcome": "Welcome to Dashboard",
@@ -557,5 +558,27 @@
     "joinedAt": "Joined",
     "emailVerified": "Email Verified",
     "emailNotVerified": "Email Not Verified"
+  },
+  "serviceCategories": {
+    "title": "Service Categories",
+    "subtitle": "Manage service categories for vendors",
+    "addNew": "Add Category",
+    "editTitle": "Edit Category",
+    "createTitle": "Add New Category",
+    "nameLabel": "Category Name *",
+    "namePlaceholder": "e.g., تنسيق قاعات",
+    "descriptionLabel": "Description",
+    "descriptionPlaceholder": "Brief description of this category...",
+    "submitCreate": "Create Category",
+    "submitUpdate": "Update Category",
+    "cancelBtn": "Cancel",
+    "noCategories": "No categories found",
+    "createFirst": "Create your first service category to get started",
+    "deleteConfirm": "Are you sure you want to delete this category?",
+    "createSuccess": "Category created successfully",
+    "updateSuccess": "Category updated successfully",
+    "deleteSuccess": "Category deleted successfully",
+    "nameRequired": "Category name is required",
+    "nameMinLength": "Name must be at least 2 characters"
   }
 }
