@@ -47,13 +47,17 @@
     "eventsByMonth": "Events created and their status by month",
     "recentEvents": "Recent Events",
     "noDataAvailable": "No data available",
-    "noEventsFound": "No events found"
+    "noEventsFound": "No events found",
+    "monthlyRevenue": "Monthly Revenue (Confirmed Events)",
+    "revenue": "Revenue"
   },
   "stats": {
     "totalEvents": "Total Events",
     "pendingEvents": "Pending Events",
     "approvedEvents": "Approved Events",
-    "rejectedEvents": "Rejected Events"
+    "rejectedEvents": "Rejected Events",
+    "confirmedEvents": "Confirmed Events",
+    "totalRevenue": "Total Revenue"
   },
   "table": {
     "eventName": "Event Name",
@@ -75,7 +79,8 @@
   "status": {
     "pending": "Pending",
     "confirmed": "Approved",
-    "rejected": "Rejected"
+    "rejected": "Rejected",
+    "approved": "Confirmed"
   },
   "events": {
     "title": "Events Management",

@@ -47,13 +47,17 @@
     "eventsByMonth": "الفعاليات المنشأة وحالتها حسب الشهر",
     "recentEvents": "الفعاليات الأخيرة",
     "noDataAvailable": "لا توجد بيانات متاحة",
-    "noEventsFound": "لم يتم العثور على فعاليات"
+    "noEventsFound": "لم يتم العثور على فعاليات",
+    "monthlyRevenue": "الإيرادات الشهرية (الفعاليات المؤكدة)",
+    "revenue": "الإيرادات"
   },
   "stats": {
     "totalEvents": "إجمالي الفعاليات",
     "pendingEvents": "الفعاليات المعلقة",
     "approvedEvents": "الفعاليات المعتمدة",
-    "rejectedEvents": "الفعاليات المرفوضة"
+    "rejectedEvents": "الفعاليات المرفوضة",
+    "confirmedEvents": "الفعاليات المؤكدة",
+    "totalRevenue": "إجمالي الإيرادات"
   },
   "table": {
     "eventName": "اسم الفعالية",
@@ -73,9 +77,10 @@
     "reject": "رفض"
   },
   "status": {
-    "pending": "معلق",
     "confirmed": "معتمد",
-    "rejected": "مرفوض"
+    "approved": "مؤكد",
+    "pending": "قيد الانتظار",
+    "rejected": "ملغى"
   },
   "events": {
     "title": "إدارة الفعاليات",
