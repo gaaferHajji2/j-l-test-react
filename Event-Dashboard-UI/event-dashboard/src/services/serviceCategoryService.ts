@@ -1,7 +1,7 @@
 import { ServiceCategory } from '../models/ServiceCategory';
 
 const BASE_URL = 'http://127.0.0.1:8000/api';
-const AUTH_TOKEN = '1|TsGcZ0VIZedIMIP2cTZrs8t5nf0azvAcMs4xO9Z2d8f868e0';
+const AUTH_TOKEN = '1|8lFaZ1vuosl133fIKC2pHgVuPKUZeErtMHFbg9jb3a211cf5';
 
 // ─── Dummy Data (Fallback) ───────────────────────────────────────────────────
 const generateDummyCategories = () => [
