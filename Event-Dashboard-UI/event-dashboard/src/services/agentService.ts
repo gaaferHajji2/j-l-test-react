@@ -32,7 +32,7 @@ const generateMockAgents = () => {
     return {
       id: index + 1,
       fullName: `Agent ${String.fromCharCode(65 + (index % 26))} ${Math.floor(index / 26) + 1}`,
-      email: `agent${index + 1}@venue-sa.com`,
+      email: `agent${index + 1}@venue-sy.com`,
       phone: `+966 5${Math.floor(Math.random() * 10)} ${Math.floor(1000000 + Math.random() * 9000000)}`,
       venue,
       role,

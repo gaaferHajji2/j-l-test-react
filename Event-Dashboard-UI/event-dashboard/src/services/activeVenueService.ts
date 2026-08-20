@@ -27,7 +27,7 @@ const generateDummyVenues = () => [
     description: 'Premium ballroom with state-of-the-art AV equipment and luxury furnishings.',
     status: 'active', created_at: '2026-07-15T10:00:00.000000Z', updated_at: '2026-07-15T10:00:00.000000Z',
     cover_image_url: null, images_urls: [],
-    owner: { id: 10, name: 'Ahmed Al-Rashid', email: 'ahmed@venues.sa', phone: '+966501234567' },
+    owner: { id: 10, name: 'Ahmed Al-Rashid', email: 'ahmed@venues.sy', phone: '+966501234567' },
   }),
   new ActiveVenue({
     id: 4, owner_id: 11, name: 'Jeddah Waterfront Hall', address: 'Jeddah - Corniche',
@@ -35,7 +35,7 @@ const generateDummyVenues = () => [
     description: 'Stunning waterfront venue with panoramic sea views and outdoor terrace.',
     status: 'active', created_at: '2026-06-20T14:30:00.000000Z', updated_at: '2026-06-20T14:30:00.000000Z',
     cover_image_url: null, images_urls: [],
-    owner: { id: 11, name: 'Fatima Hassan', email: 'fatima@venues.sa', phone: '+966559876543' },
+    owner: { id: 11, name: 'Fatima Hassan', email: 'fatima@venues.sy', phone: '+966559876543' },
   }),
   new ActiveVenue({
     id: 5, owner_id: 12, name: 'Dammam Convention Center', address: 'Dammam - King Fahd Road',
@@ -43,7 +43,7 @@ const generateDummyVenues = () => [
     description: 'Large-scale convention center suitable for conferences, exhibitions, and corporate events.',
     status: 'active', created_at: '2026-05-10T09:00:00.000000Z', updated_at: '2026-05-10T09:00:00.000000Z',
     cover_image_url: null, images_urls: [],
-    owner: { id: 12, name: 'Khalid Ibrahim', email: 'khalid@venues.sa', phone: '+966541112222' },
+    owner: { id: 12, name: 'Khalid Ibrahim', email: 'khalid@venues.sy', phone: '+966541112222' },
   }),
   new ActiveVenue({
     id: 6, owner_id: 13, name: 'Abha Mountain Resort', address: 'Abha - Al-Soudah',
@@ -51,7 +51,7 @@ const generateDummyVenues = () => [
     description: 'Mountain resort venue with cool climate and breathtaking natural scenery.',
     status: 'active', created_at: '2026-04-05T16:00:00.000000Z', updated_at: '2026-04-05T16:00:00.000000Z',
     cover_image_url: null, images_urls: [],
-    owner: { id: 13, name: 'Noura Al-Saud', email: 'noura@venues.sa', phone: '+966567778888' },
+    owner: { id: 13, name: 'Noura Al-Saud', email: 'noura@venues.sy', phone: '+966567778888' },
   }),
 ];
 
