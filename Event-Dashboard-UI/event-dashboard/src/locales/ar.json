@@ -35,7 +35,8 @@
     "vendorRequests": "طلبات الموردين",
     "venueOwnerRequests": "طلبات ملاك المواقع",
     "users": "المستخدمون",
-    "serviceCategories": "فئات الخدمات"
+    "serviceCategories": "فئات الخدمات",
+    "activeVenues": "المواقع النشطة"
   },
   "dashboard": {
     "welcome": "مرحباً بك في لوحة التحكم",
@@ -580,5 +581,20 @@
     "deleteSuccess": "تم حذف الفئة بنجاح",
     "nameRequired": "اسم الفئة مطلوب",
     "nameMinLength": "يجب أن يكون الاسم حرفين على الأقل"
+  },
+  "activeVenues": {
+    "title": "المواقع النشطة",
+    "subtitle": "تصفح جميع المواقع المعتمدة والنشطة على المنصة",
+    "searchPlaceholder": "البحث باسم الموقع أو العنوان أو المالك...",
+    "noVenuesFound": "لم يتم العثور على مواقع نشطة",
+    "tryAdjusting": "حاول تعديل معايير البحث",
+    "capacity": "السعة",
+    "pricePerDay": "السعر / يوم",
+    "address": "العنوان",
+    "owner": "المالك",
+    "description": "الوصف",
+    "viewDetails": "عرض التفاصيل",
+    "totalActive": "{{count}} موقع نشط",
+    "joinedAt": "مدرج منذ"
   }
 }

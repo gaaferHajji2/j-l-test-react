@@ -35,7 +35,8 @@
     "payments": "Payments",
     "vendorRequests": "Vendor Requests",
     "venueOwnerRequests": "Venue Owner Requests",
-    "serviceCategories": "Service Categories"
+    "serviceCategories": "Service Categories",
+    "activeVenues": "Active Venues"
   },
   "dashboard": {
     "welcome": "Welcome to Dashboard",
@@ -580,5 +581,20 @@
     "deleteSuccess": "Category deleted successfully",
     "nameRequired": "Category name is required",
     "nameMinLength": "Name must be at least 2 characters"
+  },
+  "activeVenues": {
+    "title": "Active Venues",
+    "subtitle": "Browse all approved and active venues on the platform",
+    "searchPlaceholder": "Search by venue name, address, or owner...",
+    "noVenuesFound": "No active venues found",
+    "tryAdjusting": "Try adjusting your search criteria",
+    "capacity": "Capacity",
+    "pricePerDay": "Price / Day",
+    "address": "Address",
+    "owner": "Owner",
+    "description": "Description",
+    "viewDetails": "View Details",
+    "totalActive": "{{count}} active venues",
+    "joinedAt": "Listed since"
   }
 }

@@ -12,6 +12,7 @@ import NotificationsPage from './pages/NotificationPage';
 import VenuesPage from './pages/VenuesPage';
 import RatingsPage from './pages/RatingsPage';
 import ProductsPage from './pages/ProductsPage';
+import ActiveVenuesPage from './pages/ActiveVenuesPage';
 import PaymentsPage from './pages/PaymentsPage';
 import VendorRequestsPage from './pages/VendorRequestsPage';
 import VenueOwnerRequestsPage from './pages/VenueOwnerRequestsPage';
@@ -63,6 +64,7 @@ function App() {
               <Route path="/dashboard/venues" element={<VenuesPage />} />
               <Route path="/dashboard/ratings" element={<RatingsPage />} />
               <Route path="/dashboard/products" element={<ProductsPage />} />
+              <Route path="/dashboard/active-venues" element={<ActiveVenuesPage />} />
               <Route path="/dashboard/payments" element={<PaymentsPage />} />
               <Route path="/dashboard/vendor-requests" element={<VendorRequestsPage />} />
               <Route path="/dashboard/venue-owner-requests" element={<VenueOwnerRequestsPage />} />
