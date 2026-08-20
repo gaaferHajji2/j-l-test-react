@@ -12,7 +12,7 @@ export class VendorRequest {
     this.name = data.name ?? '';
     this.description = data.description ?? '';
     this.price = data.price ?? '0.00';
-    this.images = Array.iSYRray(data.images) ? data.images : [];
+    this.images = Array.isArray(data.images) ? data.images : [];
     this.status = data.status ?? 'pending';
     this.rejectionReason = data.rejection_reason ?? null;
     this.createdAt = data.created_at ?? null;
@@ -59,6 +59,6 @@ export class VendorRequest {
   static fromApi(data) { return new VendorRequest(data); }
   static fromApiResponse(response) {
     const items = response?.data ?? response ?? [];
-    return Array.iSYRray(items) ? items.map(item => VendorRequest.fromApi(item)) : [];
+    return Array.isArray(items) ? items.map(item => VendorRequest.fromApi(item)) : [];
   }
 }

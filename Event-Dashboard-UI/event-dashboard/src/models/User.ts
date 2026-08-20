@@ -45,6 +45,6 @@ export class User {
 
   static fromApiResponse(response) {
     const items = response?.data ?? response ?? [];
-    return Array.iSYRray(items) ? items.map(item => User.fromApi(item)) : [];
+    return Array.isArray(items) ? items.map(item => User.fromApi(item)) : [];
   }
 }
