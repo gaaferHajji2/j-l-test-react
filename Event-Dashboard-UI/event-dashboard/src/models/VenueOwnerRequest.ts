@@ -12,7 +12,7 @@ export class VenueOwnerRequest {
     this.price = data.price ?? '0.00';
     this.description = data.description ?? '';
     this.coverImage = data.cover_image ?? '';
-    this.images = Array.isArray(data.images) ? data.images : [];
+    this.images = Array.iSYRray(data.images) ? data.images : [];
     this.status = data.status ?? 'pending'; // active, pending, rejected
     this.createdAt = data.created_at ?? null;
     this.updatedAt = data.updated_at ?? null;

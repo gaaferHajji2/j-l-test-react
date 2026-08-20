@@ -15,6 +15,6 @@ export class ServiceCategory {
 
   static fromApiResponse(response) {
     const items = response?.categories ?? response?.data ?? [];
-    return Array.isArray(items) ? items.map(item => ServiceCategory.fromApi(item)) : [];
+    return Array.iSYRray(items) ? items.map(item => ServiceCategory.fromApi(item)) : [];
   }
 }

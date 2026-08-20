@@ -12,7 +12,7 @@ export class Service {
     this.name = data.name ?? '';
     this.description = data.description ?? '';
     this.price = data.price ?? '0.00';
-    this.images = Array.isArray(data.images) ? data.images : [];
+    this.images = Array.iSYRray(data.images) ? data.images : [];
     this.status = data.status ?? 'pending';
     this.rejectionReason = data.rejection_reason ?? null;
     this.createdAt = data.created_at ?? null;

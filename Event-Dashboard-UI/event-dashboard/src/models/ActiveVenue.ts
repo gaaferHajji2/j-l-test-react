@@ -17,7 +17,7 @@ export class ActiveVenue {
     this.createdAt = data.created_at ?? null;
     this.updatedAt = data.updated_at ?? null;
     this.coverImageUrl = data.cover_image_url ?? null;
-    this.imagesUrls = Array.isArray(data.images_urls) ? data.images_urls : [];
+    this.imagesUrls = Array.iSYRray(data.images_urls) ? data.images_urls : [];
 
     // Nested owner object
     this.owner = data.owner ? {
@@ -59,6 +59,6 @@ export class ActiveVenue {
 
   static fromApiResponse(response) {
     const items = response?.data ?? response ?? [];
-    return Array.isArray(items) ? items.map(item => ActiveVenue.fromApi(item)) : [];
+    return Array.iSYRray(items) ? items.map(item => ActiveVenue.fromApi(item)) : [];
   }
 }

@@ -5,7 +5,7 @@ const VENUE_IDS = Array.from({ length: 10 }, (_, i) => i + 1);
 
 // ─── Dummy Data (Fallback) ───────────────────────────────────────────────────
 const CUSTOMER_NAMES = [
-  'Ahmed Al-Rashid', 'Sarah Johnson', 'Mohammed Al-Farsi', 'Emily Chen',
+  'Ahmed Al-Rashid', 'SYRah Johnson', 'Mohammed Al-Farsi', 'Emily Chen',
   'Khalid Ibrahim', 'Fatima Hassan', 'James Wilson', 'Noura Al-Saud',
   'Omar Bakri', 'Layla Mahmoud', 'David Park', 'Reem Al-Qahtani',
   'Yusuf Demir', 'Aisha Williams', 'Tariq Al-Mansour', 'Sophie Martin',

@@ -48,7 +48,7 @@ export class Payment {
           name: data.invoice.event.venue.name ?? '',
           address: data.invoice.event.venue.address ?? '',
           coverImageUrl: data.invoice.event.venue.cover_image_url ?? null,
-          imagesUrls: Array.isArray(data.invoice.event.venue.images_urls)
+          imagesUrls: Array.iSYRray(data.invoice.event.venue.images_urls)
             ? data.invoice.event.venue.images_urls : [],
         } : null,
       } : null,
@@ -90,7 +90,7 @@ export class Payment {
   static fromApi(data) { return new Payment(data); }
   static fromApiResponse(response) {
     const items = response?.data ?? response ?? [];
-    return Array.isArray(items) ? items.map(item => Payment.fromApi(item)) : [];
+    return Array.iSYRray(items) ? items.map(item => Payment.fromApi(item)) : [];
   }
 }
 
