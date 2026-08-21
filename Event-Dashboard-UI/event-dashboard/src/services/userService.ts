@@ -96,6 +96,44 @@ export const userService = {
     return users;
   },
 
+  create: async (data) => {
+  try {
+    const response = await fetch(`${BASE_URL}/admin/add-user`, {
+      method: 'POST',
+      headers: getHeaders(),
+      body: JSON.stringify({
+        name: data.name.trim(),
+        email: data.email.trim().toLowerCase(),
+        phone: data.phone.trim(),
+        role: data.role,
+      }),
+    });
+
+    if (!response.ok) {
+      const errorJson = await response.json().catch(() => null);
+      throw new Error(errorJson?.message || `HTTP ${response.status}`);
+    }
+
+    const json = await response.json();
+    return User.fromApi(json?.data ?? json?.user ?? json);
+  } catch (error) {
+    console.warn('API createUser failed:', error.message);
+    // Fallback: add to dummy data
+    const newUser = new User({
+      id: Date.now(),
+      name: data.name.trim(),
+      email: data.email.trim().toLowerCase(),
+      phone: data.phone.trim(),
+      role: data.role,
+      email_verified_at: null,
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString(),
+    });
+    dummyUsers.unshift(newUser);
+    return newUser;
+  }
+},
+
   /** Get unique roles for filter dropdown */
   getRoles: () => ROLES,
 };

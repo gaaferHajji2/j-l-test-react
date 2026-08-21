@@ -69,13 +69,13 @@ const EventsFilter = ({ filters, onFilterChange }) => {
         <div>
           <select
             value={filters.status || 'all'}
-            onChange={handleStatusChange}
+            onChange={(e) => onFilterChange({ ...filters, status: e.target.value })}
             className="w-full px-4 py-2.5 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           >
             <option value="all">{t('events.allStatuses')}</option>
             <option value="pending">{t('status.pending')}</option>
-            <option value="approved">{t('status.approved')}</option>
-            <option value="rejected">{t('status.rejected')}</option>
+            <option value="confirmed">{t('status.approved')}</option>
+            <option value="cancelled">{t('status.rejected')}</option>
           </select>
         </div>
 

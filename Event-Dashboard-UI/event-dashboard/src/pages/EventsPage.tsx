@@ -34,6 +34,8 @@ const EventsPage = () => {
 
   const handleAccept = async (eventId) => {
     try {
+      // The endpoint POST /venue-owner/events/{id}/accept 
+      // should set status to "confirmed" server-side
       await eventService.accept(eventId);
       await fetchEvents();
       alert(t('events.approveSuccess'));
@@ -42,7 +44,6 @@ const EventsPage = () => {
       alert('Error accepting event');
     }
   };
-
   const handleReject = async (eventId, reason) => {
     try {
       await eventService.reject(eventId, reason);

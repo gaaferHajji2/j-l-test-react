@@ -22,17 +22,25 @@ const EventCard = ({ event, onAccept, onReject }) => {
   const getStatusBadge = (status) => {
     const styles = {
       pending: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400 border-yellow-200 dark:border-yellow-800',
-      approved: 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400 border-green-200 dark:border-green-800',
-      accepted: 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400 border-green-200 dark:border-green-800',
+      confirmed: 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400 border-green-200 dark:border-green-800',
+      cancelled: 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400 border-red-200 dark:border-red-800',
       rejected: 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400 border-red-200 dark:border-red-800',
     };
+
+    // Map display labels for translation
+    const labelMap = {
+      pending: t('status.pending'),
+      confirmed: t('status.approved'),
+      cancelled: t('status.rejected'),
+      rejected: t('status.rejected'),
+    };
+
     return (
       <span className={`px-3 py-1 rounded-full text-xs font-medium border ${styles[status] || styles.pending}`}>
-        {t(`status.${status === 'accepted' ? 'approved' : status}`)}
+        {labelMap[status] || status}
       </span>
     );
   };
-
   const handleAcceptConfirm = async () => {
     try {
       await onAccept(event.id);
@@ -85,7 +93,7 @@ const EventCard = ({ event, onAccept, onReject }) => {
     }
 
     // Pending → Accept or Reject
-    if (event.isPending) {
+    if (event.status === 'pending') {
       return (
         <>
           <button
@@ -107,7 +115,7 @@ const EventCard = ({ event, onAccept, onReject }) => {
     }
 
     // Rejected → show reason
-    if (event.isRejected && event.rejectionReason) {
+    if ((event.status === 'rejected' || event.status === 'cancelled') && event.rejectionReason) {
       return (
         <div className="w-full p-3 bg-red-50 dark:bg-red-900/10 rounded-lg border border-red-100 dark:border-red-800/30">
           <p className="text-[10px] font-semibold text-red-600 dark:text-red-400 uppercase tracking-wider mb-1">Rejection Reason</p>

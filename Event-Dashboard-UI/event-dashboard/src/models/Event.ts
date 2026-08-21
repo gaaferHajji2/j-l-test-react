@@ -55,9 +55,8 @@ export class Event {
   }
 
   get isPending() { return this.status === 'pending'; }
-  get isApproved() { return this.status === 'approved' || this.status === 'accepted'; }
-  get isRejected() { return this.status === 'rejected'; }
-
+  get isApproved() { return this.status === 'confirmed' || this.status === 'approved' || this.status === 'accepted'; }
+  get isRejected() { return this.status === 'rejected' || this.status === 'cancelled'; }
   get customerDisplayName() {
     return this.customer?.name || `Customer #${this.customerId}`;
   }
