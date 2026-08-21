@@ -61,7 +61,7 @@ const LoginForm = () => {
 
       // Store token from API response
       if (response.data.token) {
-        localStorage.setItem('authToken', response.token);
+        localStorage.setItem('authToken', response.data.token);
       }
 
       // Navigate to dashboard on success
