@@ -1,6 +1,6 @@
 import { Service } from '../models/Service';
 
-const BASE_URL = 'http://127.0.0.1:8000/api';
+const BASE_URL = 'https://eventak.abukm.com/api';
 
 // ─── Dummy Data (Fallback) ───────────────────────────────────────────────────
 const CATEGORIES = [

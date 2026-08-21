@@ -36,7 +36,8 @@
     "venueOwnerRequests": "طلبات ملاك المواقع",
     "users": "المستخدمون",
     "serviceCategories": "فئات الخدمات",
-    "activeVenues": "المواقع النشطة"
+    "activeVenues": "المواقع النشطة",
+    "servicesByCategory": "الخدمات حسب الفئة"
   },
   "dashboard": {
     "welcome": "مرحباً بك في لوحة التحكم",
@@ -619,5 +620,18 @@
     "viewDetails": "عرض التفاصيل",
     "totalActive": "{{count}} موقع نشط",
     "joinedAt": "مدرج منذ"
+  },
+  "servicesByCategory": {
+    "title": "الخدمات حسب الفئة",
+    "subtitle": "تصفح جميع الخدمات المتاحة مصنفة حسب الفئة",
+    "searchPlaceholder": "ابحث عن خدمة أو مورد...",
+    "noCategories": "لا توجد فئات خدمات",
+    "noServicesInCategory": "لا توجد خدمات في هذه الفئة",
+    "servicesCount": "{{count}} خدمة",
+    "priceFrom": "ابتداءً من {{price}} ريال",
+    "vendor": "المورد",
+    "serviceDescription": "الوصف",
+    "expandAll": "توسيع الكل",
+    "collapseAll": "طي الكل"
   }
 }

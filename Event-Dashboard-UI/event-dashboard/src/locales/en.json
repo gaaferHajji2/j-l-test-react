@@ -36,7 +36,8 @@
     "vendorRequests": "Vendor Requests",
     "venueOwnerRequests": "Venue Owner Requests",
     "serviceCategories": "Service Categories",
-    "activeVenues": "Active Venues"
+    "activeVenues": "Active Venues",
+    "servicesByCategory": "Services by Category"
   },
   "dashboard": {
     "welcome": "Welcome to Dashboard",
@@ -619,5 +620,18 @@
     "viewDetails": "View Details",
     "totalActive": "{{count}} active venues",
     "joinedAt": "Listed since"
+  },
+  "servicesByCategory": {
+    "title": "Services by Category",
+    "subtitle": "Browse all available services organized by category",
+    "searchPlaceholder": "Search services or vendors...",
+    "noCategories": "No service categories found",
+    "noServicesInCategory": "No services in this category",
+    "servicesCount": "{{count}} services",
+    "priceFrom": "From {{price}} SAR",
+    "vendor": "Vendor",
+    "serviceDescription": "Description",
+    "expandAll": "Expand All",
+    "collapseAll": "Collapse All"
   }
 }

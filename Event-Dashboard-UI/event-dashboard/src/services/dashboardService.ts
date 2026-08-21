@@ -1,5 +1,5 @@
-const BASE_URL = 'http://127.0.0.1:8000/api';
-const AUTH_TOKEN = '1|8lFaZ1vuosl133fIKC2pHgVuPKUZeErtMHFbg9jb3a211cf5';
+const BASE_URL = 'https://eventak.abukm.com/api';
+const AUTH_TOKEN = '15|9PYfYdFWh9rFuluRPW0Uxx4YvXPlGCXv50SIXyoU9c0cce61';
 
 const MONTH_NAMES = [
   'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
