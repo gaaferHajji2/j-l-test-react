@@ -120,7 +120,7 @@ const VenueOwnerRequestCard = ({ request, onApprove, onReject }) => {
           <div className="absolute bottom-3 left-3 right-3 flex justify-between items-end">
             <span className="text-white text-sm font-bold truncate">{request.name}</span>
             <span className="bg-white/90 dark:bg-gray-900/90 backdrop-blur-sm px-2 py-1 rounded text-xs font-bold text-teal-600 dark:text-teal-400 whitespace-nowrap">
-              {request.priceAsNumber.toLocaleString()} SAR
+              {request.priceAsNumber.toLocaleString()} SYR
             </span>
           </div>
         </div>
