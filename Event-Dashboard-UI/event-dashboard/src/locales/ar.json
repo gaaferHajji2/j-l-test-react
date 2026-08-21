@@ -636,5 +636,12 @@
     "serviceDescription": "الوصف",
     "expandAll": "توسيع الكل",
     "collapseAll": "طي الكل"
+  },
+  "eventStatus": {
+    "pending": "قيد الانتظار",
+    "confirmed": "مؤكد",
+    "paid": "مدفوع",
+    "cancelled": "ملغى",
+    "rejected": "مرفوض"
   }
 }

@@ -1,17 +1,26 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import RejectReasonModal from '../VendorRequests/RejectReasonModal';
 
 const EVENT_TYPE_COLORS = {
   wedding: 'bg-pink-100 text-pink-800 dark:bg-pink-900/30 dark:text-pink-400',
+  زفاف: 'bg-pink-100 text-pink-800 dark:bg-pink-900/30 dark:text-pink-400',
   conference: 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400',
+  مؤتمر: 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400',
   birthday: 'bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-400',
-  corporate: 'bg-slate-100 text-slate-800 dark:bg-slate-700 dark:text-slate-300',
+  'عيد ميلاد': 'bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-400',
+  تخرج: 'bg-teal-100 text-teal-800 dark:bg-teal-900/30 dark:text-teal-400',
   exhibition: 'bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-400',
-  concert: 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400',
-  workshop: 'bg-teal-100 text-teal-800 dark:bg-teal-900/30 dark:text-teal-400',
-  gala: 'bg-indigo-100 text-indigo-800 dark:bg-indigo-900/30 dark:text-indigo-400',
+  معرض: 'bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-400',
+};
+
+const STATUS_STYLES = {
+  pending: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400 border-yellow-200 dark:border-yellow-800',
+  confirmed: 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400 border-green-200 dark:border-green-800',
+  paid: 'bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-400 border-emerald-200 dark:border-emerald-800',
+  cancelled: 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400 border-red-200 dark:border-red-800',
+  rejected: 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400 border-red-200 dark:border-red-800',
 };
 
 const EventCard = ({ event, onAccept, onReject }) => {
@@ -20,27 +29,14 @@ const EventCard = ({ event, onAccept, onReject }) => {
   const [showRejectModal, setShowRejectModal] = useState(false);
 
   const getStatusBadge = (status) => {
-    const styles = {
-      pending: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400 border-yellow-200 dark:border-yellow-800',
-      confirmed: 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400 border-green-200 dark:border-green-800',
-      cancelled: 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400 border-red-200 dark:border-red-800',
-      rejected: 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400 border-red-200 dark:border-red-800',
-    };
-
-    // Map display labels for translation
-    const labelMap = {
-      pending: t('status.pending'),
-      confirmed: t('status.approved'),
-      cancelled: t('status.rejected'),
-      rejected: t('status.rejected'),
-    };
-
+    const style = STATUS_STYLES[status] || STATUS_STYLES.pending;
     return (
-      <span className={`px-3 py-1 rounded-full text-xs font-medium border ${styles[status] || styles.pending}`}>
-        {labelMap[status] || status}
+      <span className={`px-3 py-1 rounded-full text-xs font-medium border ${style}`}>
+        {t(`eventStatus.${status}`)}
       </span>
     );
   };
+
   const handleAcceptConfirm = async () => {
     try {
       await onAccept(event.id);
@@ -65,68 +61,62 @@ const EventCard = ({ event, onAccept, onReject }) => {
     }
   };
 
-  const renderActions = () => {
-    // Inline confirmation for accept
-    if (confirmAction === 'approved') {
-      return (
-        <div className="flex flex-col gap-2 w-full">
-          <p className="text-xs text-gray-600 dark:text-gray-400 leading-snug">{t('events.confirmApprove')}</p>
-          <div className="flex items-center gap-2">
-            <button onClick={handleAcceptConfirm} className="flex-1 px-3 py-2 bg-green-600 hover:bg-green-700 text-white text-xs font-medium rounded-lg transition-colors">Confirm</button>
-            <button onClick={() => setConfirmAction(null)} className="flex-1 px-3 py-2 bg-gray-200 dark:bg-gray-600 hover:bg-gray-300 dark:hover:bg-gray-500 text-gray-700 dark:text-gray-200 text-xs font-medium rounded-lg transition-colors">Cancel</button>
-          </div>
-        </div>
-      );
-    }
+  // const renderActions = () => {
+  //   // Inline confirmation for accept
+  //   if (confirmAction === 'confirmed') {
+  //     return (
+  //       <div className="flex flex-col gap-2 w-full">
+  //         <p className="text-xs text-gray-600 dark:text-gray-400 leading-snug">{t('events.confirmApprove')}</p>
+  //         <div className="flex items-center gap-2">
+  //           <button onClick={handleAcceptConfirm} className="flex-1 px-3 py-2 bg-green-600 hover:bg-green-700 text-white text-xs font-medium rounded-lg transition-colors">Confirm</button>
+  //           <button onClick={() => setConfirmAction(null)} className="flex-1 px-3 py-2 bg-gray-200 dark:bg-gray-600 hover:bg-gray-300 dark:hover:bg-gray-500 text-gray-700 dark:text-gray-200 text-xs font-medium rounded-lg transition-colors">Cancel</button>
+  //         </div>
+  //       </div>
+  //     );
+  //   }
 
-    // Inline confirmation for reject — opens reason modal
-    if (confirmAction === 'rejected') {
-      return (
-        <div className="flex flex-col gap-2 w-full">
-          <p className="text-xs text-gray-600 dark:text-gray-400 leading-snug">{t('events.confirmReject')}</p>
-          <div className="flex items-center gap-2">
-            <button onClick={handleRejectConfirmClick} className="flex-1 px-3 py-2 bg-red-600 hover:bg-red-700 text-white text-xs font-medium rounded-lg transition-colors">Confirm</button>
-            <button onClick={() => setConfirmAction(null)} className="flex-1 px-3 py-2 bg-gray-200 dark:bg-gray-600 hover:bg-gray-300 dark:hover:bg-gray-500 text-gray-700 dark:text-gray-200 text-xs font-medium rounded-lg transition-colors">Cancel</button>
-          </div>
-        </div>
-      );
-    }
+  //   // Inline confirmation for reject → opens reason modal
+  //   if (confirmAction === 'rejected') {
+  //     return (
+  //       <div className="flex flex-col gap-2 w-full">
+  //         <p className="text-xs text-gray-600 dark:text-gray-400 leading-snug">{t('events.confirmReject')}</p>
+  //         <div className="flex items-center gap-2">
+  //           <button onClick={handleRejectConfirmClick} className="flex-1 px-3 py-2 bg-red-600 hover:bg-red-700 text-white text-xs font-medium rounded-lg transition-colors">Confirm</button>
+  //           <button onClick={() => setConfirmAction(null)} className="flex-1 px-3 py-2 bg-gray-200 dark:bg-gray-600 hover:bg-gray-300 dark:hover:bg-gray-500 text-gray-700 dark:text-gray-200 text-xs font-medium rounded-lg transition-colors">Cancel</button>
+  //         </div>
+  //       </div>
+  //     );
+  //   }
 
-    // Pending → Accept or Reject
-    if (event.status === 'pending') {
-      return (
-        <>
-          <button
-            onClick={() => setConfirmAction('approved')}
-            className="px-4 py-2 bg-green-600 hover:bg-green-700 text-white text-sm font-medium rounded-lg transition-colors flex items-center gap-2"
-          >
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>
-            {t('actions.approve')}
-          </button>
-          <button
-            onClick={() => setConfirmAction('rejected')}
-            className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white text-sm font-medium rounded-lg transition-colors flex items-center gap-2"
-          >
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
-            {t('actions.reject')}
-          </button>
-        </>
-      );
-    }
+  //   // Pending → Accept or Reject
+  //   if (event.needsReview) {
+  //     return (
+  //       <>
+  //         <button onClick={() => setConfirmAction('confirmed')} className="px-4 py-2 bg-green-600 hover:bg-green-700 text-white text-sm font-medium rounded-lg transition-colors flex items-center gap-2">
+  //           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>
+  //           {t('actions.approve')}
+  //         </button>
+  //         <button onClick={() => setConfirmAction('rejected')} className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white text-sm font-medium rounded-lg transition-colors flex items-center gap-2">
+  //           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
+  //           {t('actions.reject')}
+  //         </button>
+  //       </>
+  //     );
+  //   }
 
-    // Rejected → show reason
-    if ((event.status === 'rejected' || event.status === 'cancelled') && event.rejectionReason) {
-      return (
-        <div className="w-full p-3 bg-red-50 dark:bg-red-900/10 rounded-lg border border-red-100 dark:border-red-800/30">
-          <p className="text-[10px] font-semibold text-red-600 dark:text-red-400 uppercase tracking-wider mb-1">Rejection Reason</p>
-          <p className="text-xs text-red-800 dark:text-red-300 leading-relaxed">{event.rejectionReason}</p>
-        </div>
-      );
-    }
+  //   // Cancelled/Rejected → show reason
+  //   if (event.isCancelled && event.rejectionReason) {
+  //     return (
+  //       <div className="w-full p-3 bg-red-50 dark:bg-red-900/10 rounded-lg border border-red-100 dark:border-red-800/30">
+  //         <p className="text-[10px] font-semibold text-red-600 dark:text-red-400 uppercase tracking-wider mb-1">Rejection Reason</p>
+  //         <p className="text-xs text-red-800 dark:text-red-300 leading-relaxed">{event.rejectionReason}</p>
+  //       </div>
+  //     );
+  //   }
 
-    // Approved → no actions
-    return null;
-  };
+  //   // Confirmed/Paid → no actions
+  //   return null;
+  // };
 
   const typeColorClass = EVENT_TYPE_COLORS[event.eventType] || 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300';
 
@@ -138,7 +128,7 @@ const EventCard = ({ event, onAccept, onReject }) => {
           <div className="flex items-start justify-between mb-3">
             <div className="flex-1 min-w-0">
               <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-1 truncate">{event.eventName}</h3>
-              <p className="text-sm text-gray-600 dark:text-gray-400 line-clamp-2">{event.venueDisplayName}</p>
+              <p className="text-sm text-gray-600 dark:text-gray-400 truncate">{event.venueDisplayName}</p>
             </div>
             <div className="ml-4 flex-shrink-0">{getStatusBadge(event.status)}</div>
           </div>
@@ -167,10 +157,7 @@ const EventCard = ({ event, onAccept, onReject }) => {
             </div>
             <div className="min-w-0 flex-1">
               <p className="text-sm font-semibold text-gray-900 dark:text-white truncate">{event.customerDisplayName}</p>
-              <div className="flex items-center gap-3 text-[10px] text-gray-500 dark:text-gray-400 mt-0.5">
-                {event.customer?.email && <span className="truncate">{event.customer.email}</span>}
-                {event.customer?.phone && <span>{event.customer.phone}</span>}
-              </div>
+              {event.customer?.phone && <p className="text-[10px] text-gray-500 dark:text-gray-400">{event.customer.phone}</p>}
             </div>
           </div>
 
@@ -181,8 +168,15 @@ const EventCard = ({ event, onAccept, onReject }) => {
 
           <div className="flex items-center gap-2 text-sm">
             <svg className="w-4 h-4 text-gray-500 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-            <span className="text-gray-700 dark:text-gray-300 font-semibold">{event.totalPriceAsNumber.toLocaleString()} SYR</span>
+            <span className="text-gray-700 dark:text-gray-300 font-semibold">{event.totalPriceAsNumber.toLocaleString()} SAR</span>
           </div>
+
+          {event.servicesCount > 0 && (
+            <div className="flex items-center gap-2 text-sm">
+              <svg className="w-4 h-4 text-gray-500 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" /></svg>
+              <span className="text-gray-700 dark:text-gray-300">{event.servicesCount} services attached</span>
+            </div>
+          )}
 
           {event.note && (
             <div className="p-2.5 bg-amber-50 dark:bg-amber-900/10 rounded-lg border border-amber-100 dark:border-amber-800/30">
@@ -193,22 +187,18 @@ const EventCard = ({ event, onAccept, onReject }) => {
         </div>
 
         {/* Card Footer */}
-        <div className="p-6 border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/50">
+        {/* <div className="p-6 border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/50">
           <div className="flex items-center justify-between gap-3">
-            {/* <Link
-              to={`/dashboard/events/${event.id}`}
-              className="text-blue-600 dark:text-blue-400 hover:underline text-sm font-medium whitespace-nowrap"
-            >
+            <Link to={`/dashboard/events/${event.id}`} className="text-blue-600 dark:text-blue-400 hover:underline text-sm font-medium whitespace-nowrap">
               {t('actions.view')}
-            </Link> */}
+            </Link>
             <div className="flex items-center gap-2 flex-wrap justify-end flex-1">
               {renderActions()}
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
 
-      {/* Rejection Reason Modal */}
       <RejectReasonModal
         isOpen={showRejectModal}
         businessName={event.eventName}

@@ -1,6 +1,6 @@
 /**
- * DTO Model for Venue Owner Event
- * Maps to GET /venue-owner/events API response
+ * DTO Model for Admin Event
+ * Maps to GET /admin/events/all API response
  */
 export class Event {
   constructor(data) {
@@ -22,18 +22,40 @@ export class Event {
     this.createdAt = data.created_at ?? null;
     this.updatedAt = data.updated_at ?? null;
 
-    // Nested customer object
+    // Nested customer
     this.customer = data.customer ? {
       id: data.customer.id ?? null,
       name: data.customer.name ?? '',
-      email: data.customer.email ?? '',
       phone: data.customer.phone ?? '',
     } : null;
 
-    // Nested venue object
+    // Nested venue
     this.venue = data.venue ? {
       id: data.venue.id ?? null,
       name: data.venue.name ?? '',
+      price: data.venue.price ?? '0.00',
+    } : null;
+
+    // Nested services array
+    this.services = Array.isArray(data.services)
+      ? data.services.map(s => ({
+          id: s.id ?? null,
+          name: s.name ?? '',
+          price: s.price ?? '0.00',
+          quantity: s.pivot?.quantity ?? 1,
+          servicePrice: s.pivot?.price ?? s.price ?? '0.00',
+          status: s.pivot?.status ?? null,
+        }))
+      : [];
+
+    // Nested invoice
+    this.invoice = data.invoice ? {
+      id: data.invoice.id ?? null,
+      eventId: data.invoice.event_id ?? null,
+      venuePrice: data.invoice.venue_price ?? '0.00',
+      servicesTotal: data.invoice.services_total ?? '0.00',
+      totalAmount: data.invoice.total_amount ?? '0.00',
+      status: data.invoice.status ?? '',
     } : null;
   }
 
@@ -55,20 +77,18 @@ export class Event {
   }
 
   get isPending() { return this.status === 'pending'; }
-  get isApproved() { return this.status === 'confirmed' || this.status === 'approved' || this.status === 'accepted'; }
-  get isRejected() { return this.status === 'rejected' || this.status === 'cancelled'; }
-  get customerDisplayName() {
-    return this.customer?.name || `Customer #${this.customerId}`;
-  }
+  get isConfirmed() { return this.status === 'confirmed'; }
+  get isPaid() { return this.status === 'paid'; }
+  get isCancelled() { return this.status === 'cancelled' || this.status === 'rejected'; }
+  get needsReview() { return this.status === 'pending'; }
 
-  get venueDisplayName() {
-    return this.venue?.name || `Venue #${this.venueId}`;
-  }
+  get customerDisplayName() { return this.customer?.name || `Customer #${this.customerId}`; }
+  get venueDisplayName() { return this.venue?.name || `Venue #${this.venueId}`; }
+  get servicesCount() { return this.services.length; }
 
   static fromApi(data) { return new Event(data); }
-
   static fromApiResponse(response) {
     const items = response?.data ?? response ?? [];
-    return items.map(item => Event.fromApi(item));
+    return Array.isArray(items) ? items.map(item => Event.fromApi(item)) : [];
   }
 }

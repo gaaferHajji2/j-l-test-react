@@ -74,8 +74,9 @@ const EventsFilter = ({ filters, onFilterChange }) => {
           >
             <option value="all">{t('events.allStatuses')}</option>
             <option value="pending">{t('status.pending')}</option>
-            <option value="confirmed">{t('status.approved')}</option>
-            <option value="cancelled">{t('status.rejected')}</option>
+            <option value="confirmed">{t('eventStatus.confirmed')}</option>
+            <option value="paid">{t('eventStatus.paid')}</option>
+            <option value="cancelled">{t('eventStatus.cancelled')}</option>
           </select>
         </div>
 

@@ -636,5 +636,12 @@
     "serviceDescription": "Description",
     "expandAll": "Expand All",
     "collapseAll": "Collapse All"
+  },
+  "eventStatus": {
+    "pending": "Pending",
+    "confirmed": "Confirmed",
+    "paid": "Paid",
+    "cancelled": "Cancelled",
+    "rejected": "Rejected"
   }
 }
