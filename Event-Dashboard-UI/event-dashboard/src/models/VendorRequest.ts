@@ -45,6 +45,9 @@ export class VendorRequest {
   }
 
   get isPending() { return this.status === 'pending'; }
+  get isPendingDelete() { return this.status === 'pending_delete'; }
+  get needsReview() { return this.status === 'pending' || this.status === 'pending_delete'; }
+
   get isApproved() { return this.status === 'approved' || this.status === 'active'; }
   get isRejected() { return this.status === 'rejected'; }
 

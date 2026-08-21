@@ -509,12 +509,15 @@
     "cancelRejectBtn": "إلغاء",
     "rejectionReasonDisplay": "سبب الرفض",
     "approve": "موافقة",
-    "reject": "رفض"
+    "reject": "رفض",
+    "confirmApproveDelete": "هل أنت متأكد من اعتماد هذه الخدمة وإلغاء طلب الحذف؟"
   },
   "vendorRequestStatus": {
     "pending": "قيد الانتظار",
     "approved": "معتمد",
-    "rejected": "مرفوض"
+    "rejected": "مرفوض",
+    "pendingDelete": "قيد الحذف",
+    "inactive": "غير نشط"
   },
   "venueOwnerRequests": {
     "title": "طلبات ملاك المواقع",

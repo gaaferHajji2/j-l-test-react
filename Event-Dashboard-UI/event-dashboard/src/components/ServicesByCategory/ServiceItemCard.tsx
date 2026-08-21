@@ -20,7 +20,7 @@ const ServiceItemCard = ({ service }) => {
           <div className="flex items-start justify-between gap-2 mb-1">
             <h4 className="text-sm font-bold text-gray-900 dark:text-white line-clamp-1">{service.name}</h4>
             <span className="text-sm font-bold text-indigo-600 dark:text-indigo-400 whitespace-nowrap">
-              {service.priceAsNumber.toLocaleString()} SAR
+              {service.priceAsNumber.toLocaleString()} SYR
             </span>
           </div>
 

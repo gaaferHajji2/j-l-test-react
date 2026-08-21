@@ -509,12 +509,15 @@
     "cancelRejectBtn": "Cancel",
     "rejectionReasonDisplay": "Rejection Reason",
     "approve": "Approve",
-    "reject": "Reject"
+    "reject": "Reject",
+    "confirmApproveDelete": "Are you sure you want to approve this service and cancel the deletion request?"
   },
   "vendorRequestStatus": {
     "pending": "Pending",
     "approved": "Approved",
-    "rejected": "Rejected"
+    "rejected": "Rejected",
+    "pendingDelete": "Pending Delete",
+    "inactive": "Inactive"
   },
   "venueOwnerRequests": {
     "title": "Venue Owner Requests",
@@ -628,7 +631,7 @@
     "noCategories": "No service categories found",
     "noServicesInCategory": "No services in this category",
     "servicesCount": "{{count}} services",
-    "priceFrom": "From {{price}} SAR",
+    "priceFrom": "From {{price}} SYR",
     "vendor": "Vendor",
     "serviceDescription": "Description",
     "expandAll": "Expand All",

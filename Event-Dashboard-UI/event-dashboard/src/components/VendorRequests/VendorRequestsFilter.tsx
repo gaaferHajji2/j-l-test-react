@@ -41,6 +41,7 @@ const VendorRequestsFilter = ({ filters, onFilterChange }) => {
         >
           <option value="all">{t('vendorRequests.allStatuses')}</option>
           <option value="pending">{t('vendorRequestStatus.pending')}</option>
+          <option value="pending_delete">{t('vendorRequestStatus.pendingDelete')}</option>
           <option value="approved">{t('vendorRequestStatus.approved')}</option>
           <option value="rejected">{t('vendorRequestStatus.rejected')}</option>
         </select>

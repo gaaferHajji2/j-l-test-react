@@ -2,24 +2,40 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import RejectReasonModal from './RejectReasonModal';
 
+const STATUS_STYLES = {
+  pending: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400 border-yellow-200 dark:border-yellow-800',
+  pending_delete: 'bg-orange-100 text-orange-800 dark:bg-orange-900/30 dark:text-orange-400 border-orange-200 dark:border-orange-800',
+  approved: 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400 border-green-200 dark:border-green-800',
+  active: 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400 border-green-200 dark:border-green-800',
+  inactive: 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300 border-gray-200 dark:border-gray-600',
+  rejected: 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400 border-red-200 dark:border-red-800',
+};
+
+const STATUS_LABEL_KEYS = {
+  pending: 'vendorRequestStatus.pending',
+  pending_delete: 'vendorRequestStatus.pendingDelete',
+  approved: 'vendorRequestStatus.approved',
+  active: 'vendorRequestStatus.approved',
+  inactive: 'vendorRequestStatus.inactive',
+  rejected: 'vendorRequestStatus.rejected',
+};
+
 const VendorRequestCard = ({ request, onApprove, onReject }) => {
   const { t } = useTranslation();
   const [confirmAction, setConfirmAction] = useState(null);
   const [showRejectModal, setShowRejectModal] = useState(false);
 
   const getStatusBadge = (status) => {
-    const styles = {
-      pending: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400 border-yellow-200 dark:border-yellow-800',
-      approved: 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400 border-green-200 dark:border-green-800',
-      active: 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400 border-green-200 dark:border-green-800',
-      rejected: 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400 border-red-200 dark:border-red-800',
-    };
+    const style = STATUS_STYLES[status] || STATUS_STYLES.pending;
+    const labelKey = STATUS_LABEL_KEYS[status] || 'vendorRequestStatus.pending';
     return (
-      <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold border ${styles[status] || styles.pending}`}>
-        {t(`vendorRequestStatus.${status === 'active' ? 'approved' : status}`)}
+      <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold border ${style}`}>
+        {t(labelKey)}
       </span>
     );
   };
+
+  console.log("The request needs: ", request.needsReview)
 
   const handleApproveConfirm = async () => {
     try {
@@ -46,41 +62,59 @@ const VendorRequestCard = ({ request, onApprove, onReject }) => {
   };
 
   const renderActions = () => {
-    // Inline confirmation for approve
+    // ─── Inline confirmation for approve ─────────────────────────────────
     if (confirmAction === 'approved') {
       return (
         <div className="flex flex-col gap-2 w-full">
-          <p className="text-xs text-gray-600 dark:text-gray-400 leading-snug">{t('vendorRequests.confirmApprove')}</p>
+          <p className="text-xs text-gray-600 dark:text-gray-400 leading-snug">
+            {request.isPendingDelete
+              ? t('vendorRequests.confirmApproveDelete')
+              : t('vendorRequests.confirmApprove')}
+          </p>
           <div className="flex items-center gap-2">
-            <button onClick={handleApproveConfirm} className="flex-1 px-3 py-2 bg-green-600 hover:bg-green-700 text-white text-xs font-medium rounded-lg transition-colors">Confirm</button>
-            <button onClick={() => setConfirmAction(null)} className="flex-1 px-3 py-2 bg-gray-200 dark:bg-gray-600 hover:bg-gray-300 dark:hover:bg-gray-500 text-gray-700 dark:text-gray-200 text-xs font-medium rounded-lg transition-colors">Cancel</button>
+            <button onClick={handleApproveConfirm} className="flex-1 px-3 py-2 bg-green-600 hover:bg-green-700 text-white text-xs font-medium rounded-lg transition-colors">
+              Confirm
+            </button>
+            <button onClick={() => setConfirmAction(null)} className="flex-1 px-3 py-2 bg-gray-200 dark:bg-gray-600 hover:bg-gray-300 dark:hover:bg-gray-500 text-gray-700 dark:text-gray-200 text-xs font-medium rounded-lg transition-colors">
+              Cancel
+            </button>
           </div>
         </div>
       );
     }
 
-    // Inline confirmation for reject — opens reason modal
+    // ─── Inline confirmation for reject → opens reason modal ─────────────
     if (confirmAction === 'rejected') {
       return (
         <div className="flex flex-col gap-2 w-full">
           <p className="text-xs text-gray-600 dark:text-gray-400 leading-snug">{t('vendorRequests.confirmReject')}</p>
           <div className="flex items-center gap-2">
-            <button onClick={handleRejectConfirmClick} className="flex-1 px-3 py-2 bg-red-600 hover:bg-red-700 text-white text-xs font-medium rounded-lg transition-colors">Confirm</button>
-            <button onClick={() => setConfirmAction(null)} className="flex-1 px-3 py-2 bg-gray-200 dark:bg-gray-600 hover:bg-gray-300 dark:hover:bg-gray-500 text-gray-700 dark:text-gray-200 text-xs font-medium rounded-lg transition-colors">Cancel</button>
+            <button onClick={handleRejectConfirmClick} className="flex-1 px-3 py-2 bg-red-600 hover:bg-red-700 text-white text-xs font-medium rounded-lg transition-colors">
+              Confirm
+            </button>
+            <button onClick={() => setConfirmAction(null)} className="flex-1 px-3 py-2 bg-gray-200 dark:bg-gray-600 hover:bg-gray-300 dark:hover:bg-gray-500 text-gray-700 dark:text-gray-200 text-xs font-medium rounded-lg transition-colors">
+              Cancel
+            </button>
           </div>
         </div>
       );
     }
 
-    // Pending → Approve or Reject
-    if (request.isPending) {
+    // ─── PENDING or PENDING_DELETE → Show Approve + Reject ───────────────
+    if (request.needsReview) {
       return (
         <>
-          <button onClick={() => setConfirmAction('approved')} className="flex-1 px-4 py-2 bg-green-600 hover:bg-green-700 text-white text-sm font-medium rounded-lg transition-colors flex items-center justify-center gap-2">
+          <button
+            onClick={() => setConfirmAction('approved')}
+            className="flex-1 px-4 py-2 bg-green-600 hover:bg-green-700 text-white text-sm font-medium rounded-lg transition-colors flex items-center justify-center gap-2"
+          >
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>
             {t('vendorRequests.approve')}
           </button>
-          <button onClick={() => setConfirmAction('rejected')} className="flex-1 px-4 py-2 bg-red-600 hover:bg-red-700 text-white text-sm font-medium rounded-lg transition-colors flex items-center justify-center gap-2">
+          <button
+            onClick={() => setConfirmAction('rejected')}
+            className="flex-1 px-4 py-2 bg-red-600 hover:bg-red-700 text-white text-sm font-medium rounded-lg transition-colors flex items-center justify-center gap-2"
+          >
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
             {t('vendorRequests.reject')}
           </button>
@@ -88,17 +122,28 @@ const VendorRequestCard = ({ request, onApprove, onReject }) => {
       );
     }
 
-    // Rejected → show stored reason
+    // ─── ACTIVE / APPROVED → No actions (buttons hidden) ─────────────────
+    if (request.isApproved) {
+      return null;
+    }
+
+    // ─── INACTIVE → No actions (buttons hidden) ──────────────────────────
+    if (request.status === 'inactive') {
+      return null;
+    }
+
+    // ─── REJECTED → Show stored reason ───────────────────────────────────
     if (request.isRejected && request.rejectionReason) {
       return (
         <div className="w-full p-3 bg-red-50 dark:bg-red-900/10 rounded-lg border border-red-100 dark:border-red-800/30">
-          <p className="text-[10px] font-semibold text-red-600 dark:text-red-400 uppercase tracking-wider mb-1">{t('vendorRequests.rejectionReasonDisplay')}</p>
+          <p className="text-[10px] font-semibold text-red-600 dark:text-red-400 uppercase tracking-wider mb-1">
+            {t('vendorRequests.rejectionReasonDisplay')}
+          </p>
           <p className="text-xs text-red-800 dark:text-red-300 leading-relaxed">{request.rejectionReason}</p>
         </div>
       );
     }
 
-    // Approved → no actions
     return null;
   };
 
