@@ -126,7 +126,7 @@ export const venueOwnerRequestService = {
   approve: async (requestId) => {
     try {
       const response = await fetch(`${BASE_URL}/admin/venue-requests/${requestId}/approve`, {
-        method: 'POST',
+        method: 'PUT',
         headers: getHeaders(),
       });
 
@@ -155,7 +155,7 @@ export const venueOwnerRequestService = {
   reject: async (requestId, reason) => {
     try {
       const response = await fetch(`${BASE_URL}/admin/venue-requests/${requestId}/reject`, {
-        method: 'POST',
+        method: 'PUT',
         headers: getHeaders(),
         body: JSON.stringify({ admin_notes: reason }),
       });
