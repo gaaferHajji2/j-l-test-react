@@ -521,10 +521,12 @@
   },
   "venueOwnerRequests": {
     "title": "Venue Owner Requests",
-    "subtitle": "Review and manage venue owner registration requests",
+    "subtitle": "Review and manage venue owner registration and update requests",
     "searchPlaceholder": "Search by owner name, venue name, email, or city...",
     "filterByStatus": "Filter by status",
+    "filterByType": "Filter by type",
     "allStatuses": "All Statuses",
+    "allTypes": "All Types",
     "noRequestsFound": "No venue owner requests found matching your criteria",
     "ownerName": "Owner Name",
     "venueName": "Venue Name",
@@ -533,7 +535,9 @@
     "city": "City",
     "venueType": "Venue Type",
     "capacity": "Capacity",
+    "price": "Price",
     "description": "Description",
+    "requestType": "Request Type",
     "submittedAt": "Submitted At",
     "confirmApprove": "Are you sure you want to approve this venue owner request?",
     "confirmReject": "Are you sure you want to reject this venue owner request?",
@@ -548,7 +552,9 @@
     "submitRejectBtn": "Confirm Rejection",
     "cancelRejectBtn": "Cancel",
     "rejectionReasonDisplay": "Rejection Reason",
-    "documentsAttached": "{{count}} documents attached"
+    "documentsAttached": "{{count}} documents attached",
+    "typeCreate": "New Venue",
+    "typeUpdate": "Update Venue"
   },
   "venueOwnerStatus": {
     "pending": "Pending",

@@ -521,10 +521,12 @@
   },
   "venueOwnerRequests": {
     "title": "طلبات ملاك المواقع",
-    "subtitle": "مراجعة وإدارة طلبات تسجيل ملاك المواقع",
+    "subtitle": "مراجعة وإدارة طلبات تسجيل وتحديث ملاك المواقع",
     "searchPlaceholder": "البحث باسم المالك أو الموقع أو البريد أو المدينة...",
     "filterByStatus": "تصفية حسب الحالة",
+    "filterByType": "تصفية حسب النوع",
     "allStatuses": "جميع الحالات",
+    "allTypes": "جميع الأنواع",
     "noRequestsFound": "لم يتم العثور على طلبات ملاك مواقع تطابق معاييرك",
     "ownerName": "اسم المالك",
     "venueName": "اسم الموقع",
@@ -533,7 +535,9 @@
     "city": "المدينة",
     "venueType": "نوع الموقع",
     "capacity": "السعة",
+    "price": "السعر",
     "description": "الوصف",
+    "requestType": "نوع الطلب",
     "submittedAt": "تاريخ التقديم",
     "confirmApprove": "هل أنت متأكد من اعتماد طلب مالك الموقع هذا؟",
     "confirmReject": "هل أنت متأكد من رفض طلب مالك الموقع هذا؟",
@@ -548,7 +552,9 @@
     "submitRejectBtn": "تأكيد الرفض",
     "cancelRejectBtn": "إلغاء",
     "rejectionReasonDisplay": "سبب الرفض",
-    "documentsAttached": "{{count}} مستندات مرفقة"
+    "documentsAttached": "{{count}} مستندات مرفقة",
+    "typeCreate": "موقع جديد",
+    "typeUpdate": "تحديث موقع"
   },
   "venueOwnerStatus": {
     "pending": "قيد الانتظار",

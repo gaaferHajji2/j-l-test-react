@@ -1,3 +1,4 @@
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 const VenueOwnerRequestsFilter = ({ filters, onFilterChange }) => {
@@ -19,9 +20,9 @@ const VenueOwnerRequestsFilter = ({ filters, onFilterChange }) => {
 
   return (
     <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md p-5 mb-6">
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         {/* Search */}
-        <div className="relative">
+        <div className="relative lg:col-span-1">
           <input
             type="text"
             placeholder={t('venueOwnerRequests.searchPlaceholder')}
@@ -42,6 +43,17 @@ const VenueOwnerRequestsFilter = ({ filters, onFilterChange }) => {
           <option value="pending">{t('venueOwnerStatus.pending')}</option>
           <option value="approved">{t('venueOwnerStatus.approved')}</option>
           <option value="rejected">{t('venueOwnerStatus.rejected')}</option>
+        </select>
+
+        {/* Type Filter */}
+        <select
+          value={filters.type || 'all'}
+          onChange={(e) => onFilterChange({ ...filters, type: e.target.value })}
+          className="w-full px-4 py-2.5 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-teal-500 focus:border-transparent text-sm"
+        >
+          <option value="all">{t('venueOwnerRequests.allTypes')}</option>
+          <option value="create">{t('venueOwnerRequests.typeCreate')}</option>
+          <option value="update">{t('venueOwnerRequests.typeUpdate')}</option>
         </select>
 
         {/* Sort */}
