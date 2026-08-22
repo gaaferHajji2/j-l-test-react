@@ -58,7 +58,7 @@ const LoginForm = () => {
     try {
       console.log("The email is: ", formData.email, formData.password)
       const response = await authApi.login(formData.email, formData.password);
-
+      console.log("The response data is: ", response.data);
       // Store token from API response
       if (response.data.token) {
         localStorage.setItem('authToken', response.data.token);

@@ -1,7 +1,7 @@
 import { ServiceCategoryGroup } from '../models/ServiceCategoryGroup';
 
 const BASE_URL = 'https://eventak.abukm.com/api';
-const AUTH_TOKEN = '15|9PYfYdFWh9rFuluRPW0Uxx4YvXPlGCXv50SIXyoU9c0cce61';
+const AUTH_TOKEN = localStorage.getItem("authToken");
 
 // ─── Dummy Data (Fallback) ───────────────────────────────────────────────────
 const generateDummyData = () => [
